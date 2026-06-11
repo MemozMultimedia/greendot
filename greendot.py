@@ -400,19 +400,23 @@ def generate_excel_bytes(applications: List[Dict[str, Any]]) -> bytes:
 
 
 def render_nav():
-    st.markdown(
-        """
-        <div class='nav-links'>
-            <a class='nav-link' href='#home'>Home</a>
-            <a class='nav-link' href='#benefits'>Benefits</a>
-            <a class='nav-link' href='#workflow'>How it works</a>
-            <a class='nav-link' href='#faq'>FAQ</a>
-            <a class='nav-link' href='#contact'>Contact</a>
-            <a class='nav-link' href='#apply'>Apply</a>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    col1, col2 = st.columns([0.2, 0.8])
+    with col1:
+        st.image("logo.svg", use_column_width=True)
+    with col2:
+        st.markdown(
+            """
+            <div class='nav-links'>
+                <a class='nav-link' href='#home'>Home</a>
+                <a class='nav-link' href='#benefits'>Benefits</a>
+                <a class='nav-link' href='#workflow'>How it works</a>
+                <a class='nav-link' href='#faq'>FAQ</a>
+                <a class='nav-link' href='#contact'>Contact</a>
+                <a class='nav-link' href='#apply'>Apply</a>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 def render_hero():
