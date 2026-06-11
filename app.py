@@ -171,6 +171,7 @@ st.markdown(NAV_STYLE, unsafe_allow_html=True)
 SUPABASE_DB_URL = os.getenv("SUPABASE_DB_URL") or os.getenv("DATABASE_URL")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+DB_CONFIGURED = bool(SUPABASE_DB_URL)
 
 if "admin_authenticated" not in st.session_state:
     st.session_state.admin_authenticated = False
@@ -181,7 +182,7 @@ if "application_submitted" not in st.session_state:
 
 @st.cache_resource
 def get_db_connection():
-    if not SUPABASE_DB_URL:
+    if not DB_CONFIGURED:
         raise RuntimeError("SUPABASE_DB_URL or DATABASE_URL environment variable is required.")
     return psycopg2.connect(
         SUPABASE_DB_URL,
@@ -191,6 +192,8 @@ def get_db_connection():
 
 
 def initialize_database():
+    if not DB_CONFIGURED:
+        return
     with get_db_connection() as connection:
         with connection.cursor() as cursor:
             cursor.execute(
@@ -412,6 +415,9 @@ def render_contact_section():
 
 def render_apply_form():
     st.markdown("<section id='apply'><div class='section-card'><h2>Application form</h2><p>Submit your details below to start the process.</p></div></section>", unsafe_allow_html=True)
+    if not DB_CONFIGURED:
+        st.warning("The application form is disabled because the database is not configured. Set SUPABASE_DB_URL or DATABASE_URL in your deployment environment.")
+        return
     with st.form("application_form"):
         col1, col2 = st.columns(2)
         full_name = col1.text_input("Full Name")
@@ -468,6 +474,9 @@ def authenticate_admin(email: str, password: str) -> bool:
 
 def render_admin_login():
     st.markdown("<section id='admin'><div class='section-card'><h2>Admin login</h2><p>Secured access for application management.</p></div></section>", unsafe_allow_html=True)
+    if not DB_CONFIGURED:
+        st.warning("Database is not configured. Set SUPABASE_DB_URL or DATABASE_URL before using admin features.")
+        return
     if not ADMIN_EMAIL or not ADMIN_PASSWORD:
         st.error("Admin credentials must be configured in environment variables: ADMIN_EMAIL and ADMIN_PASSWORD.")
         return
