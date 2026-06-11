@@ -9,8 +9,8 @@ import pandas as pd
 import psycopg2
 import psycopg2.extras
 import streamlit as st
-from openpyxl import Workbook
-from openpyxl.utils.dataframe import dataframe_to_rows
+#from openpyxl import Workbook
+#from openpyxl.utils.dataframe import dataframe_to_rows
 
 DATABASE_URL = os.getenv("SUPABASE_DB_URL") or os.getenv("DATABASE_URL")
 DB_CONFIGURED = bool(DATABASE_URL)
@@ -353,45 +353,50 @@ def delete_application(application_id: int) -> None:
 def generate_excel_bytes(applications: List[Dict[str, Any]]) -> bytes:
     if not applications:
         return b""
-    df = pd.DataFrame(applications)
-    df = df.rename(columns={
-        "id": "Submission ID",
-        "full_name": "Full Name",
-        "phone": "Phone",
-        "email": "Email",
-        "address": "Address",
-        "city": "City",
-        "state": "State",
-        "zip_code": "ZIP",
-        "created_at": "Date Submitted",
-        "claim_reference": "Claim Reference",
-        "notes": "Notes",
-    })
-    df = df[[
-        "Submission ID",
-        "Full Name",
-        "Phone",
-        "Email",
-        "Address",
-        "City",
-        "State",
-        "ZIP",
-        "Date Submitted",
-        "Claim Reference",
-        "Notes",
-    ]]
-    workbook = Workbook()
-    worksheet = workbook.active
-    worksheet.title = "Applications"
-    for r in dataframe_to_rows(df, index=False, header=True):
-        worksheet.append(r)
-    for column_cells in worksheet.columns:
-        length = max(len(str(cell.value or "")) for cell in column_cells)
-        worksheet.column_dimensions[column_cells[0].column_letter].width = min(length + 2, 40)
-    buffer = BytesIO()
-    workbook.save(buffer)
-    buffer.seek(0)
-    return buffer.read()
+    try:
+        from openpyxl import Workbook
+        from openpyxl.utils.dataframe import dataframe_to_rows
+        df = pd.DataFrame(applications)
+        df = df.rename(columns={
+            "id": "Submission ID",
+            "full_name": "Full Name",
+            "phone": "Phone",
+            "email": "Email",
+            "address": "Address",
+            "city": "City",
+            "state": "State",
+            "zip_code": "ZIP",
+            "created_at": "Date Submitted",
+            "claim_reference": "Claim Reference",
+            "notes": "Notes",
+        })
+        df = df[[
+            "Submission ID",
+            "Full Name",
+            "Phone",
+            "Email",
+            "Address",
+            "City",
+            "State",
+            "ZIP",
+            "Date Submitted",
+            "Claim Reference",
+            "Notes",
+        ]]
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = "Applications"
+        for r in dataframe_to_rows(df, index=False, header=True):
+            worksheet.append(r)
+        for column_cells in worksheet.columns:
+            length = max(len(str(cell.value or "")) for cell in column_cells)
+            worksheet.column_dimensions[column_cells[0].column_letter].width = min(length + 2, 40)
+        buffer = BytesIO()
+        workbook.save(buffer)
+        buffer.seek(0)
+        return buffer.read()
+    except ImportError:
+        return b""
 
 
 def render_nav():
@@ -637,7 +642,8 @@ def render_admin_dashboard():
     st.markdown(f"<p><strong>{len(applications)}</strong> application(s) found.</p>", unsafe_allow_html=True)
     st.dataframe(applications, use_container_width=True)
     excel_bytes = generate_excel_bytes(applications)
-    st.download_button("Download Excel report", data=excel_bytes, file_name="claims_report.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    if excel_bytes:
+        st.download_button("Download Excel report", data=excel_bytes, file_name="claims_report.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     csv_data = pd.DataFrame(applications).to_csv(index=False).encode("utf-8")
     st.download_button("Download CSV", data=csv_data, file_name="claims_report.csv", mime="text/csv")
     with st.expander("Application details and management"):
