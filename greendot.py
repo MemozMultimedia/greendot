@@ -29,21 +29,22 @@ st.set_page_config(
 STYLE = """
 <style>
 :root {
-    color-scheme: light;
-    --brand-dark: #0b2d56;
-    --brand-cyan: #12b886;
-    --surface: #ffffff;
-    --surface-soft: #f4fbf8;
-    --text-muted: #5b6f84;
+    color-scheme: dark;
+    --brand-dark: #000000;
+    --brand-green: #41D700;
+    --surface: #1a1a1a;
+    --surface-soft: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-muted: #b0b0b0;
 }
 
 body {
-    background: linear-gradient(180deg, #eff9f3 0%, #f6fbf8 100%);
-    color: var(--brand-dark);
+    background: #000000;
+    color: var(--text-primary);
 }
 
 .stApp {
-    background: transparent;
+    background: #000000;
 }
 
 section {
@@ -54,16 +55,17 @@ section {
     background: var(--surface);
     border-radius: 30px;
     padding: 2rem;
-    border: 1px solid rgba(11, 45, 86, 0.08);
-    box-shadow: 0 32px 66px rgba(11, 45, 86, 0.08);
+    border: 1px solid var(--brand-green);
+    box-shadow: 0 32px 66px rgba(65, 215, 0, 0.12);
 }
 
 .hero-panel {
     border-radius: 36px;
     padding: 3rem;
-    background: linear-gradient(135deg, #0b2d56 0%, #12b886 100%);
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a3a1a 100%);
     color: white;
-    box-shadow: 0 60px 140px rgba(0, 145, 89, 0.18);
+    border: 2px solid var(--brand-green);
+    box-shadow: 0 60px 140px rgba(65, 215, 0, 0.18);
 }
 
 .hero-pill {
@@ -72,9 +74,10 @@ section {
     gap: 0.5rem;
     border-radius: 999px;
     padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(65, 215, 0, 0.1);
+    border: 1px solid var(--brand-green);
     font-weight: 700;
+    color: var(--brand-green);
 }
 
 .hero-button,
@@ -84,8 +87,8 @@ section {
     justify-content: center;
     border-radius: 999px;
     padding: 1rem 1.8rem;
-    color: white !important;
-    background: var(--brand-dark);
+    color: black !important;
+    background: var(--brand-green);
     text-decoration: none;
     transition: transform 0.2s ease, background-color 0.2s ease;
     font-weight: 700;
@@ -93,20 +96,20 @@ section {
 
 .hero-button:hover,
 .cta-button:hover {
-    background: #083352;
+    background: #2eb800;
     transform: translateY(-1px);
 }
 
 .card-panel {
     border-radius: 28px;
-    background: white;
-    border: 1px solid rgba(11, 45, 86, 0.08);
-    box-shadow: 0 22px 50px rgba(15, 45, 70, 0.06);
+    background: var(--surface);
+    border: 1px solid var(--brand-green);
+    box-shadow: 0 22px 50px rgba(65, 215, 0, 0.08);
     padding: 2rem;
 }
 
 .card-panel h3 {
-    color: var(--brand-dark);
+    color: var(--brand-green);
 }
 
 .card-panel p,
@@ -116,19 +119,27 @@ section {
 
 .stButton>button {
     border-radius: 999px;
-    background-color: var(--brand-dark);
-    color: white;
+    background-color: var(--brand-green) !important;
+    color: black !important;
     padding: 0.85rem 1.8rem;
     font-weight: 700;
 }
 
 .stButton>button:hover {
-    background-color: #083352;
+    background-color: #2eb800 !important;
 }
 
 input,
 textarea {
     border-radius: 16px !important;
+    background-color: var(--surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--brand-green) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-muted) !important;
 }
 
 [data-testid="stForm"] .stButton>button {
@@ -150,13 +161,26 @@ textarea {
 }
 
 .nav-link {
-    color: var(--brand-dark);
+    color: var(--text-primary);
     font-weight: 700;
     text-decoration: none;
+    transition: color 0.2s ease;
 }
 
 .nav-link:hover {
-    color: var(--brand-cyan);
+    color: var(--brand-green);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-primary) !important;
+}
+
+p {
+    color: var(--text-muted) !important;
+}
+
+a {
+    color: var(--brand-green) !important;
 }
 </style>
 """
