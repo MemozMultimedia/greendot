@@ -1,18 +1,14 @@
 <?php
-session_start();
-require_once __DIR__ . '/../config.php';
-
-$errors = [];
+require_once __DIR__ . '/../helpers.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-
-    if ($username === ADMIN_USER && $password === ADMIN_PASSWORD) {
+    $username = sanitize($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+    if ($username === ADMIN_USER && $password === ADMIN_PASS) {
         $_SESSION['admin_logged_in'] = true;
         header('Location: dashboard.php');
         exit;
     }
-    $errors[] = 'Usuario o contraseña inválida.';
+    $error = 'Invalid credentials.';
 }
 ?>
 <!DOCTYPE html>
@@ -22,27 +18,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body class="bg-light">
     <div class="container py-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow rounded-4 p-4">
-                    <h2 class="mb-3">Panel Administrativo</h2>
-                    <?php if (!empty($errors)): ?>
-                        <div class="alert alert-danger"><?= htmlspecialchars($errors[0]) ?></div>
-                    <?php endif; ?>
-                    <form method="post" novalidate>
-                        <div class="mb-3">
-                            <label class="form-label">Usuario</label>
-                            <input type="text" class="form-control" name="username" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Ingresar</button>
+            <div class="col-md-5">
+                <div class="card rounded-4 shadow-sm p-4">
+                    <h3 class="mb-4">Admin Dashboard</h3>
+                    <?php if (!empty($error)): ?><div class="alert alert-danger"><?= $error ?></div><?php endif; ?>
+                    <form method="post">
+                        <div class="mb-3"><label class="form-label">Username</label><input type="text" name="username" class="form-control" required></div>
+                        <div class="mb-3"><label class="form-label">Password</label><input type="password" name="password" class="form-control" required></div>
+                        <button class="btn btn-success w-100">Login</button>
                     </form>
                 </div>
             </div>

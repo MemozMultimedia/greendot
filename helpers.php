@@ -1,101 +1,63 @@
 <?php
+require_once __DIR__ . '/config.php';
 
-function get_db_connection()
-{
+function db_connect() {
     $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4';
-    return new PDO($dsn, DB_USER, DB_PASS, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
+    return new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 }
 
-function generate_csrf_token()
-{
-    if (empty($_SESSION['csrf_token'])) {
-        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-    }
-    return $_SESSION['csrf_token'];
+function sanitize($value) {
+    return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
 }
 
-function validate_csrf_token($token)
-{
-    return hash_equals($_SESSION['csrf_token'] ?? '', $token);
-}
-
-function sanitize_text($value)
-{
-    return filter_var(trim($value), FILTER_UNSAFE_RAW);
-}
-
-function validate_request_form($data)
-{
+function validate_app_form($data) {
     $errors = [];
-
-    if (empty($data['nombre'])) {
-        $errors[] = 'El nombre completo es requerido.';
-    }
-    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'El correo electrónico no es válido.';
-    }
-    if (empty($data['telefono'])) {
-        $errors[] = 'El teléfono es requerido.';
-    }
-    if (empty($data['direccion']) || empty($data['ciudad']) || empty($data['estado']) || empty($data['codigo_postal'])) {
-        $errors[] = 'Todos los datos de dirección son requeridos.';
-    }
-    if (empty($data['tipo_documento']) || empty($data['numero_documento']) || empty($data['fecha_emision']) || empty($data['fecha_vencimiento'])) {
-        $errors[] = 'Los datos de identificación son requeridos.';
-    }
-    if (empty($data['tipo_reporte'])) {
-        $errors[] = 'Selecciona el tipo de reporte solicitado.';
-    }
-    if (empty($data['motivo'])) {
-        $errors[] = 'Indica el motivo de la solicitud.';
-    }
-    if ($data['acepta_terminos'] !== '1') {
-        $errors[] = 'Debes aceptar los términos y condiciones.';
-    }
-
+    if (empty($data['full_name'])) $errors[] = 'Full name is required.';
+    if (empty($data['address'])) $errors[] = 'Address is required.';
+    if (empty($data['phone'])) $errors[] = 'Phone is required.';
+    if (empty($data['email']) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) $errors[] = 'Valid email is required.';
+    if (empty($data['dob'])) $errors[] = 'Date of birth is required.';
+    if (empty($data['ssn_last4']) || !preg_match('/^[0-9]{4}$/', $data['ssn_last4'])) $errors[] = 'Last 4 digits of SSN are required.';
     return $errors;
 }
 
-function handle_file_upload($file)
-{
-    if (!in_array(mime_content_type($file['tmp_name']), ALLOWED_FILE_TYPES, true)) {
+function handle_upload($file) {
+    if ($file['error'] !== UPLOAD_ERR_OK) {
         return false;
     }
-
-    if (!is_dir(UPLOAD_DIR) && !mkdir(UPLOAD_DIR, 0755, true)) {
+    $mime = mime_content_type($file['tmp_name']);
+    if (!in_array($mime, ALLOWED_FILE_TYPES, true)) {
         return false;
     }
-
     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $filename = bin2hex(random_bytes(16)) . '.' . $ext;
-    $destination = UPLOAD_DIR . '/' . $filename;
+    $filename = uniqid('id_', true) . '.' . $ext;
+    $target = UPLOAD_DIR . '/' . $filename;
+    return move_uploaded_file($file['tmp_name'], $target) ? 'uploads/' . $filename : false;
+}
 
-    if (move_uploaded_file($file['tmp_name'], $destination)) {
-        return 'uploads/' . $filename;
+function save_application($data, $document) {
+    $db = db_connect();
+    $stmt = $db->prepare('INSERT INTO applications (full_name, address, phone, email, dob, ssn_last4, document_path, status, created_at) VALUES (:full_name, :address, :phone, :email, :dob, :ssn_last4, :document_path, :status, NOW())');
+    $stmt->execute([
+        ':full_name' => $data['full_name'],
+        ':address' => $data['address'],
+        ':phone' => $data['phone'],
+        ':email' => $data['email'],
+        ':dob' => $data['dob'],
+        ':ssn_last4' => $data['ssn_last4'],
+        ':document_path' => $document,
+        ':status' => 'Pending'
+    ]);
+    return $db->lastInsertId();
+}
+
+function admin_logged_in() {
+    return !empty($_SESSION['admin_logged_in']);
+}
+
+function require_admin() {
+    if (!admin_logged_in()) {
+        header('Location: /admin/login.php');
+        exit;
     }
-
-    return false;
-}
-
-function generate_request_number()
-{
-    return 'GD-' . strtoupper(bin2hex(random_bytes(4)));
-}
-
-function send_confirmation_email($email, $nombre, $numeroSolicitud)
-{
-    $subject = 'Confirmación de solicitud de reporte';
-    $message = "Hola $nombre,\n\nHemos recibido tu solicitud. Tu número de solicitud es: $numeroSolicitud.\n\nGracias por confiar en nosotros.\n";
-    $headers = 'From: ' . SITE_EMAIL . "\r\n" . 'Reply-To: ' . SITE_EMAIL . "\r\n";
-
-    @mail($email, $subject, $message, $headers);
-}
-
-function sanitize_input_array($data)
-{
-    return array_map('sanitize_text', $data);
 }

@@ -1,0 +1,21 @@
+:root {
+    --dark: #0a2540;
+    --green: #00c853;
+    --surface: #f8fbff;
+    --text: #0f1f3d;
+}
+body {font-family: Inter, system-ui, sans-serif; background: var(--surface); color: var(--text);}
+.site-header {background: linear-gradient(135deg, rgba(10,37,64,0.95), rgba(0,200,83,0.9));}
+.hero {background: linear-gradient(135deg, rgba(0,200,83,0.9), rgba(10,37,64,0.9));}
+.hero-card, .feature-card, .testimonial-card, .about-card, .contact-card, .apply-info, .security-item, .contact-form, .card {transition: transform 0.25s ease, box-shadow 0.25s ease;}
+.hero-card:hover, .feature-card:hover, .testimonial-card:hover, .about-card:hover, .contact-card:hover, .apply-info:hover {transform: translateY(-5px);}
+.feature-card {border: 1px solid rgba(0,0,0,0.05);}
+.hero .btn {box-shadow: 0 20px 45px rgba(0,0,0,0.12);}
+.bg-gradient {background: linear-gradient(135deg, rgba(0,200,83,0.08), rgba(10,37,64,0.08));}
+.testimonial-card {min-height: 220px;}
+.icon {display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;border-radius:14px;}
+.security-grid {background: rgba(0,200,83,0.08);}
+.contact-form input, .contact-form textarea, .contact-form select {border-radius: 14px;}
+.form-step {display: none;}
+.form-step.active {display: block;}
+@media (max-width: 767px) { .site-header .navbar-collapse {background: var(--dark); padding: 1rem; border-radius: 14px; margin-top: 0.5rem; } }
