@@ -23,9 +23,9 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS REFORZADO: Fondo Negro y ocultación de elementos Streamlit
+# CSS REFORZADO: Bloqueo de enlaces en logo y títulos
 st.markdown("""<style>
-/* Fondo Negro para toda la app */
+/* Fondo Negro */
 .stApp {
     background-color: #000000 !important;
     color: #FFFFFF !important;
@@ -35,38 +35,24 @@ st.markdown("""<style>
 header, footer, #MainMenu, .stDeployButton {visibility: hidden !important; display: none !important;}
 [data-testid='stHeader'], [data-testid='stAppToolbar'], [data-testid='stFooterAd'] {display: none !important;}
 
-/* Eliminar anclas de títulos */
-a.section-anchor { display: none !important; }
-[data-testid="stMarkdownContainer"] a { 
-    pointer-events: none !important; 
-    cursor: default !important; 
-    text-decoration: none !important; 
-    color: inherit !important; 
+/* ELIMINAR LINKS EN LOGO Y TÍTULOS */
+/* Desactiva clics en el contenedor de la imagen y los encabezados */
+[data-testid="stImage"], [data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2, .section-anchor {
+    pointer-events: none !important;
+    cursor: default !important;
+    text-decoration: none !important;
 }
 
-/* Estilo de los inputs en fondo oscuro */
+/* Ocultar específicamente el ancla invisible de Streamlit */
+a.section-anchor {
+    display: none !important;
+}
+
+/* Estilo de inputs */
 .stTextInput>div>div>input, .stNumberInput>div>div>input {
     background-color: #1a1a1a !important;
     color: white !important;
     border: 1px solid #333 !important;
-}
-
-/* Títulos y etiquetas en blanco */
-h1, h2, h3, p, label, .stMarkdown {
-    color: #FFFFFF !important;
-}
-
-[data-testid="stImage"], h1, h2, h3 {
-    pointer-events: none !important;
-    cursor: default !important;
-    user-select: none !important;
-}
-
-button[title='View fullscreen'] {display: none !important;}
-
-.block-container {
-    padding-top: 2rem !important;
-    max-width: 800px !important;
 }
 
 .stButton>button {
