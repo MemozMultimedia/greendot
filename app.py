@@ -91,6 +91,7 @@ st.markdown("""<style>
             pointer-events: none !important;
             height: 0 !important;
             width: 0 !important;
+            max-height: 0 !important;
         }
     }
 
