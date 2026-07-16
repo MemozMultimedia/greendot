@@ -76,7 +76,7 @@ st.write("Please fill out the form below to submit your claim.")
 
 with st.form("dispute_form", clear_on_submit=True):
     nombre = st.text_input("Full Name")
-    cuenta = st.text_input("Last 4 digits of Card")
+    cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
     st.markdown("**Upload Evidence**")
     rec = st.file_uploader("Receipt Photo", type=['jpg','png','jpeg'])
