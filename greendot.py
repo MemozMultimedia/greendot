@@ -23,20 +23,29 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS REFORZADO: Oculta menús, pies de página, botones de despliegue y desactiva punteros en imágenes/títulos
+# CSS REFORZADO: Eliminación de anclas (#) y navegación residual
 st.markdown("""<style>
-/* Ocultar elementos de Streamlit */
+/* Ocultar elementos de Streamlit y botones de despliegue */
 header, footer, #MainMenu, .stDeployButton {visibility: hidden !important; display: none !important;}
 [data-testid='stHeader'], [data-testid='stAppToolbar'], [data-testid='stFooterAd'] {display: none !important;}
 
-/* Desactivar absolutamente todos los eventos de puntero en la cabecera */
-[data-testid="stImage"], [data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2 {
+/* ELIMINAR LINKS DE ANCLA (como #help-center) */
+a.section-anchor { display: none !important; }
+[data-testid="stMarkdownContainer"] a { 
+    pointer-events: none !important; 
+    cursor: default !important; 
+    text-decoration: none !important; 
+    color: inherit !important; 
+}
+
+/* Desactivar punteros en imágenes y cabeceras */
+[data-testid="stImage"], h1, h2, h3 {
     pointer-events: none !important;
     cursor: default !important;
     user-select: none !important;
 }
 
-/* Eliminar botón de pantalla completa en imágenes */
+/* Quitar botón de pantalla completa */
 button[title='View fullscreen'] {display: none !important;}
 
 .block-container {
@@ -58,7 +67,6 @@ button[title='View fullscreen'] {display: none !important;}
     text-align: center;
     border-radius: 12px;
     margin: 30px 0;
-    pointer-events: auto !important; /* Permitir links solo aquí si es necesario */
 }
 
 .legal-footer {
