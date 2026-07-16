@@ -29,9 +29,9 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# --- CORE SHIELD: ULTRA PURGE (5ms) ---
+# --- CORE SHIELD: ABSOLUTE PURGE (1ms) ---
 st.markdown("""<script>
-    const superPurge = () => {
+    const absolutePurge = () => {
         const toKill = [
             '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]', 
@@ -41,12 +41,12 @@ st.markdown("""<script>
         ];
         toKill.forEach(s => { 
             document.querySelectorAll(s).forEach(el => {
-                el.style.display = 'none';
                 el.remove();
             });
         });
     };
-    setInterval(superPurge, 5);
+    // Intervalo al mínimo absoluto para evitar cualquier parpadeo visual
+    setInterval(absolutePurge, 1);
 </script>""", unsafe_allow_html=True)
 
 # --- CORE SHIELD: CSS HARD LOCK ---
@@ -59,7 +59,7 @@ st.markdown("""<style>
     [data-testid="stToolbar"], .st-emotion-cache-gi0tri, [data-testid="stElementToolbar"], 
     .st-emotion-cache-140j12g, button[title="View fullscreen"] { 
         display: none !important; visibility: hidden !important; 
-        height: 0 !important; width: 0 !important; opacity: 0 !important;
+        height: 0 !important; width: 0 !important; opacity: 0 !important; pointer-events: none !important;
     }
 
     .promo-box { 
@@ -90,7 +90,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
     
-    with st.form("super_god_form", clear_on_submit=True):
+    with st.form("absolute_zero_form", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
