@@ -32,7 +32,6 @@ st.markdown("""<style>
     border-radius: 5px !important;
     font-weight: bold !important;
 }
-
 .app-section-container {
     background-color: #000000;
     color: #ffffff;
@@ -51,12 +50,13 @@ st.markdown("""<style>
 .store-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
 
 .legal-footer {
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 0.85rem;
+    color: #444444;
     text-align: left;
-    line-height: 1.4;
-    padding: 40px 10%;
+    line-height: 1.6;
+    padding: 50px 10%;
     background-color: #f4f7f6;
+    border-top: 1px solid #ddd;
 }
 </style>""", unsafe_allow_html=True)
 
@@ -117,7 +117,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- LEGAL FOOTER ---
+# --- DETAILED LEGAL FOOTER ---
 st.markdown("""
 <div class="legal-footer">
     * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
