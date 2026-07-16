@@ -23,7 +23,10 @@ init_db()
 
 st.set_page_config(page_title="Green Dot - Official Site", layout="wide")
 
-# --- RESTORED ORIGINAL HEADER & DESIGN ---
+# --- LOGO AND HEADER RESTORATION ---
+if os.path.exists('logo.svg'):
+    st.image('logo.svg', width=200)
+
 st.title("Green Dot Claim Center")
 st.markdown("Welcome to the official Green Dot support portal. If you have issues with your card or transaction, please use the form below to submit a formal claim. Our team will review your information shortly.")
 
