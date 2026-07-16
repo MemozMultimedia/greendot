@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS NUCLEAR PARA OCULTAR BRANDING DE STREAMLIT ---
+# --- CSS NUCLEAR PARA OCULTAR BRANDING Y DESACTIVAR FULLSCREEN ---
 st.markdown("""<style>
 header {visibility: hidden !important; height: 0px !important;}
 footer {display: none !important; visibility: hidden !important;}
@@ -32,6 +32,9 @@ footer {display: none !important; visibility: hidden !important;}
 [data-testid='stHeader'] {display: none !important;}
 [data-testid='stAppToolbar'] {display: none !important;}
 [data-testid='stFooterAd'] {display: none !important;}
+
+/* Ocultar botón de Fullscreen en imágenes */
+button[title='View fullscreen'] {display: none !important;}
 
 div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stStatusWidget'] {
     display: none !important;
