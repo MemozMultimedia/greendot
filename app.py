@@ -23,20 +23,27 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# 1. ESCUDO FÍSICO (Bloquea el ancla # del título)
+# 1. ESCUDO FÍSICO
 st.markdown("""<div style='position: fixed; top: 0; left: 0; width: 100%; height: 220px; z-index: 9999999; pointer-events: all; background: transparent;'></div>""", unsafe_allow_html=True)
 
-# 2. CSS INTEGRADO (Estética + Limpieza Total)
+# 2. CSS INTEGRADO (Limpieza absoluta de Streamlit Cloud)
 st.markdown("""<style>
-/* Ocultar TODO lo relacionado con Streamlit */
+/* Ocultar elementos estándar */
 [data-testid='stHeader'], header, footer, .stDeployButton, .section-anchor, a.section-anchor, button[title='View fullscreen'] {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
 }
 
-/* ELIMINAR VIEWER BADGE (Made with Streamlit) */
-._container_gzau3_1, ._viewerBadge_aycw8_23, [data-testid='stStatusWidget'], div[class*='viewerBadge'] {
+/* ELIMINAR CONTENEDORES DE PERFIL Y BADGES DE STREAMLIT CLOUD */
+._container_gzau3_1, 
+._viewerBadge_aycw8_23, 
+._profileContainer_gzau3_53, 
+._profilePreview_gzau3_63, 
+div[class*='viewerBadge'], 
+div[class*='profileContainer'],
+[data-testid='appCreatorAvatar'],
+iframe[title='Streamlit Cloud Status'] {
     display: none !important;
     visibility: hidden !important;
 }
