@@ -26,15 +26,12 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 # --- STYLING ---
 st.markdown("""<style>
 .main { background-color: #f4f7f6; }
-
-/* Clase para logo responsivo */
 .responsive-logo {
     max-width: 100%;
     height: auto;
     width: 200px;
     margin-bottom: 20px;
 }
-
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -43,11 +40,17 @@ st.markdown("""<style>
     border: none !important;
 }
 h1, h2, h3 { color: #004a32 !important; }
+
+/* Estilos para la sección de App externa */
+.gd-line-height-100percent { line-height: 100%; }
+.gd-headline-2xl { font-size: 2.5rem; }
+.gd-proxima-bold { font-weight: bold; font-family: sans-serif; }
+.gd-body-large { font-size: 1.1rem; }
+.gd-proxima-regular { font-family: sans-serif; }
 </style>""", unsafe_allow_html=True)
 
 # --- CONTENT ---
 if os.path.exists('logo.svg'):
-    # Usamos st.image directamente para mayor compatibilidad en Streamlit Cloud
     st.image('logo.svg', width=200)
 
 st.title("Green Dot Help Center")
@@ -90,6 +93,26 @@ if submit:
         st.success("✅ Your claim has been submitted successfully.")
     else:
         st.error("⚠️ Please complete all fields.")
+
+# --- APP DOWNLOAD SECTION ---
+st.markdown("""
+<div class="cmp-container" style="--mobile-bg-color: #000; --bg-color: #000; background-color: #000; color: white; padding: 40px; border-radius: 12px; margin-top: 20px;">
+    <div class="aem-Grid aem-Grid--12">
+        <div class="container responsivegrid">
+            <h2><span class="gd-line-height-100percent"><span class="gd-headline-2xl"><span class="gd-proxima-bold">Download the Green Dot app</span></span></span></h2>
+            <p><span class="gd-body-large"><span class="gd-proxima-regular">We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</span></span></p>
+            <div style="display: flex; gap: 20px; margin-top: 20px;">
+                <a href="https://play.google.com/store/apps/details?id=com.cardinalcommerce.greendot&hl=en&gl=US" target="_blank">
+                    <img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg" alt="Google play store" width="150">
+                </a>
+                <a href="https://apps.apple.com/us/app/green-dot-mobile-banking/id437092808" target="_blank">
+                    <img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg" alt="App store" width="150">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 st.divider()
 st.caption("© 2024 Green Dot Corporation. Member FDIC.")
