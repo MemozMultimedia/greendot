@@ -26,30 +26,51 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 # --- STYLING ---
 st.markdown("""<style>
 .main { background-color: #f4f7f6; }
-.responsive-logo {
-    max-width: 100%;
-    height: auto;
-    width: 200px;
-    margin-bottom: 20px;
-}
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
     border-radius: 5px !important;
     font-weight: bold !important;
-    border: none !important;
 }
-h1, h2, h3 { color: #004a32 !important; }
 
-/* Estilos para la sección de App externa */
-.gd-line-height-100percent { line-height: 100%; }
-.gd-headline-2xl { font-size: 2.5rem; }
-.gd-proxima-bold { font-weight: bold; font-family: sans-serif; }
-.gd-body-large { font-size: 1.1rem; }
-.gd-proxima-regular { font-family: sans-serif; }
+/* Estilos para la sección inferior oscura (App Download) */
+.app-section-container {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 0px;
+    margin-top: 50px;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+.app-headline {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    font-family: 'Proxima Nova', sans-serif;
+}
+.app-subtext {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.9;
+}
+.store-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 </style>""", unsafe_allow_html=True)
 
-# --- CONTENT ---
+# --- HEADER ---
 if os.path.exists('logo.svg'):
     st.image('logo.svg', width=200)
 
@@ -57,6 +78,7 @@ st.title("Green Dot Help Center")
 st.write("### Secure Claim Submission Portal")
 st.divider()
 
+# --- FORM ---
 with st.container():
     st.subheader("Submit a New Claim")
     with st.form("claim_form_final", clear_on_submit=True):
@@ -94,28 +116,25 @@ if submit:
     else:
         st.error("⚠️ Please complete all fields.")
 
-# --- APP DOWNLOAD SECTION ---
+# --- APP DOWNLOAD SECTION (VISUAL UPDATE) ---
 st.markdown("""
-<div class="cmp-container" style="--mobile-bg-color: #000; --bg-color: #000; background-color: #000; color: white; padding: 40px; border-radius: 12px; margin-top: 20px;">
-    <div class="aem-Grid aem-Grid--12">
-        <div class="container responsivegrid">
-            <h2><span class="gd-line-height-100percent"><span class="gd-headline-2xl"><span class="gd-proxima-bold">Download the Green Dot app</span></span></span></h2>
-            <p><span class="gd-body-large"><span class="gd-proxima-regular">We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</span></span></p>
-            <div style="display: flex; gap: 20px; margin-top: 20px;">
-                <a href="https://play.google.com/store/apps/details?id=com.cardinalcommerce.greendot&hl=en&gl=US" target="_blank">
-                    <img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg" alt="Google play store" width="150">
-                </a>
-                <a href="https://apps.apple.com/us/app/green-dot-mobile-banking/id437092808" target="_blank">
-                    <img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg" alt="App store" width="150">
-                </a>
-            </div>
-        </div>
+<div class="app-section-container">
+    <div class="app-headline">Download the Green Dot app</div>
+    <div class="app-subtext">
+        We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.
+    </div>
+    <div class="store-buttons">
+        <a href="https://play.google.com/store/apps/details?id=com.cardinalcommerce.greendot" target="_blank">
+            <img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg" width="180">
+        </a>
+        <a href="https://apps.apple.com/us/app/green-dot-mobile-banking/id437092808" target="_blank">
+            <img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg" width="180">
+        </a>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-st.divider()
-st.caption("© 2024 Green Dot Corporation. Member FDIC.")
+st.markdown("<br><center style='color:#666;'>© 2024 Green Dot Corporation. Member FDIC.</center>", unsafe_allow_html=True)
 
 # Admin Side
 with st.sidebar:
