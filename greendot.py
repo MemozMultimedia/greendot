@@ -25,11 +25,11 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 
 # --- STYLING ---
 st.markdown("""<style>
-/* Ocultar barra de GitHub/Streamlit arriba y el footer abajo */
+/* Ocultar barra de GitHub/Streamlit arriba y el footer abajo por completo */
 header {visibility: hidden;}
-footer {visibility: hidden;}
 #MainMenu {visibility: hidden;}
-.stAppToolbar {display:none;}
+.stAppToolbar {display:none !important;}
+footer {display:none !important;}
 
 /* Reducir espacio superior del contenedor principal */
 .block-container {
