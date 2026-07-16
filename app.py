@@ -77,7 +77,7 @@ st.markdown("""<style>
         [data-testid="stImage"] img { width: 180px !important; }
     }
 
-    /* Estilo de Inputs para mejor visibilidad */
+    /* Estilo de Inputs */
     .stTextInput input, .stNumberInput input {
         background-color: #1a1a1a !important;
         color: white !important;
