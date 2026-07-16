@@ -29,16 +29,17 @@ st.markdown("""<script>
         const toHide = [
             'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stHeaderActionElements"]',
-            '.stElementToolbar', '[data-testid="stElementToolbar"]', 
+            '.stElementToolbar', '[data-testid="stElementToolbar"]',
             '.section-anchor', 'a.section-anchor', 'svg.etxdrby1'
         ];
         toHide.forEach(s => {
             document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
         });
 
-        // Forzar fondo negro en contenedores rebeldes
+        // Forzar fondo negro en contenedores rebeldes (Especialmente h5555q)
         document.querySelectorAll('.st-emotion-cache-h5555q').forEach(el => {
             el.style.backgroundColor = '#000000';
+            el.style.color = '#FFFFFF';
             el.style.border = 'none';
             el.style.boxShadow = 'none';
         });
@@ -48,18 +49,19 @@ st.markdown("""<script>
 
 # CSS STEALTH TOTAL V1.2.5
 st.markdown("""<style>
-    /* BLINDAJE NEGRO ABSOLUTO */
+    /* BLINDAJE NEGRO ABSOLUTO GLOBAL Y ESPECÍFICO */
     html, body, [data-testid="stAppViewContainer"], .stApp, 
     .st-emotion-cache-h5555q, .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r {
         background-color: #000000 !important;
         color: #FFFFFF !important;
     }
 
-    /* ELIMINACIÓN DE BORDES Y SOMBRAS EN CONTENEDORES DINÁMICOS */
+    /* ELIMINACIÓN DE BORDES Y SOMBRAS EN h5555q PARA EVITAR ARTEFACTOS EN MÓVIL */
     .st-emotion-cache-h5555q {
         border: none !important;
         box-shadow: none !important;
-        padding: 0.75rem !important;
+        outline: none !important;
+        background: #000000 !important;
     }
 
     [data-testid="stMarkdownContainer"] p { color: #FFFFFF !important; }
@@ -96,7 +98,7 @@ st.markdown("""<style>
 if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
 st.title("Help Center")
 
-with st.form("claim_v1_2_5", clear_on_submit=True):
+with st.form("claim_v1_2_5_final", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Disputed Amount", format="%.2f")
