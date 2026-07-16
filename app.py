@@ -23,27 +23,28 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS ESTRICTO PARA ELIMINAR ENLACES
+# --- CSS DE BLOQUEO ABSOLUTO ---
 st.markdown("""<style>
-/* 1. Ocultar todos los iconos de enlace (anclas) de Streamlit */
-.section-anchor, a.section-anchor, .viewerBadge_container__1QS13 {
+/* 1. Crear una capa invisible que cubra el logo y el título para bloquear clics */
+.stApp::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 180px; /* Cubre toda la zona de cabecera */
+    z-index: 999999;
+    pointer-events: all; /* Captura los clics y no hace nada */
+    background: transparent;
+}
+
+/* 2. Ocultar elementos nativos de Streamlit */
+header, footer, .stDeployButton, [data-testid='stHeader'], .section-anchor, a.section-anchor {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* 2. Desactivar clics en toda la zona superior (logo y título) */
-[data-testid="stImage"], h1, [data-testid="stMarkdownContainer"] h1 {
-    pointer-events: none !important;
-    cursor: default !important;
-    user-select: none !important;
-    -webkit-user-drag: none;
-}
-
-/* 3. Limpieza de interfaz */
-[data-testid='stHeader'], [data-testid='stFooterAd'], footer, header, #MainMenu, .stDeployButton {
-    display: none !important;
-}
-
+/* 3. Estética General */
 .stApp {
     background-color: #000000 !important;
     color: #FFFFFF !important;
