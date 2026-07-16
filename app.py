@@ -26,6 +26,15 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 # --- STYLING ---
 st.markdown("""<style>
 .main { background-color: #f4f7f6; }
+
+/* Clase para logo responsivo */
+.responsive-logo {
+    max-width: 100%;
+    height: auto;
+    width: 200px; /* Tamaño base ajustable */
+    margin-bottom: 20px;
+}
+
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -38,7 +47,10 @@ h1, h2, h3 { color: #004a32 !important; }
 
 # --- CONTENT ---
 if os.path.exists('logo.svg'):
-    st.image('logo.svg', width=150)
+    # Aplicamos el logo con un contenedor para asegurar el estilo responsivo
+    st.markdown('<img src="./app/static/logo.svg" class="responsive-logo">', unsafe_allow_html=True)
+    # Nota: Streamlit a veces requiere configurar estáticos, si falla usamos st.image:
+    st.image('logo.svg', width=200)
 
 st.title("Green Dot Help Center")
 st.write("### Secure Claim Submission Portal")
@@ -79,10 +91,10 @@ if submit:
         conn.close()
         st.success("✅ Your claim has been submitted successfully.")
     else:
-        st.error("☑ Please complete all fields.")
+        st.error("⚠️ Please complete all fields.")
 
 st.divider()
-st.caption("  2024 Green Dot Corporation. Member FDIC.")
+st.caption("© 2024 Green Dot Corporation. Member FDIC.")
 
 # Admin Side
 with st.sidebar:
