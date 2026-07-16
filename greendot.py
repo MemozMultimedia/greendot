@@ -57,13 +57,13 @@ st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
 
-    /* Footer Minimalista */
+    /* Footer Minimalista Corregido */
     .legal-container {
         font-size: 10px; color: #444; text-align: justify; margin-top: 60px;
         border-top: 1px solid #111; padding-top: 15px; line-height: 1.4;
     }
 
-    /* Botón Invisible de Acceso */
+    /* Botón Invisible de Acceso - Ultra Minimal */
     div.stButton > button[key="ghost_admin"] {
         background: transparent !important; border: none !important; color: #444 !important;
         padding: 0 !important; margin: 0 !important; display: inline !important;
