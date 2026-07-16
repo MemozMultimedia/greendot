@@ -31,7 +31,7 @@ st.markdown("""<style>
 .responsive-logo {
     max-width: 100%;
     height: auto;
-    width: 200px; /* Tamaño base ajustable */
+    width: 200px;
     margin-bottom: 20px;
 }
 
@@ -47,9 +47,7 @@ h1, h2, h3 { color: #004a32 !important; }
 
 # --- CONTENT ---
 if os.path.exists('logo.svg'):
-    # Aplicamos el logo con un contenedor para asegurar el estilo responsivo
-    st.markdown('<img src="./app/static/logo.svg" class="responsive-logo">', unsafe_allow_html=True)
-    # Nota: Streamlit a veces requiere configurar estáticos, si falla usamos st.image:
+    # Usamos st.image directamente para mayor compatibilidad en Streamlit Cloud
     st.image('logo.svg', width=200)
 
 st.title("Green Dot Help Center")
