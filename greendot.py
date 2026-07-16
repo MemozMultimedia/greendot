@@ -67,29 +67,30 @@ st.markdown("""<style>
         position: relative;
     }
 
-    /* STEALTH TRIGGER - DESKTOP ONLY */
+    /* STEALTH TRIGGER */
     .stealth-trigger {
         position: absolute !important;
         bottom: 0 !important; left: 0 !important;
         width: 40px !important; height: 40px !important;
-        z-index: 999 !important;
+        z-index: 9999 !important;
     }
 
     .stealth-trigger button {
         background: transparent !important;
         border: none !important;
         color: transparent !important;
-        width: 40px !important;
-        height: 40px !important;
-        cursor: default !important;
+        box-shadow: none !important;
     }
 
-    /* HIDE COMPLETELY ON MOBILE */
-    @media (max-width: 768px) {
-        .stealth-trigger { 
-            display: none !important; 
+    /* NUCLEAR HIDE ON MOBILE (MAX-WIDTH 768PX) */
+    @media screen and (max-width: 768px) {
+        .stealth-trigger, .stealth-trigger *, [key="stealth_admin_v84"] {
+            display: none !important;
             visibility: hidden !important;
+            opacity: 0 !important;
             pointer-events: none !important;
+            height: 0 !important;
+            width: 0 !important;
         }
     }
 
@@ -123,7 +124,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_3", clear_on_submit=True):
+    with st.form("claim_v32_8_4", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -144,7 +145,7 @@ if not st.session_state.admin_mode:
     """, unsafe_allow_html=True)
 
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_v83"):
+    if st.button(" ", key="stealth_admin_v84"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
