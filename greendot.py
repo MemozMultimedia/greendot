@@ -107,14 +107,14 @@ if submitted:
     else:
         st.error("⚠️ All fields are required.")
 
-# SECCIÓN DE APP STORES CON DESCRIPCIÓN REFORZADA
+# SECCIÓN DE APP STORES CON TEXTO DEBAJO DE LOGOS
 st.markdown("""<div class='app-promo-container'>
-    <h2 style='color:white; margin-bottom:10px;'>Download the Green Dot app</h2>
-    <p style='color:#bbb; max-width:600px; margin: 0 auto 25px auto;'>We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</p>
-    <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;'>
+    <h2 style='color:white; margin-bottom:20px;'>Download the Green Dot app</h2>
+    <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='160'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='160'>
     </div>
+    <p style='color:#bbb; max-width:600px; margin: 0 auto;'>We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</p>
 </div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
