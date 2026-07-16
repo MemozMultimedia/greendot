@@ -35,8 +35,8 @@ st.markdown("""<script>
         const toKill = [
             '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
             '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]',
-            '.stElementToolbar', '.st-emotion-cache-140j12g', 'header', 'footer',
-            '.stDeployButton', '.st-emotion-cache-gi0tri', 'svg.section-anchor-icon',
+            '.stElementToolbar', '.st-emotion-cache-140j12g', 'header', 'footer', 
+            '.stDeployButton', '.st-emotion-cache-gi0tri', 'svg.section-anchor-icon', 
             '.etxdrby1', '.etxdrby2', '.stCustomComponentV1', 'button[title="View fullscreen"]'
         ];
         toKill.forEach(s => {
