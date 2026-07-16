@@ -43,10 +43,17 @@ st.markdown("""<style>
     padding-top: 1rem !important;
 }
 
-/* 3. Ocultar elementos nativos */
+/* 3. Ocultar elementos nativos y desactivar links en títulos */
 header, footer, .stDeployButton, [data-testid='stHeader'], .section-anchor, a.section-anchor {
     display: none !important;
     visibility: hidden !important;
+}
+
+h1 a, h1 {
+    pointer-events: none !important;
+    cursor: default !important;
+    text-decoration: none !important;
+    color: inherit !important;
 }
 
 /* 4. Estética General */
@@ -92,7 +99,6 @@ input {
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists('logo.svg'):
-    # Logo ajustado a 250px según solicitud
     st.image('logo.svg', width=250)
 
 st.title("Help Center")
