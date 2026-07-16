@@ -24,13 +24,15 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JAVASCRIPT: ELIMINACIÓN RADICAL DE TOOLBARS (CADA 100ms)
+# 1. JAVASCRIPT: ELIMINACIÓN RADICAL DE TOOLBARS Y ANCHOR LINKS (CADA 100ms)
 st.markdown("""<script>
     const forceClean = () => {
         const toRemove = [
             '.stElementToolbar', '[data-testid="stElementToolbar"]', 
             '.stTooltipHoverTarget', 'button[title="View fullscreen"]', 
-            'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]'
+            'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
+            '[data-testid="stHeaderActionElements"]', '.st-emotion-cache-gi0tri', 
+            '.section-anchor', 'a.section-anchor'
         ];
         toRemove.forEach(s => {
             document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
@@ -43,11 +45,13 @@ st.markdown("""<script>
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 2rem !important; }
-    
-    /* Ocultar todo rastro de Streamlit */
+
+    /* Ocultar todo rastro de Streamlit y Anchor Links */
     header, footer, .stDeployButton, [data-testid='stHeader'], 
     [data-testid="stElementToolbar"], .stElementToolbar, 
-    button[title="View fullscreen"], .stTooltipHoverTarget {
+    button[title="View fullscreen"], .stTooltipHoverTarget,
+    [data-testid="stHeaderActionElements"], .st-emotion-cache-gi0tri, 
+    .section-anchor, a.section-anchor {
         display: none !important; 
         visibility: hidden !important; 
         opacity: 0 !important; 
@@ -74,7 +78,7 @@ st.markdown("""<style>
     }
 
     .stButton > button { background-color: #00a05b !important; color: white !important; width: 100%; border: none; height: 50px; border-radius: 8px; }
-    
+
     .promo-box {
         background-color: #111; padding: 25px 15px; text-align: center;
         border-radius: 12px; margin: 25px 0; border: 1px solid #222;
