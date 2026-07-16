@@ -23,22 +23,23 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS PARA ELIMINAR LINKS RESIDUALES
+# CSS ESTRICTO PARA ELIMINAR ENLACES
 st.markdown("""<style>
-/* Bloquear clics en el logo y en el título h1 */
-[data-testid="stImage"], [data-testid="stMarkdownContainer"] h1 {
-    pointer-events: none !important;
-    cursor: default !important;
-    user-select: none !important;
-}
-
-/* Ocultar anclas de sección invisibles */
-.section-anchor, a.section-anchor {
+/* 1. Ocultar todos los iconos de enlace (anclas) de Streamlit */
+.section-anchor, a.section-anchor, .viewerBadge_container__1QS13 {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* Branding y UI */
+/* 2. Desactivar clics en toda la zona superior (logo y título) */
+[data-testid="stImage"], h1, [data-testid="stMarkdownContainer"] h1 {
+    pointer-events: none !important;
+    cursor: default !important;
+    user-select: none !important;
+    -webkit-user-drag: none;
+}
+
+/* 3. Limpieza de interfaz */
 [data-testid='stHeader'], [data-testid='stFooterAd'], footer, header, #MainMenu, .stDeployButton {
     display: none !important;
 }
