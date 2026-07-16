@@ -23,28 +23,33 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS DE BLOQUEO ABSOLUTO ---
+# --- CSS DE AJUSTE DE LOGO Y BLOQUEO ---
 st.markdown("""<style>
-/* 1. Crear una capa invisible que cubra el logo y el título para bloquear clics */
+/* 1. Capa invisible ajustada al nuevo tamaño del logo */
 .stApp::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 180px; /* Cubre toda la zona de cabecera */
+    height: 150px;
     z-index: 999999;
-    pointer-events: all; /* Captura los clics y no hace nada */
+    pointer-events: all;
     background: transparent;
 }
 
-/* 2. Ocultar elementos nativos de Streamlit */
+/* 2. Reducir espacios superiores de Streamlit */
+.block-container {
+    padding-top: 1rem !important;
+}
+
+/* 3. Ocultar elementos nativos */
 header, footer, .stDeployButton, [data-testid='stHeader'], .section-anchor, a.section-anchor {
     display: none !important;
     visibility: hidden !important;
 }
 
-/* 3. Estética General */
+/* 4. Estética General */
 .stApp {
     background-color: #000000 !important;
     color: #FFFFFF !important;
@@ -87,7 +92,8 @@ input {
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists('logo.svg'):
-    st.image('logo.svg', width=160)
+    # Logo aumentado a 280px para mayor visibilidad
+    st.image('logo.svg', width=280)
 
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
