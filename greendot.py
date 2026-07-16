@@ -33,7 +33,7 @@ footer {display: none !important;}
 .stDeployButton {display: none !important;}
 [data-testid=\"stFooterAd\"] {display: none !important;}
 
-/* Selectores específicos para el badge 'Made with Streamlit' y otros indicadores */
+/* Selectores agresivos para el badge 'Made with Streamlit' */
 div[class^=\"viewerBadge\"] {display: none !important;}
 div[class*=\"viewerBadge\"] {display: none !important;}
 [data-testid=\"stStatusWidget\"] {display: none !important;}
