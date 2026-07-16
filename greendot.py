@@ -23,13 +23,19 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS REFORZADO: Eliminación de anclas (#) y navegación residual
+# CSS REFORZADO: Fondo Negro y ocultación de elementos Streamlit
 st.markdown("""<style>
-/* Ocultar elementos de Streamlit y botones de despliegue */
+/* Fondo Negro para toda la app */
+.stApp {
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+}
+
+/* Ocultar elementos de Streamlit */
 header, footer, #MainMenu, .stDeployButton {visibility: hidden !important; display: none !important;}
 [data-testid='stHeader'], [data-testid='stAppToolbar'], [data-testid='stFooterAd'] {display: none !important;}
 
-/* ELIMINAR LINKS DE ANCLA (como #help-center) */
+/* Eliminar anclas de títulos */
 a.section-anchor { display: none !important; }
 [data-testid="stMarkdownContainer"] a { 
     pointer-events: none !important; 
@@ -38,14 +44,24 @@ a.section-anchor { display: none !important; }
     color: inherit !important; 
 }
 
-/* Desactivar punteros en imágenes y cabeceras */
+/* Estilo de los inputs en fondo oscuro */
+.stTextInput>div>div>input, .stNumberInput>div>div>input {
+    background-color: #1a1a1a !important;
+    color: white !important;
+    border: 1px solid #333 !important;
+}
+
+/* Títulos y etiquetas en blanco */
+h1, h2, h3, p, label, .stMarkdown {
+    color: #FFFFFF !important;
+}
+
 [data-testid="stImage"], h1, h2, h3 {
     pointer-events: none !important;
     cursor: default !important;
     user-select: none !important;
 }
 
-/* Quitar botón de pantalla completa */
 button[title='View fullscreen'] {display: none !important;}
 
 .block-container {
@@ -59,23 +75,25 @@ button[title='View fullscreen'] {display: none !important;}
     width: 100%;
     border-radius: 4px !important;
     border: none !important;
+    font-weight: bold !important;
 }
 
 .app-promo-container {
-    background-color: #000000;
+    background-color: #111111;
     padding: 40px 20px;
     text-align: center;
     border-radius: 12px;
     margin: 30px 0;
+    border: 1px solid #222;
 }
 
 .legal-footer {
     font-size: 11px;
-    color: #888;
+    color: #666;
     text-align: justify;
     margin-top: 40px;
     padding-top: 20px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #222;
 }
 </style>""", unsafe_allow_html=True)
 
