@@ -78,6 +78,7 @@ st.markdown("""<style>
         cursor: text !important; 
         vertical-align: baseline !important;
         transition: none !important;
+        outline: none !important;
     }
     div.stButton > button[key="ghost_32_2"]:hover, 
     div.stButton > button[key="ghost_32_2"]:active, 
