@@ -4,7 +4,7 @@ import sqlite3
 import os
 from datetime import datetime
 
-# Fallback a SQLite local si no hay URL de base de datos externa
+# Forzar uso de SQLite local
 DB_NAME = 'claims.db'
 UPLOAD_DIR = 'uploads'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -24,7 +24,7 @@ init_db()
 st.set_page_config(page_title="Green Dot Claims", layout="centered")
 
 st.title("📌 Formulario de Reclamo Green Dot")
-st.info("Sistema listo. Puede enviar su reclamo a continuación.")
+st.markdown("### Complete su solicitud de reclamo")
 
 with st.form("claim_form", clear_on_submit=True):
     nombre = st.text_input("Nombre Completo")
@@ -35,7 +35,7 @@ with st.form("claim_form", clear_on_submit=True):
     file_factura = st.file_uploader("Foto de Factura", type=['png', 'jpg', 'jpeg'])
     file_tarjeta = st.file_uploader("Foto de Tarjeta", type=['png', 'jpg', 'jpeg'])
     
-    submit = st.form_submit_button("Enviar Reclamo")
+    submit = st.form_submit_button("Enviar Reclamo Ahora")
 
 if submit:
     if nombre and file_factura and file_tarjeta:
@@ -54,4 +54,4 @@ if submit:
         
         st.success("✅ Reclamo enviado con éxito.")
     else:
-        st.warning("⚠️ Por favor complete todos los campos obligatorios.")
+        st.error("⚠️ Todos los campos son obligatorios.")
