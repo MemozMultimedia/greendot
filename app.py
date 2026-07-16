@@ -128,7 +128,6 @@ with st.form("compact_form_v21_8", clear_on_submit=True):
 if submitted:
     if nombre and rec and car:
         ref_id = generate_ref()
-        # Guardar en DB (opcional, simulado aquí)
         st.markdown(f"""
         <div class='success-card'>
             <h2 style='color:#00a05b; margin-top:0;'>✅ Claim Submitted</h2>
