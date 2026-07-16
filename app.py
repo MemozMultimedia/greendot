@@ -76,7 +76,7 @@ div[class*='viewerBadge'], div[class*='styles_viewerBadge'], [data-testid='stSta
 if os.path.exists('logo.svg'):
     st.image('logo.svg', width=150)
 
-st.title("Dispute Center")
+st.title("Help Center")
 st.write("Please fill out the form below to submit your claim.")
 
 with st.form("dispute_form_final", clear_on_submit=True):
